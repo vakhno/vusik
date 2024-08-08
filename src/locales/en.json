@@ -1,0 +1,68 @@
+{
+	"metadata": {
+		"title": "VUSIK",
+		"description": "Platform connects you with local animal shelters to find and adopt pets"
+	},
+	"auth": {
+		"sign-in-label": "Sign in",
+		"sign-up-label": "Sign up",
+		"logout-label": "Log out",
+		"is-already-have-an-account": "I already have an account!",
+		"google": "Google",
+		"google-logo-alt": "Google logo"
+	},
+	"locales": {
+		"en": "EN",
+		"ua": "UA"
+	},
+	"avatar": {
+		"custom-avatar-alt-label": "custom profile avatar",
+		"default-avatar-alt-label": "default profile avatar"
+	},
+	"separator": {
+		"or": "OR"
+	},
+	"logo-link": {
+		"image-alt": "Vusik logo",
+		"link-aria-label": "Vusik logo"
+	},
+	"logo-with-slogan-link": {
+		"description": "Find your friend with us"
+	},
+	"submit": "Submit",
+	"sign-in": {
+		"email-input-placeholder": "Email...",
+		"email-input-label": "Email",
+		"password-input-placeholder": "Password...",
+		"password-input-label": "Password",
+		"dont-have-an-account": "I don`t have an account!",
+		"dont-have-an-account-redirection": "Sign up!",
+		"agree-with-terms-of-use": "By sign in, you agree to our",
+		"terms-of-use": "terms of use",
+		"schema-email-min": "Email is required!",
+		"schema-email-type": "Email is not valid!",
+		"schema-password-min": "Password is required!"
+	},
+	"sign-up": {
+		"name-input-placeholder": "Name...",
+		"name-input-label": "Name",
+		"name-input-description": "This is your public display name",
+		"email-input-placeholder": "Email...",
+		"email-input-label": "Email",
+		"password-input-placeholder": "Password...",
+		"password-input-label": "Password",
+		"confirm-password-input-placeholder": "Confirm password...",
+		"confirm-password-input-label": "Confirm password",
+		"have-an-account": "Already have an account!",
+		"have-an-account-redirection": "Sign in!",
+		"agree-with-terms-of-use": "By sign up, you agree to our",
+		"terms-of-use": "terms of use",
+		"schema-name-min": "Name is required!",
+		"schema-name-short": "Name is too short!",
+		"schema-email-min": "Email is required!",
+		"schema-email-type": "Email is not valid!",
+		"schema-password-min": "Password is required!",
+		"schema-confirm-password-min": "Confirm Password is required!",
+		"schema-passwords-match": "Passwords don`t match!"
+	}
+}

@@ -1,0 +1,68 @@
+{
+	"metadata": {
+		"title": "ВУСИК",
+		"description": "Платформа, яка надає вам список місцевих притулків для тварин, щоб знайти свою домашню тваринку"
+	},
+	"auth": {
+		"sign-in-label": "Вхід",
+		"sign-up-label": "Реєстрація",
+		"logout-label": "Вихід",
+		"is-already-have-an-account": "В мене вже є аккаунт!",
+		"google": "Google",
+		"google-logo-alt": "логотип Google"
+	},
+	"locales": {
+		"en": "АНГ",
+		"ua": "УКР"
+	},
+	"avatar": {
+		"custom-avatar-alt-label": "кастомний аватар профілю",
+		"default-avatar-alt-label": "стандартний аватар профілю"
+	},
+	"separator": {
+		"or": "АБО"
+	},
+	"logo-link": {
+		"image-alt": "логотип Vusik",
+		"link-aria-label": "логотип Vusik"
+	},
+	"logo-with-slogan-link": {
+		"description": "Знайди свого друга з нами"
+	},
+	"submit": "Підтвердити",
+	"sign-in": {
+		"email-input-placeholder": "Електронна пошта...",
+		"email-input-label": "Електронна пошта",
+		"password-input-placeholder": "Пароль...",
+		"password-input-label": "Пароль",
+		"dont-have-an-account": "В мене немає аккаунту!",
+		"dont-have-an-account-redirection": "Зареєструватись!",
+		"agree-with-terms-of-use": "Входячи, ви погоджуєтесь з",
+		"terms-of-use": "правилами",
+		"schema-email-min": "Електрона пошта обов'язкова!",
+		"schema-email-type": "Електрона пошта має не валідний тип!",
+		"schema-password-min": "Пароль обов'язковий!"
+	},
+	"sign-up": {
+		"name-input-placeholder": "Ім'я або організація...",
+		"name-input-label": "Ім'я або організація",
+		"name-input-description": "Це ваше публічне ім'я",
+		"email-input-placeholder": "Електронна пошта...",
+		"email-input-label": "Електронна пошта",
+		"password-input-placeholder": "Пароль...",
+		"password-input-label": "Пароль",
+		"confirm-password-input-placeholder": "Підтвердити пароль...",
+		"confirm-password-input-label": "Підтвердити пароль",
+		"have-an-account": "В мене вже є аккаунт!",
+		"have-an-account-redirection": "Увійти!",
+		"agree-with-terms-of-use": "Реєструючись, ви погоджуєтесь з",
+		"terms-of-use": "правилами",
+		"schema-name-min": "Ім'я обов'язкове!",
+		"schema-name-short": "Ім'я надто коротке!",
+		"schema-email-min": "Електрона пошта обов'язкова!",
+		"schema-email-type": "Електрона пошта має не валідний тип!",
+		"schema-password-min": "Пароль обов'язковий!",
+		"schema-confirm-password-min": "Підтвердження пароля обов'язкове!",
+		"schema-passwords-match": "Паролі не співпадають!"
+	}
+}

@@ -1,6 +1,6 @@
 import SignUp from "@/features/sign-up/sign-up";
 
 const page = () => {
-	return <SignUp withAvatarUploading={false} />;
+	return <SignUp />;
 };
 export default page;

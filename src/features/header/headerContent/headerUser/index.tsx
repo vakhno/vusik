@@ -3,7 +3,7 @@
 import AuthUser from "./authUser";
 import NonAuthUser from "./nonAuthUser/index";
 // zustand
-import useUserStore from "@/zustand/user/store/user.store";
+import useUserStore from "@/zustand/store/user.store";
 
 const HeaderUser = () => {
 	const user = useUserStore((state) => state.user);

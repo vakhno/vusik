@@ -35,7 +35,7 @@ export async function GET(req: Request) {
 				Authorization: `Bearer ${access_token}`,
 			},
 		});
-		const { email, name, picture, verified_email } = googleUser;
+		const { email, name, verified_email } = googleUser;
 
 		if (!verified_email) {
 			return Response.json({ success: false }, { status: 400 });
@@ -53,7 +53,6 @@ export async function GET(req: Request) {
 				email,
 				name,
 				isSocial: true,
-				avatar: picture,
 			});
 
 			await newUser.save();
@@ -73,6 +72,7 @@ export async function GET(req: Request) {
 
 		cookies().set({
 			name: "token",
+			secure: true,
 			value: token,
 			maxAge: 3600,
 			httpOnly: true,

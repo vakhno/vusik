@@ -8,8 +8,6 @@ import "./globals.css";
 import { Roboto, Concert_One } from "next/font/google";
 // libs
 import { cn } from "@/lib/utils";
-// zustand
-import UserProvider from "@/zustand/user/provider/user.provider";
 // API
 import {
 	SuccessResponse as UserByTokenSuccessResponse,
@@ -18,8 +16,14 @@ import {
 // next-intl
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
-// locale
-import { VUSIK_LOCALE_COOKIE_KEY, defaultLocale } from "@/constants/locale";
+// UI components
+import { Toaster } from "@/components/ui/toaster";
+import { API_SPECIES } from "@/routes";
+// custom providers
+import StoreProvider from "@/app/StoreProvider";
+import TanstackQueryProvider from "@/app/TanstackQueryProvider";
+// dev tools
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const roboto = Roboto({
 	subsets: ["latin"],
@@ -33,8 +37,7 @@ const concertOne = Concert_One({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-	const cookie = cookies();
-	const locale = cookie.get(VUSIK_LOCALE_COOKIE_KEY)?.value || defaultLocale;
+	const locale = await getLocale();
 	const t = await getTranslations({ locale });
 
 	return {
@@ -51,6 +54,23 @@ export default async function RootLayout({
 	const cookie = cookies();
 	const token = cookie.get("token");
 	let authUser = null;
+	// let speciesList = [];
+	const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_SPECIES}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+
+	const { ok } = response;
+	if (ok) {
+		const data = await response.json();
+		const { success } = data;
+		if (success) {
+			// const { species } = data;
+			// speciesList = species;
+		}
+	}
 
 	if (token) {
 		const { value } = token;
@@ -72,7 +92,6 @@ export default async function RootLayout({
 			}
 		}
 	}
-
 	const locale = await getLocale();
 	const messages = await getMessages();
 
@@ -80,8 +99,17 @@ export default async function RootLayout({
 		<html lang={locale} className="h-full">
 			<body className={cn("font-inter h-full bg-background antialiased", roboto.variable, concertOne.variable)}>
 				<NextIntlClientProvider messages={messages}>
-					<UserProvider preloadUser={authUser}>{children}</UserProvider>
+					<StoreProvider
+						userProviderInitialData={{ user: authUser }}
+						// speciesProviderInitialData={{ list: speciesList }}
+					>
+						<TanstackQueryProvider>
+							<ReactQueryDevtools initialIsOpen={false} />
+							{children}
+						</TanstackQueryProvider>
+					</StoreProvider>
 				</NextIntlClientProvider>
+				<Toaster />
 			</body>
 		</html>
 	);

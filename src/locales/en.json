@@ -30,6 +30,19 @@
 		"description": "Find your friend with us"
 	},
 	"submit": "Submit",
+	"search": "Search",
+	"loadMore": "Load more...",
+	"animal-search": {
+		"no-results-found": "No results found",
+		"select-species": "Select species",
+		"select-breed": "Select breed",
+		"select-age": "Select age",
+		"select-sex": "Select sex",
+		"select-size": "Select size",
+		"select-shelter": "Select shelter",
+		"sterilized": "Sterilization",
+		"injury": "Injury"
+	},
 	"sign-in": {
 		"email-input-placeholder": "Email...",
 		"email-input-label": "Email",

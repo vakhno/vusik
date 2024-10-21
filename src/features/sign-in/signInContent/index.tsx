@@ -8,12 +8,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 // zod
 import { zodResolver } from "@hookform/resolvers/zod";
-import SignInSchema from "@/schemas/sign-in/sign-in.schema";
+import { SignInSchema } from "@/schemas/sign-in/sign-in.schema";
 import { z } from "zod";
 // next tools
 import { useRouter } from "next/navigation";
 // zustand
-import useUserStore from "@/zustand/user/store/user.store";
+import useUserStore from "@/zustand/store/user.store";
 // routes
 import { HOME_ROUTE, SIGN_IN_ROUTE, API_AUTH_SIGN_IN } from "@/routes";
 // types
@@ -35,7 +35,7 @@ const AUTH_FAILED_REDIRECT_SIGN_IN = process.env.NEXT_PUBLIC_ACTIVE_DOMEN + SIGN
 
 const SignInContent = () => {
 	const t = useTranslations();
-	const signInSchema = SignInSchema({ t });
+	const signInSchema = SignInSchema(t);
 	const router = useRouter();
 	const setUser = useUserStore((state) => state.setUser);
 	const { toast } = useToast();

@@ -15,7 +15,7 @@ const AuthUser = ({ avatar }: Props) => {
 				<PopoverTrigger>
 					<Trigger avatar={avatar} />
 				</PopoverTrigger>
-				<PopoverContent className="w-auto">
+				<PopoverContent>
 					<Content />
 				</PopoverContent>
 			</Popover>

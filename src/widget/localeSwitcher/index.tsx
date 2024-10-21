@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 // next-intl
 import { useTranslations, useLocale } from "next-intl";
 // actions
-import localeChange from "@/actions/localeChange";
+import postNewLocale from "@/actions/locale/postNewLocale";
 // constants
 import { locales } from "@/constants/locale";
 // types
@@ -15,7 +15,7 @@ const LocaleSwitcher = () => {
 	const locale = useLocale();
 	const t = useTranslations();
 	const handleLanguageChange = async (language: Locale) => {
-		await localeChange(language);
+		await postNewLocale(language);
 	};
 
 	return (
@@ -34,17 +34,16 @@ const LocaleSwitcher = () => {
 					);
 				} else {
 					return (
-						<>
+						<div key={localeItem} className="flex">
 							<Button
 								variant="link"
 								disabled={localeItem === locale}
-								key={localeItem}
 								onClick={() => handleLanguageChange(localeItem)}
 							>
 								{t(`locales.${localeItem}`)}
 							</Button>
 							<Separator orientation="vertical" className="flex h-full" />
-						</>
+						</div>
 					);
 				}
 			})}

@@ -1,19 +1,13 @@
-import SignUpSchema from "@/schemas/sign-up/sign-up.schema";
+import { SignUpSchema, SignUpSchemaType } from "@/schemas/sign-up/sign-up.schema";
 import { mongoConnection } from "@/lib/mongodb";
 import UserModel from "@/models/user.model";
 import { UserType } from "@/types/user.type";
 import bcrypt from "bcrypt";
-import * as z from "zod";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import {
-	SuccessResponse as S3UploadAvatarSuccessResponse,
-	ErrorResponse as S3UploadAvatarErrorResponse,
-} from "@/app/api/s3/upload-avatar/route";
 import { getTranslations } from "next-intl/server";
-import { VUSIK_LOCALE_COOKIE_KEY, defaultLocale } from "@/constants/locale";
-
+import { getLocale } from "next-intl/server";
 export interface SuccessResponse {
 	success: true;
 	user: UserType;
@@ -21,31 +15,44 @@ export interface SuccessResponse {
 
 export interface ErrorResponse {
 	success: false;
+	error: string;
 }
+
+const getFormDataValue = (formData: FormData): SignUpSchemaType => {
+	const data = {} as SignUpSchemaType;
+
+	if (formData.has("name") && formData.get("name")) {
+		data.name = formData.get("name") as string;
+	}
+
+	if (formData.has("email") && formData.get("email")) {
+		data.email = formData.get("email") as string;
+	}
+
+	if (formData.has("password") && formData.get("password")) {
+		data.password = formData.get("password") as string;
+	}
+
+	if (formData.has("confirmPassword") && formData.get("confirmPassword")) {
+		data.confirmPassword = formData.get("confirmPassword") as string;
+	}
+
+	return data;
+};
 
 export async function POST(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	try {
 		await mongoConnection();
 
-		const cookie = cookies();
-		const locale = cookie.get(VUSIK_LOCALE_COOKIE_KEY)?.value || defaultLocale;
 		const formData = await req.formData();
+		const data = getFormDataValue(formData) as SignUpSchemaType;
+		const locale = await getLocale();
 		const t = await getTranslations({ locale });
-		const signUpSchema = SignUpSchema({ t });
-		const data = Object.fromEntries(formData.entries()) as z.infer<typeof signUpSchema>;
+		const validationResult = SignUpSchema(t).safeParse(data);
+		const { success: isValidationsuccess } = validationResult;
 
-		if (data.avatar) {
-			const avatarAsFile = new File([data.avatar], "avatar", {
-				type: data.avatar.type,
-			});
-			data.avatar = avatarAsFile;
-		}
-
-		const validationResult = signUpSchema.safeParse(data);
-		const { success: isValidationPassed } = validationResult;
-
-		if (isValidationPassed) {
-			const { password: enteredPassword, email: enteredEmail, name: enteredName, avatar: enteredAvatar } = data;
+		if (isValidationsuccess) {
+			const { password: enteredPassword, email: enteredEmail, name: enteredName } = data;
 			const user = await UserModel.findOne({
 				email: enteredEmail,
 			});
@@ -61,28 +68,6 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 
 				if (newUser) {
 					const { _id: userId } = newUser;
-					let avatarURL = "";
-					if (enteredAvatar) {
-						const formData = new FormData();
-
-						formData.append("file", enteredAvatar);
-						formData.append("id", userId);
-
-						const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/s3/upload-avatar`, {
-							method: "POST",
-							body: formData,
-						});
-						const data: S3UploadAvatarSuccessResponse | S3UploadAvatarErrorResponse = await response.json();
-						const { success } = data;
-
-						if (success) {
-							const { url } = data;
-
-							avatarURL = url;
-						}
-					}
-
-					newUser.avatar = avatarURL;
 
 					await newUser.save();
 
@@ -98,6 +83,7 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 
 					cookies().set({
 						name: "token",
+						secure: true,
 						value: token,
 						maxAge: 3600,
 						httpOnly: true,
@@ -105,15 +91,18 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 
 					return NextResponse.json({ success: true, user: newUser }, { status: 200 });
 				} else {
-					return NextResponse.json({ success: false }, { status: 500 });
+					return NextResponse.json({ success: false, error: "Something went wrong" }, { status: 500 });
 				}
 			} else {
-				return NextResponse.json({ success: false }, { status: 400 });
+				return NextResponse.json({ success: false, error: "User already exist" }, { status: 400 });
 			}
 		} else {
-			return NextResponse.json({ success: false }, { status: 400 });
+			const { errors } = validationResult.error;
+			const errorMessage = errors[0].message;
+
+			return NextResponse.json({ success: false, error: errorMessage }, { status: 400 });
 		}
 	} catch (_) {
-		return NextResponse.json({ success: false }, { status: 500 });
+		return NextResponse.json({ success: false, error: "Something went wrong" }, { status: 500 });
 	}
 }

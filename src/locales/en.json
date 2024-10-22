@@ -32,6 +32,7 @@
 	"submit": "Submit",
 	"search": "Search",
 	"loadMore": "Load more...",
+	"noAnimals": "No animals yet",
 	"animal-search": {
 		"no-results-found": "No results found",
 		"select-species": "Select species",

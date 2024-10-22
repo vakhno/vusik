@@ -32,6 +32,7 @@
 	"submit": "Підтвердити",
 	"search": "Пошук",
 	"loadMore": "Завантажити більше...",
+	"noAnimals": "Поки немає тварин",
 	"animal-search": {
 		"no-results-found": "Результати не знайдені",
 		"select-species": "Обрати вид",

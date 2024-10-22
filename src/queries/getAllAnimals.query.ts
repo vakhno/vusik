@@ -97,14 +97,3 @@ export const queryGetAllAnimalsInvalidate = ({ searchParams }: Props) => {
 	const queryClient = new QueryClient();
 	queryClient.invalidateQueries({ queryKey: ["all-animals", searchParams] });
 };
-
-// export const useQueryMainMutation = ({ searchParams }: Props) => {
-// 	const queryClient = useQueryClient();
-
-// 	return useMutation({
-// 		mutationFn: (userId: Types.ObjectId) => getUserProfileDataById(),
-// 		onSuccess: async () => {
-// 			await queryClient.invalidateQueries({ queryKey: ["all-animals"] });
-// 		},
-// 	});
-// };

@@ -11,7 +11,7 @@ type Props = {
 	searchParams: Record<string, string | string[]>;
 };
 
-const page = async ({ searchParams }: Props) => {
+const Page = async ({ searchParams }: Props) => {
 	// to prefetch animals on first page with passed searchParams and to avoid showing loading/skeleton on first upload
 	const queryAnimals = await queryPrefetchGetAllAnimals({ searchParams: searchParams });
 	// to prefetch filter options with passed searchParams
@@ -26,4 +26,4 @@ const page = async ({ searchParams }: Props) => {
 	);
 };
 
-export default page;
+export default Page;

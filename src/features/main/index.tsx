@@ -32,19 +32,39 @@ type Props = {
 const Index = ({ searchParams }: Props) => {
 	// translation
 	const t = useTranslations();
-	// states
+	// url search params
 	const [animalSearchParams, setAnimalSearchParams] = useState<Record<string, string | string[]>>(searchParams);
+	// list of displayed animals
 	const [animals, setAnimals] = useState([]);
+	// list of filter full available options
 	const [animalFiltersOptionList, setAnimalFiltersOptionList] = useState<
 		Partial<Record<keyof AnimalSearchSchemaType, Option[]>>
-	>({});
+	>({
+		species: [],
+		breed: [],
+		sex: [],
+		size: [],
+		age: [],
+		shelter: [],
+	});
+	// list of selected options
 	const [animalFiltersDefaultOptions, setAnimalFiltersDefaultOptions] = useState<
 		Partial<Record<keyof AnimalSearchSchemaType, string[] | boolean>>
-	>({});
-	// queries
+	>({
+		injury: false,
+		sterilized: false,
+		species: [],
+		breed: [],
+		sex: [],
+		size: [],
+		age: [],
+		shelter: [],
+	});
+	// query to get filter options
 	const { data: dataOptions, refetch: dataOptionRefetch } = queryGetAllAnimalsFilter({
 		searchParams: animalSearchParams,
 	});
+	// query to get animals
 	const {
 		fetchNextPage,
 		data: dataAnimals,
@@ -54,13 +74,13 @@ const Index = ({ searchParams }: Props) => {
 		isFetchingNextPage,
 		refetch: dataAnimalsRefetch,
 	} = queryGetAllAnimals({ searchParams: animalSearchParams });
-	// use memos
+	// list of animals memoizations
 	useMemo(() => {
 		const initialAnimals = dataAnimals?.pages.map((pages) => pages.animals).flat() ?? [];
 
 		setAnimals(initialAnimals);
 	}, [dataAnimals]);
-
+	// list of selected/available options memoizations
 	useMemo(() => {
 		if (!dataOptions) return;
 		const defaultFilterOptions = {
@@ -86,8 +106,7 @@ const Index = ({ searchParams }: Props) => {
 			availableOptions: Record<keyof AnimalSearchSchemaType, string[] | boolean[]>;
 			selectedOptions: Record<keyof AnimalSearchSchemaType, string[] | boolean[]>;
 		};
-
-		// Fill default values
+		// filling selected options
 		Object.entries(selectedOptions).forEach(([key, value]) => {
 			if (key === "injury") {
 				defaultFilterOptions.injury = value[0] as boolean;
@@ -107,8 +126,7 @@ const Index = ({ searchParams }: Props) => {
 				defaultFilterOptions.shelter = value as string[];
 			}
 		});
-
-		// Create formatted option lists
+		// filling available options
 		Object.entries(availableOptions).forEach(([key, value]) => {
 			if (key === "species") {
 				filterOptionsList.species = value.map((speciesValue) => ({
@@ -222,7 +240,7 @@ const Index = ({ searchParams }: Props) => {
 							) : null}
 						</div>
 					) : (
-						<span>no animals yet</span>
+						<span>{t("noAnimals")}</span>
 					)}
 				</div>
 			) : (

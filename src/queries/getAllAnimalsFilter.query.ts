@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
-// actions
+// utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
+// api
 import { SuccessResult, ErrorResult } from "@/app/api/animal/get-filter-options-for-all-animals/route";
 
 type Props = {
@@ -78,14 +79,3 @@ export const queryGetAllAnimalsFilterInvalidate = ({ searchParams }: Props) => {
 	const queryClient = new QueryClient();
 	queryClient.invalidateQueries({ queryKey: ["all-animals-filter", searchParams] });
 };
-
-// export const useQueryProfileMutation = ({ userId }: Props) => {
-// 	const queryClient = useQueryClient();
-
-// 	return useMutation({
-// 		mutationFn: (userId: Types.ObjectId) => getUserById({ userId: userId }),
-// 		onSuccess: async () => {
-// 			await queryClient.invalidateQueries({ queryKey: ["profile", userId] });
-// 		},
-// 	});
-// };

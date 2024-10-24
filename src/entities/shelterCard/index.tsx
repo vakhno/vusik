@@ -8,6 +8,7 @@ import { Types } from "mongoose";
 import { ShelterType } from "@/types/shelter.type";
 import { NewShelterSchemaType } from "@/schemas/shelter/shelter.schema";
 import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
 
 type Props = {
 	userId: Types.ObjectId;
@@ -121,38 +122,40 @@ const Index = ({ userId, shelter, isEditable = false }: Props) => {
 				/>
 			) : null}
 			<Card key={shelter._id} className="w-full bg-secondary">
-				<CardContent className="relative h-full w-full overflow-hidden p-2">
-					{isEditable ? (
-						<Image
-							width={40}
-							height={40}
-							alt=""
-							src="/icons/edit.svg"
-							onClick={handleEditClick}
-							className="absolute right-0 top-0 z-10 cursor-pointer"
-						/>
-					) : null}
-					<div className="grid grid-cols-1 lg:grid-cols-2">
-						<AspectRatio ratio={5 / 3} className="relative h-full w-full">
+				<Link href={`/shelter/${shelter._id}`}>
+					<CardContent className="relative h-full w-full overflow-hidden p-2">
+						{isEditable ? (
 							<Image
-								src={shelter.mainPhoto}
-								alt="Shelter photo"
-								fill
-								className="h-full w-full object-cover"
+								width={40}
+								height={40}
+								alt=""
+								src="/icons/edit.svg"
+								onClick={handleEditClick}
+								className="absolute right-0 top-0 z-10 cursor-pointer"
 							/>
-						</AspectRatio>
-						<div className="flex flex-col justify-between p-4">
-							<div className="flex flex-col">
-								<h2>{shelter.name}</h2>
-								<span>
-									{shelter.country}, {shelter.city}, {shelter.street}
-								</span>
-								<a href={`tel: ${shelter.phone}`}>{shelter.phone}</a>
+						) : null}
+						<div className="grid grid-cols-1 lg:grid-cols-2">
+							<AspectRatio ratio={5 / 3} className="relative h-full w-full">
+								<Image
+									src={shelter.mainPhoto}
+									alt="Shelter photo"
+									fill
+									className="h-full w-full object-cover"
+								/>
+							</AspectRatio>
+							<div className="flex flex-col justify-between p-4">
+								<div className="flex flex-col">
+									<h2>{shelter.name}</h2>
+									<span>
+										{shelter.country}, {shelter.city}, {shelter.street}
+									</span>
+									<a href={`tel: ${shelter.phone}`}>{shelter.phone}</a>
+								</div>
+								<Button>More</Button>
 							</div>
-							<Button>More</Button>
 						</div>
-					</div>
-				</CardContent>
+					</CardContent>
+				</Link>
 			</Card>
 		</>
 	);

@@ -10,6 +10,8 @@ import {
 	API_USER_PREFIX,
 	API_S3_PREFIX,
 	PROFILE_ROUTE,
+	SHELTER_ROUTE,
+	ANIMAL_ROUTE,
 	OWN_PROFILE_ROUTE,
 	API_SPECIES,
 	API_NEW_ANIMAL,
@@ -48,6 +50,8 @@ export async function middleware(req: NextRequest) {
 	const isApiS3Route = nextUrl.pathname.startsWith(API_S3_PREFIX);
 	const isProfileRoute = nextUrl.pathname.startsWith(PROFILE_ROUTE);
 	const isOwnProfileRoute = nextUrl.pathname.startsWith(OWN_PROFILE_ROUTE);
+	const isAnimalRoute = nextUrl.pathname.startsWith(ANIMAL_ROUTE);
+	const isShelterRoute = nextUrl.pathname.startsWith(SHELTER_ROUTE);
 
 	if (isOwnProfileRoute) {
 		if (isLoggedIn) {
@@ -107,7 +111,7 @@ export async function middleware(req: NextRequest) {
 		}
 	}
 
-	if (!isLoggedIn && !isPublicRoute && !isProfileRoute) {
+	if (!isLoggedIn && !isPublicRoute && !isProfileRoute && !isAnimalRoute && !isShelterRoute) {
 		return Response.redirect(new URL(SIGN_IN_ROUTE, nextUrl));
 	}
 

@@ -9,6 +9,7 @@ export const PUBLIC_ROUTES: (string | RegExp)[] = [
 	"/auth/sign-google",
 	"/profile",
 	"/animal",
+	"/shelter",
 	"/robots.txt",
 ];
 // AUTH ROUTES
@@ -20,6 +21,8 @@ export const PROFILE_ROUTE: string = "/profile";
 export const OWN_PROFILE_ROUTE: string = "/profile/myprofile";
 // ANIMAL ROUTE
 export const ANIMAL_ROUTE: string = "/animal";
+// SHELTER ROUTE
+export const SHELTER_ROUTE: string = "/shelter";
 // API PREFIXES
 export const API_AUTH_PREFIX: string = "/api/auth";
 export const API_USER_PREFIX: string = "/api/user";

@@ -53,6 +53,92 @@ const ShelterSchema = new Schema<ShelterType>(
 				// ref: "Animal",
 			},
 		],
+		workingDays: {
+			monday: {
+				isWeekend: {
+					type: Boolean,
+					default: false,
+				},
+				begin: {
+					type: String,
+				},
+				end: {
+					type: String,
+				},
+			},
+			tuesday: {
+				isWeekend: {
+					type: Boolean,
+					default: false,
+				},
+				begin: {
+					type: String,
+				},
+				end: {
+					type: String,
+				},
+			},
+			wednesday: {
+				isWeekend: {
+					type: Boolean,
+					default: false,
+				},
+				begin: {
+					type: String,
+				},
+				end: {
+					type: String,
+				},
+			},
+			thursday: {
+				isWeekend: {
+					type: Boolean,
+					default: false,
+				},
+				begin: {
+					type: String,
+				},
+				end: {
+					type: String,
+				},
+			},
+			friday: {
+				isWeekend: {
+					type: Boolean,
+					default: false,
+				},
+				begin: {
+					type: String,
+				},
+				end: {
+					type: String,
+				},
+			},
+			saturday: {
+				isWeekend: {
+					type: Boolean,
+					default: false,
+				},
+				begin: {
+					type: String,
+				},
+				end: {
+					type: String,
+				},
+			},
+			sunday: {
+				isWeekend: {
+					type: Boolean,
+					default: false,
+				},
+				begin: {
+					type: String,
+				},
+				end: {
+					type: String,
+				},
+			},
+		},
 		phone: {
 			type: String,
 			required: true,

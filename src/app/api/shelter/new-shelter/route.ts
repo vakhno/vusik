@@ -54,6 +54,11 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 		}
 	}
 
+	if (formData.has("workingDays") && formData.get("workingDays")) {
+		const workingDays = JSON.parse(formData.get("workingDays") as string);
+		data.workingDays = workingDays;
+	}
+
 	if (formData.has("mainPhoto") && formData.get("mainPhoto")) {
 		data.mainPhoto = formData.get("mainPhoto") as File;
 	}

@@ -29,6 +29,43 @@ export const NewShelterSchema = () =>
 			}),
 			postalCode: z.string().min(1),
 			phone: z.string().min(1),
+			workingDays: z.object({
+				monday: z.object({
+					begin: z.string(),
+					end: z.string(),
+					isWeekend: z.boolean(),
+				}),
+				tuesday: z.object({
+					begin: z.string(),
+					end: z.string(),
+					isWeekend: z.boolean(),
+				}),
+				wednesday: z.object({
+					begin: z.string(),
+					end: z.string(),
+					isWeekend: z.boolean(),
+				}),
+				thursday: z.object({
+					begin: z.string(),
+					end: z.string(),
+					isWeekend: z.boolean(),
+				}),
+				friday: z.object({
+					begin: z.string(),
+					end: z.string(),
+					isWeekend: z.boolean(),
+				}),
+				saturday: z.object({
+					begin: z.string(),
+					end: z.string(),
+					isWeekend: z.boolean(),
+				}),
+				sunday: z.object({
+					begin: z.string(),
+					end: z.string(),
+					isWeekend: z.boolean(),
+				}),
+			}),
 		});
 	};
 

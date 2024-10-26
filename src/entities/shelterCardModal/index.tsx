@@ -10,12 +10,15 @@ import MultipleImageUploading from "@/components/shared/MultipleImageUploading/M
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import FormTimePeriod from "@/components/formUi/formTimePeriod";
 import { MapProvider } from "@/widget/googleMap/mapProvider";
 import { MapComponent, markerInfo } from "@/widget/googleMap/map";
 import FormInput from "@/components/formUi/formInput";
 import { defaultMarkerCoordiates } from "@/constants/googleMap";
+import { defaultWorkingDays } from "@/constants/workingDays";
 import { Types } from "mongoose";
 import { ShelterType } from "@/types/shelter.type";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Props = {
 	userId: Types.ObjectId;
@@ -24,7 +27,7 @@ type Props = {
 	isDeletable?: boolean;
 	deleteButtonTitle?: string;
 	handleSuccessDeleteClick?: (value: ShelterType) => void;
-	shelter: ShelterType;
+	shelter?: ShelterType;
 	handleSuccessSubmitClick: (value: NewShelterSchemaType) => void;
 	//
 	mainPhotoValue?: string;
@@ -36,6 +39,43 @@ type Props = {
 	coordinatesValue?: { lat: number; lng: number };
 	postalCodeValue?: string;
 	phoneValue?: string;
+	workingDaysValue?: {
+		monday: {
+			begin: string;
+			end: string;
+			isWeekend: boolean;
+		};
+		tuesday: {
+			begin: string;
+			end: string;
+			isWeekend: boolean;
+		};
+		wednesday: {
+			begin: string;
+			end: string;
+			isWeekend: boolean;
+		};
+		thursday: {
+			begin: string;
+			end: string;
+			isWeekend: boolean;
+		};
+		friday: {
+			begin: string;
+			end: string;
+			isWeekend: boolean;
+		};
+		saturday: {
+			begin: string;
+			end: string;
+			isWeekend: boolean;
+		};
+		sunday: {
+			begin: string;
+			end: string;
+			isWeekend: boolean;
+		};
+	};
 };
 
 const mainPhotoUrlToFile = async (url: string): Promise<File | null> => {
@@ -81,6 +121,7 @@ const AddNewShelterModal = ({
 	coordinatesValue,
 	postalCodeValue,
 	phoneValue,
+	workingDaysValue,
 }: Props) => {
 	const newShelterSchema = NewShelterSchema();
 	const [isLocationAutoFill, setIsLocationAutoFill] = useState(false);
@@ -103,6 +144,7 @@ const AddNewShelterModal = ({
 					lat: 0,
 					lng: 0,
 				},
+			workingDays: workingDaysValue || defaultWorkingDays,
 		},
 		resolver: zodResolver(newShelterSchema),
 	});
@@ -184,58 +226,132 @@ const AddNewShelterModal = ({
 								placeholder="Phone"
 								type="tel"
 							/>
+							<Card>
+								<CardContent className="p-4">
+									<div className="flex h-60 flex-col">
+										<Label className="mb-2">Location</Label>
+										<div className="mb-2 grow">
+											<MapProvider>
+												<MapComponent
+													isMarker
+													isMarkerDraggable
+													centerCoordinates={newShelterForm.getValues("coordinates")}
+													markerCoordinates={newShelterForm.getValues("coordinates")}
+													markerPositionChange={handleMarkerDragEnd}
+												/>
+											</MapProvider>
+										</div>
+										<div className="flex items-center space-x-2">
+											<Checkbox
+												id="locationAutoFilling"
+												checked={isLocationAutoFill}
+												onCheckedChange={() => setIsLocationAutoFill(!isLocationAutoFill)}
+											/>
+											<label
+												htmlFor="locationAutoFilling"
+												className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+											>
+												Location auto filling
+											</label>
+										</div>
+									</div>
 
-							<div className="flex h-60 flex-col">
-								<Label className="mb-2">Location</Label>
-								<div className="mb-2 grow">
-									<MapProvider>
-										<MapComponent
-											isMarker
-											isMarkerDraggable
-											centerCoordinates={newShelterForm.getValues("coordinates")}
-											markerCoordinates={newShelterForm.getValues("coordinates")}
-											markerPositionChange={handleMarkerDragEnd}
-										/>
-									</MapProvider>
-								</div>
-								<div className="flex items-center space-x-2">
-									<Checkbox
-										id="locationAutoFilling"
-										checked={isLocationAutoFill}
-										onCheckedChange={() => setIsLocationAutoFill(!isLocationAutoFill)}
+									<FormInput
+										control={newShelterForm.control}
+										label="Country"
+										name="country"
+										placeholder="Country"
 									/>
-									<label
-										htmlFor="locationAutoFilling"
-										className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-									>
-										Location auto filling
-									</label>
-								</div>
-							</div>
 
-							<FormInput
-								control={newShelterForm.control}
-								label="Country"
-								name="country"
-								placeholder="Country"
-							/>
+									<FormInput
+										control={newShelterForm.control}
+										label="City"
+										name="city"
+										placeholder="City"
+									/>
 
-							<FormInput control={newShelterForm.control} label="City" name="city" placeholder="City" />
+									<FormInput
+										control={newShelterForm.control}
+										label="Street"
+										name="street"
+										placeholder="Street"
+									/>
 
-							<FormInput
-								control={newShelterForm.control}
-								label="Street"
-								name="street"
-								placeholder="Street"
-							/>
+									<FormInput
+										control={newShelterForm.control}
+										label="Postal code"
+										name="postalCode"
+										placeholder="Postal code"
+									/>
+								</CardContent>
+							</Card>
 
-							<FormInput
-								control={newShelterForm.control}
-								label="Postal code"
-								name="postalCode"
-								placeholder="Postal code"
-							/>
+							<Card>
+								<CardContent className="p-4">
+									<FormTimePeriod
+										control={newShelterForm.control}
+										beginName="workingDays.monday.begin"
+										endName="workingDays.monday.end"
+										isWeekendName="workingDays.monday.isWeekend"
+										label="Monday"
+										disabled={newShelterForm.getValues("workingDays.monday.isWeekend")}
+									/>
 
+									<FormTimePeriod
+										control={newShelterForm.control}
+										beginName="workingDays.tuesday.begin"
+										endName="workingDays.tuesday.end"
+										isWeekendName="workingDays.tuesday.isWeekend"
+										label="Tuesday"
+										disabled={newShelterForm.getValues("workingDays.tuesday.isWeekend")}
+									/>
+
+									<FormTimePeriod
+										control={newShelterForm.control}
+										beginName="workingDays.wednesday.begin"
+										endName="workingDays.wednesday.end"
+										isWeekendName="workingDays.wednesday.isWeekend"
+										label="Wednesday"
+										disabled={newShelterForm.getValues("workingDays.wednesday.isWeekend")}
+									/>
+
+									<FormTimePeriod
+										control={newShelterForm.control}
+										beginName="workingDays.thursday.begin"
+										endName="workingDays.thursday.end"
+										isWeekendName="workingDays.thursday.isWeekend"
+										label="Thursday"
+										disabled={newShelterForm.getValues("workingDays.thursday.isWeekend")}
+									/>
+
+									<FormTimePeriod
+										control={newShelterForm.control}
+										beginName="workingDays.friday.begin"
+										endName="workingDays.friday.end"
+										isWeekendName="workingDays.friday.isWeekend"
+										label="friday"
+										disabled={newShelterForm.getValues("workingDays.friday.isWeekend")}
+									/>
+
+									<FormTimePeriod
+										control={newShelterForm.control}
+										beginName="workingDays.saturday.begin"
+										endName="workingDays.saturday.end"
+										isWeekendName="workingDays.saturday.isWeekend"
+										label="Saturday"
+										disabled={newShelterForm.getValues("workingDays.saturday.isWeekend")}
+									/>
+
+									<FormTimePeriod
+										control={newShelterForm.control}
+										beginName="workingDays.sunday.begin"
+										endName="workingDays.sunday.end"
+										isWeekendName="workingDays.sunday.isWeekend"
+										label="Sunday"
+										disabled={newShelterForm.getValues("workingDays.sunday.isWeekend")}
+									/>
+								</CardContent>
+							</Card>
 							<div className="flex justify-between">
 								<Button type="button" variant="secondary" onClick={() => setIsOpen(false)}>
 									Close

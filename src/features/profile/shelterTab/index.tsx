@@ -15,7 +15,8 @@ type Props = {
 };
 
 const buildFormDataForNewShelter = (fields: NewShelterSchemaType): FormData => {
-	const { mainPhoto, secondaryPhotos, name, country, city, street, phone, postalCode, coordinates } = fields;
+	const { mainPhoto, secondaryPhotos, name, country, city, street, phone, postalCode, coordinates, workingDays } =
+		fields;
 
 	const formData = new FormData();
 
@@ -26,6 +27,7 @@ const buildFormDataForNewShelter = (fields: NewShelterSchemaType): FormData => {
 	formData.append("phone", phone);
 	formData.append("postalCode", postalCode);
 	formData.append("coordinates", JSON.stringify(coordinates));
+	formData.append("workingDays", JSON.stringify(workingDays));
 
 	if (mainPhoto) {
 		formData.append("mainPhoto", mainPhoto);

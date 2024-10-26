@@ -17,4 +17,41 @@ export type ShelterType = {
 	phone: string;
 	createdAt: Date;
 	updatedAt: Date;
+	workingDays: {
+		monday: {
+			isWeekend: boolean;
+			begin: string;
+			end: string;
+		};
+		tuesday: {
+			isWeekend: boolean;
+			begin: string;
+			end: string;
+		};
+		wednesday: {
+			isWeekend: boolean;
+			begin: string;
+			end: string;
+		};
+		thursday: {
+			isWeekend: boolean;
+			begin: string;
+			end: string;
+		};
+		friday: {
+			isWeekend: boolean;
+			begin: string;
+			end: string;
+		};
+		saturday: {
+			isWeekend: boolean;
+			begin: string;
+			end: string;
+		};
+		sunday: {
+			isWeekend: boolean;
+			begin: string;
+			end: string;
+		};
+	};
 };

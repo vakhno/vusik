@@ -19,6 +19,7 @@ import { defaultWorkingDays } from "@/constants/workingDays";
 import { Types } from "mongoose";
 import { ShelterType } from "@/types/shelter.type";
 import { Card, CardContent } from "@/components/ui/card";
+import { Calendar } from "@/components/ui/calendar";
 
 type Props = {
 	userId: Types.ObjectId;
@@ -352,6 +353,13 @@ const AddNewShelterModal = ({
 									/>
 								</CardContent>
 							</Card>
+
+							<Card>
+								<CardContent>
+									<Calendar />
+								</CardContent>
+							</Card>
+
 							<div className="flex justify-between">
 								<Button type="button" variant="secondary" onClick={() => setIsOpen(false)}>
 									Close

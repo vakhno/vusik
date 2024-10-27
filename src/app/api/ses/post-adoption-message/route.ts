@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 		const command = new SendEmailCommand(params);
 		await sesClient.send(command);
 		return NextResponse.json({ success: true }, { status: 200 });
-	} catch (error) {
+	} catch (_) {
 		return NextResponse.json({ success: false }, { status: 500 });
 	}
 }

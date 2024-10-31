@@ -1,27 +1,29 @@
+export const defaultBeginTime = "08:00";
+export const defaultEndTime = "17:00";
 export const defaultWorkingDays = {
 	monday: {
-		begin: "08:00",
-		end: "17:00",
+		begin: defaultBeginTime,
+		end: defaultEndTime,
 		isWeekend: false,
 	},
 	tuesday: {
-		begin: "08:00",
-		end: "17:00",
+		begin: defaultBeginTime,
+		end: defaultEndTime,
 		isWeekend: false,
 	},
 	wednesday: {
-		begin: "08:00",
-		end: "17:00",
+		begin: defaultBeginTime,
+		end: defaultEndTime,
 		isWeekend: false,
 	},
 	thursday: {
-		begin: "08:00",
-		end: "17:00",
+		begin: defaultBeginTime,
+		end: defaultEndTime,
 		isWeekend: false,
 	},
 	friday: {
-		begin: "08:00",
-		end: "17:00",
+		begin: defaultBeginTime,
+		end: defaultEndTime,
 		isWeekend: false,
 	},
 	saturday: {

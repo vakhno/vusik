@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { Card } from "./card";
 import { Badge } from "@/components/ui/badge";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Control, FieldValues, Path } from "react-hook-form";
 
 export type Option = {
 	heading?: {
@@ -29,15 +30,15 @@ export type Option = {
 	}[];
 };
 
-type Props =
+type Props<T extends FieldValues> =
 	| {
 			options: Option[];
 			emptyMessage: string;
 			disabled?: boolean;
 			placeholder?: string;
 			isForm: true;
-			control: unknown;
-			name: string;
+			control: Control<T>;
+			name: Path<T>;
 			defaultValues?: string[];
 	  }
 	| {
@@ -46,20 +47,20 @@ type Props =
 			disabled?: boolean;
 			placeholder?: string;
 			isForm: false;
-			control?: unknown;
-			name: string;
+			control?: Control<T>;
+			name: Path<T>;
 			defaultValues?: string[];
 	  };
 
-export const AutocompleteMultiselect = ({
+export const AutocompleteMultiselect = <T extends FieldValues>({
 	options,
 	placeholder,
 	disabled = false,
 	isForm = false,
 	control,
-	name = "",
+	name,
 	defaultValues = [],
-}: Props) => {
+}: Props<T>) => {
 	const multiselectId = useId();
 	const inputRef = useRef<HTMLInputElement>(null);
 	const allAreaRef = useRef<HTMLInputElement>(null);

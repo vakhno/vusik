@@ -66,6 +66,12 @@ export const NewShelterSchema = () =>
 					isWeekend: z.boolean(),
 				}),
 			}),
+			specificWeekends: z.array(
+				z.object({
+					month: z.number().min(1).max(12), // 1-12 for months
+					day: z.number().min(1).max(31), // 1-31 for days
+				}),
+			),
 		});
 	};
 

@@ -1,22 +1,59 @@
-import React from "react";
+import { useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import FormInput from "./formInput";
 import FormCheckbox from "./formCheckbox";
+import { Control, FieldValues, FieldValue, Path, useWatch, useController } from "react-hook-form";
 
-type Props = {
-	control?: unknown;
+type Props<T extends FieldValues> = {
+	control: Control<T>;
 	label?: string;
-	beginName: string;
-	endName: string;
-	isWeekendName: string;
+	checkboxLabel?: string;
+	beginName: Path<T>;
+	defaultBeginTime?: string;
+	endName: Path<T>;
+	defaultEndTime?: string;
+	isWeekendName: Path<T>;
 	disabled?: boolean;
 };
 
-const formTimePeriod = ({ control, label, beginName, endName, isWeekendName, disabled = false }: Props) => {
+const formTimePeriod = <T extends FieldValues>({
+	control,
+	label,
+	checkboxLabel,
+	beginName,
+	defaultBeginTime,
+	endName,
+	defaultEndTime,
+	isWeekendName,
+	disabled,
+}: Props<T>) => {
+	const isWeekendWatch = useWatch({ control: control, name: isWeekendName });
+	const {
+		field: { onChange: onBeginChange },
+	} = useController({
+		name: beginName,
+		control,
+	});
+	const {
+		field: { onChange: onEndChange },
+	} = useController({
+		name: endName,
+		control,
+	});
+
+	useEffect(() => {
+		if (isWeekendWatch) {
+			onBeginChange("");
+			onEndChange("");
+		} else {
+			onBeginChange(defaultBeginTime);
+			onEndChange(defaultEndTime);
+		}
+	}, [isWeekendWatch]);
+
 	return (
 		<div className="flex flex-col">
-			{label && label.trim().length ? <Label className="mb-2">{label}</Label> : null}
-
+			{label && label.trim().length ? <Label className="mb-1">{label}</Label> : null}
 			<div className="flex items-center justify-between">
 				<div className="flex items-center">
 					<FormInput
@@ -26,7 +63,7 @@ const formTimePeriod = ({ control, label, beginName, endName, isWeekendName, dis
 						placeholder="Begin time"
 						type="time"
 					/>
-					-
+					<span className="mx-2">-</span>
 					<FormInput
 						control={control}
 						disabled={disabled}
@@ -35,7 +72,11 @@ const formTimePeriod = ({ control, label, beginName, endName, isWeekendName, dis
 						type="time"
 					/>
 				</div>
-				<FormCheckbox control={control} name={isWeekendName} label={"Is weekend"} />
+				{checkboxLabel && checkboxLabel.trim().length ? (
+					<FormCheckbox control={control} name={isWeekendName} label={checkboxLabel} />
+				) : (
+					<FormCheckbox control={control} name={isWeekendName} />
+				)}
 			</div>
 		</div>
 	);

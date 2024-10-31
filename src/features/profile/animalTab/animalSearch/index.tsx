@@ -143,19 +143,9 @@ const Index = ({
 					placeholder={t("animal-search.select-shelter")}
 				/>
 
-				<FormCheckbox
-					defaultValue={defaultInjuryValue}
-					control={form.control}
-					name="sterilized"
-					label={t("animal-search.sterilized")}
-				/>
+				<FormCheckbox control={form.control} name="sterilized" label={t("animal-search.sterilized")} />
 
-				<FormCheckbox
-					defaultValue={defaultInjuryValue}
-					control={form.control}
-					name="injury"
-					label={t("animal-search.injury")}
-				/>
+				<FormCheckbox control={form.control} name="injury" label={t("animal-search.injury")} />
 
 				<Button type="submit" className="my-8 w-full justify-center">
 					{t("search")}

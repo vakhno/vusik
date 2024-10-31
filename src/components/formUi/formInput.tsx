@@ -1,15 +1,16 @@
 import React from "react";
 import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Control, FieldValues, Path } from "react-hook-form";
 
-interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+interface Props<T extends FieldValues> extends React.InputHTMLAttributes<HTMLInputElement> {
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	control: unknown;
+	control: Control<T>;
 	label?: string;
-	name: string;
+	name: Path<T>;
 }
 
-const FormInput = ({ onChange, control, label, name, ...props }: Props) => {
+const FormInput = <T extends FieldValues>({ onChange, control, label, name, ...props }: Props<T>) => {
 	return (
 		<FormField
 			control={control}

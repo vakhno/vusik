@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { NewShelterSchema, NewShelterSchemaType } from "@/schemas/shelter/shelter.schema";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
@@ -15,12 +15,15 @@ import { MapProvider } from "@/widget/googleMap/mapProvider";
 import { MapComponent, markerInfo } from "@/widget/googleMap/map";
 import FormInput from "@/components/formUi/formInput";
 import { defaultMarkerCoordiates } from "@/constants/googleMap";
-import { defaultWorkingDays } from "@/constants/workingDays";
+import { defaultWorkingDays, defaultBeginTime, defaultEndTime } from "@/constants/workingDays";
 import { Types } from "mongoose";
 import { ShelterType } from "@/types/shelter.type";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
-
+import { Input } from "@/components/ui/input";
+import FormSingleSelect from "@/components/formUi/formSingleSelect";
+import { monthLong, monthShort } from "@/constants/month";
+import FormSpecificDay from "@/components/formUi/formSpecificDay";
 type Props = {
 	userId: Types.ObjectId;
 	isOpen: boolean;
@@ -77,6 +80,10 @@ type Props = {
 			isWeekend: boolean;
 		};
 	};
+	specificWeekendValue: {
+		month: number;
+		day: number;
+	}[];
 };
 
 const mainPhotoUrlToFile = async (url: string): Promise<File | null> => {
@@ -123,6 +130,7 @@ const AddNewShelterModal = ({
 	postalCodeValue,
 	phoneValue,
 	workingDaysValue,
+	specificWeekendValue,
 }: Props) => {
 	const newShelterSchema = NewShelterSchema();
 	const [isLocationAutoFill, setIsLocationAutoFill] = useState(false);
@@ -146,8 +154,14 @@ const AddNewShelterModal = ({
 					lng: 0,
 				},
 			workingDays: workingDaysValue || defaultWorkingDays,
+			specificWeekends: specificWeekendValue || [],
 		},
 		resolver: zodResolver(newShelterSchema),
+	});
+
+	const { fields, append, remove } = useFieldArray({
+		control: newShelterForm.control,
+		name: "specificWeekends", // Field name for the array
 	});
 
 	const onNewAnimalSubmit = async (fields: z.infer<typeof newShelterSchema>) => {
@@ -291,7 +305,10 @@ const AddNewShelterModal = ({
 								<CardContent className="p-4">
 									<FormTimePeriod
 										control={newShelterForm.control}
+										checkboxLabel="is weekend"
 										beginName="workingDays.monday.begin"
+										defaultBeginTime={defaultBeginTime}
+										defaultEndTime={defaultEndTime}
 										endName="workingDays.monday.end"
 										isWeekendName="workingDays.monday.isWeekend"
 										label="Monday"
@@ -300,7 +317,10 @@ const AddNewShelterModal = ({
 
 									<FormTimePeriod
 										control={newShelterForm.control}
+										checkboxLabel="is weekend"
 										beginName="workingDays.tuesday.begin"
+										defaultBeginTime={defaultBeginTime}
+										defaultEndTime={defaultEndTime}
 										endName="workingDays.tuesday.end"
 										isWeekendName="workingDays.tuesday.isWeekend"
 										label="Tuesday"
@@ -309,7 +329,10 @@ const AddNewShelterModal = ({
 
 									<FormTimePeriod
 										control={newShelterForm.control}
+										checkboxLabel="is weekend"
 										beginName="workingDays.wednesday.begin"
+										defaultBeginTime={defaultBeginTime}
+										defaultEndTime={defaultEndTime}
 										endName="workingDays.wednesday.end"
 										isWeekendName="workingDays.wednesday.isWeekend"
 										label="Wednesday"
@@ -318,7 +341,10 @@ const AddNewShelterModal = ({
 
 									<FormTimePeriod
 										control={newShelterForm.control}
+										checkboxLabel="is weekend"
 										beginName="workingDays.thursday.begin"
+										defaultBeginTime={defaultBeginTime}
+										defaultEndTime={defaultEndTime}
 										endName="workingDays.thursday.end"
 										isWeekendName="workingDays.thursday.isWeekend"
 										label="Thursday"
@@ -327,7 +353,10 @@ const AddNewShelterModal = ({
 
 									<FormTimePeriod
 										control={newShelterForm.control}
+										checkboxLabel="is weekend"
 										beginName="workingDays.friday.begin"
+										defaultBeginTime={defaultBeginTime}
+										defaultEndTime={defaultEndTime}
 										endName="workingDays.friday.end"
 										isWeekendName="workingDays.friday.isWeekend"
 										label="friday"
@@ -336,7 +365,10 @@ const AddNewShelterModal = ({
 
 									<FormTimePeriod
 										control={newShelterForm.control}
+										checkboxLabel="is weekend"
 										beginName="workingDays.saturday.begin"
+										defaultBeginTime={defaultBeginTime}
+										defaultEndTime={defaultEndTime}
 										endName="workingDays.saturday.end"
 										isWeekendName="workingDays.saturday.isWeekend"
 										label="Saturday"
@@ -345,7 +377,10 @@ const AddNewShelterModal = ({
 
 									<FormTimePeriod
 										control={newShelterForm.control}
+										checkboxLabel="is weekend"
 										beginName="workingDays.sunday.begin"
+										defaultBeginTime={defaultBeginTime}
+										defaultEndTime={defaultEndTime}
 										endName="workingDays.sunday.end"
 										isWeekendName="workingDays.sunday.isWeekend"
 										label="Sunday"
@@ -356,7 +391,18 @@ const AddNewShelterModal = ({
 
 							<Card>
 								<CardContent>
-									<Calendar />
+									{fields && fields.length ? (
+										<>
+											{fields.map((field, index) => {
+												<FormSpecificDay
+													key={index}
+													control={newShelterForm.control}
+													dayName={`specificWeekends.${index}.day`}
+													monthName={`specificWeekends.${index}.month`}
+												/>;
+											})}
+										</>
+									) : null}
 								</CardContent>
 							</Card>
 

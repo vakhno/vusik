@@ -54,4 +54,5 @@ export type ShelterType = {
 			end: string;
 		};
 	};
+	specificWeekends: { month: string; day: string }[];
 };

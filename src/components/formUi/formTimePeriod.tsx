@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import FormInput from "./formInput";
 import FormCheckbox from "./formCheckbox";
-import { Control, FieldValues, FieldValue, Path, useWatch, useController } from "react-hook-form";
+import { Control, FieldValues, Path, useWatch as watch, useController as controller } from "react-hook-form";
 
 type Props<T extends FieldValues> = {
 	control: Control<T>;
@@ -16,7 +16,7 @@ type Props<T extends FieldValues> = {
 	disabled?: boolean;
 };
 
-const formTimePeriod = <T extends FieldValues>({
+const FormTimePeriod = <T extends FieldValues>({
 	control,
 	label,
 	checkboxLabel,
@@ -27,16 +27,16 @@ const formTimePeriod = <T extends FieldValues>({
 	isWeekendName,
 	disabled,
 }: Props<T>) => {
-	const isWeekendWatch = useWatch({ control: control, name: isWeekendName });
+	const isWeekendWatch = watch({ control: control, name: isWeekendName });
 	const {
 		field: { onChange: onBeginChange },
-	} = useController({
+	} = controller({
 		name: beginName,
 		control,
 	});
 	const {
 		field: { onChange: onEndChange },
-	} = useController({
+	} = controller({
 		name: endName,
 		control,
 	});
@@ -82,4 +82,4 @@ const formTimePeriod = <T extends FieldValues>({
 	);
 };
 
-export default formTimePeriod;
+export default FormTimePeriod;

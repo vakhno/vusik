@@ -71,6 +71,14 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 		}
 	}
 
+	if (formData.has("specificWeekends[]") && formData.get("specificWeekends[]")) {
+		const specificWeekends = formData.getAll("specificWeekends[]") as string[];
+
+		if (Array.isArray(specificWeekends) && specificWeekends.length) {
+			data.specificWeekends = specificWeekends.map((specificWeekend) => JSON.parse(specificWeekend));
+		}
+	}
+	
 	return data;
 };
 

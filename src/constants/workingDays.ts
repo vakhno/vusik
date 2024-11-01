@@ -1,3 +1,4 @@
+export const maxCountOfSpecificWeekends = 100;
 export const defaultBeginTime = "08:00";
 export const defaultEndTime = "17:00";
 export const defaultWorkingDays = {

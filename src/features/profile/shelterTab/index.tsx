@@ -15,8 +15,19 @@ type Props = {
 };
 
 const buildFormDataForNewShelter = (fields: NewShelterSchemaType): FormData => {
-	const { mainPhoto, secondaryPhotos, name, country, city, street, phone, postalCode, coordinates, workingDays } =
-		fields;
+	const {
+		mainPhoto,
+		secondaryPhotos,
+		name,
+		country,
+		city,
+		street,
+		phone,
+		postalCode,
+		coordinates,
+		workingDays,
+		specificWeekends,
+	} = fields;
 
 	const formData = new FormData();
 
@@ -36,6 +47,12 @@ const buildFormDataForNewShelter = (fields: NewShelterSchemaType): FormData => {
 	if (secondaryPhotos && secondaryPhotos.length) {
 		secondaryPhotos.forEach((secondaryPhoto) => {
 			formData.append("secondaryPhotos[]", secondaryPhoto);
+		});
+	}
+
+	if (specificWeekends && specificWeekends.length) {
+		specificWeekends.forEach((specificWeekend) => {
+			formData.append("specificWeekends[]", JSON.stringify(specificWeekend));
 		});
 	}
 

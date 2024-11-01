@@ -15,14 +15,15 @@ import { MapProvider } from "@/widget/googleMap/mapProvider";
 import { MapComponent, markerInfo } from "@/widget/googleMap/map";
 import FormInput from "@/components/formUi/formInput";
 import { defaultMarkerCoordiates } from "@/constants/googleMap";
-import { defaultWorkingDays, defaultBeginTime, defaultEndTime } from "@/constants/workingDays";
+import {
+	defaultWorkingDays,
+	defaultBeginTime,
+	defaultEndTime,
+	maxCountOfSpecificWeekends,
+} from "@/constants/workingDays";
 import { Types } from "mongoose";
 import { ShelterType } from "@/types/shelter.type";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import FormSingleSelect from "@/components/formUi/formSingleSelect";
-import { monthLong, monthShort } from "@/constants/month";
 import FormSpecificDay from "@/components/formUi/formSpecificDay";
 type Props = {
 	userId: Types.ObjectId;
@@ -80,9 +81,9 @@ type Props = {
 			isWeekend: boolean;
 		};
 	};
-	specificWeekendValue: {
-		month: number;
-		day: number;
+	specificWeekendValue?: {
+		month: string;
+		day: string;
 	}[];
 };
 
@@ -137,7 +138,6 @@ const AddNewShelterModal = ({
 
 	const [defaultMainImage, setDefaultMainImage] = useState<File | null>(null);
 	const [defaultSecondaryImages, setDefaultSecondaryImages] = useState<File[] | null>([]);
-
 	const newShelterForm = useForm<z.infer<typeof newShelterSchema>>({
 		defaultValues: {
 			mainPhoto: defaultMainImage || undefined,
@@ -213,6 +213,11 @@ const AddNewShelterModal = ({
 		})();
 	}, []);
 
+	const addNewSpecificDay = () => {
+		append({ month: "0", day: "0" });
+	};
+
+	console.log("fields", fields);
 	return (
 		<Dialog onOpenChange={setIsOpen} open={isOpen} modal defaultOpen={isOpen}>
 			<DialogContent className="h-full max-w-[720px]">
@@ -393,15 +398,21 @@ const AddNewShelterModal = ({
 								<CardContent>
 									{fields && fields.length ? (
 										<>
-											{fields.map((field, index) => {
+											{fields.map((field, index) => (
 												<FormSpecificDay
-													key={index}
+													key={field.id}
 													control={newShelterForm.control}
 													dayName={`specificWeekends.${index}.day`}
 													monthName={`specificWeekends.${index}.month`}
-												/>;
-											})}
+													onHandleRemove={() => remove(index)}
+												/>
+											))}
 										</>
+									) : null}
+									{fields && fields.length < maxCountOfSpecificWeekends ? (
+										<Button type="button" onClick={addNewSpecificDay}>
+											Add weekend
+										</Button>
 									) : null}
 								</CardContent>
 							</Card>

@@ -41,6 +41,16 @@ const Index = ({ animalId }: Props) => {
 			method: "POST",
 			body: formData,
 		});
+
+		const { ok } = response;
+		if (ok) {
+			const result = await response.json();
+			const { success } = result;
+
+			if (success) {
+				// console.log("success");
+			}
+		}
 	};
 
 	if (data) {

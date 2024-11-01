@@ -1,46 +1,50 @@
-import { FieldValues, Path, Control, useWatch, useController } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { FieldValues, Path, Control, useWatch as watch } from "react-hook-form";
 import FormSingleSelect from "@/components/formUi/formSingleSelect";
-import { useEffect } from "react";
+import { monthLong } from "@/constants/month";
+import { Button } from "@/components/ui/button";
 
-type Props<T extends FieldValues> = { control: Control<T>; monthName: Path<T>; dayName: Path<T> };
+type Props<T extends FieldValues> = {
+	control: Control<T>;
+	monthName: Path<T>;
+	dayName: Path<T>;
+	onHandleRemove: () => void;
+};
 
-const formSpecificDay = <T extends FieldValues>({ control, monthName, dayName }: Props<T>) => {
-	const monthWatch = useWatch({control, name: monthName});
-	// const {
-	// 	field: { onChange: onBeginChange },
-	// } = useController({
-	// 	name: beginName,
-	// 	control,
-	// });
-	// const {
-	// 	field: { onChange: onEndChange },
-	// } = useController({
-	// 	name: endName,
-	// 	control,
-	// });
+const days = (month: number) => {
+	const maxDays = new Date(2024, month, 0).getDate();
+	return Array.from({ length: maxDays }, (_, i) => ({ value: `${i}`, label: (i + 1).toString() }));
+};
+
+const FormSpecificDay = <T extends FieldValues>({ control, monthName, dayName, onHandleRemove }: Props<T>) => {
+	const monthWatch = watch({ control, name: monthName });
+	const monthList = monthLong.map((value, index) => ({ value: `${index}`, label: value }));
+	const [dayList, setDayList] = useState([]);
 
 	useEffect(() => {
-
-	}, [monthWatch])
+		const newDayList = days(+monthWatch);
+		setDayList(newDayList);
+	}, [monthWatch]);
 
 	return (
 		<div className="flex">
 			<FormSingleSelect
 				control={control}
 				name={monthName}
-				optionList={[]}
-				placeholder={"Select shelter"}
-				formLabel={"Shelter"}
+				optionList={monthList}
+				placeholder={"Select month"}
+				formLabel={"Month"}
 			/>
 			<FormSingleSelect
 				control={control}
 				name={dayName}
-				optionList={[]}
-				placeholder={"Select shelter"}
-				formLabel={"Shelter"}
+				optionList={dayList}
+				placeholder={"Select day"}
+				formLabel={"Day"}
 			/>
+			<Button onClick={onHandleRemove}>remove</Button>
 		</div>
 	);
 };
 
-export default formSpecificDay;
+export default FormSpecificDay;

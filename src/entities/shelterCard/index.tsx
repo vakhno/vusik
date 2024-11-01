@@ -17,7 +17,8 @@ type Props = {
 };
 
 const buildFormDataForNewShelter = (fields: NewShelterSchemaType): FormData => {
-	const { mainPhoto, secondaryPhotos, name, country, city, street, phone, postalCode, coordinates, workingDays } = fields;
+	const { mainPhoto, secondaryPhotos, name, country, city, street, phone, postalCode, coordinates, workingDays } =
+		fields;
 
 	const formData = new FormData();
 
@@ -47,7 +48,9 @@ const Index = ({ userId, shelter, isEditable = false }: Props) => {
 	const { toast } = useToast();
 	const [isEditShelterOpened, setIsEditShelterOpened] = useState<boolean>(false);
 
-	const handleEditClick = () => {
+	const handleEditClick = (e: Event) => {
+		e.preventDefault();
+		e.stopPropagation();
 		setIsEditShelterOpened(!isEditShelterOpened);
 	};
 
@@ -121,6 +124,7 @@ const Index = ({ userId, shelter, isEditable = false }: Props) => {
 					postalCodeValue={shelter.postalCode}
 					phoneValue={shelter.phone}
 					workingDaysValue={shelter.workingDays}
+					specificWeekendValue={shelter.specificWeekends}
 				/>
 			) : null}
 			<Card key={shelter._id} className="w-full bg-secondary">
@@ -132,7 +136,7 @@ const Index = ({ userId, shelter, isEditable = false }: Props) => {
 								height={40}
 								alt=""
 								src="/icons/edit.svg"
-								onClick={handleEditClick}
+								onClick={(e) => handleEditClick(e)}
 								className="absolute right-0 top-0 z-10 cursor-pointer"
 							/>
 						) : null}

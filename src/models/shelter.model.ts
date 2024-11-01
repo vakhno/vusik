@@ -144,6 +144,16 @@ const ShelterSchema = new Schema<ShelterType>(
 			required: true,
 		},
 		userId: { type: String, required: true },
+		specificWeekends: [
+			{
+				month: {
+					type: String,
+				},
+				day: {
+					type: String,
+				},
+			},
+		],
 	},
 	{ timestamps: true },
 );

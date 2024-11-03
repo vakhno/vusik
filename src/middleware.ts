@@ -13,7 +13,6 @@ import {
 	SHELTER_ROUTE,
 	ANIMAL_ROUTE,
 	OWN_PROFILE_ROUTE,
-	API_SPECIES,
 	API_NEW_ANIMAL,
 	API_DELETE_ANIMAL,
 	API_NEW_SHELTER,
@@ -38,7 +37,6 @@ export async function middleware(req: NextRequest) {
 	const isApiUserRoute = nextUrl.pathname.startsWith(API_USER_PREFIX);
 	const isApiAnimalRoute = nextUrl.pathname.startsWith(API_ANIMAL_PREFIX);
 	const isApiShelterRoute = nextUrl.pathname.startsWith(API_SHELTER_PREFIX);
-	const isApiSpeciesRoute = nextUrl.pathname.startsWith(API_SPECIES);
 	const isApiNewAnimal = nextUrl.pathname.startsWith(API_NEW_ANIMAL);
 	const isApiDeleteAnimal = nextUrl.pathname.startsWith(API_DELETE_ANIMAL);
 	const isApiNewShelter = nextUrl.pathname.startsWith(API_NEW_SHELTER);
@@ -92,7 +90,6 @@ export async function middleware(req: NextRequest) {
 		isApiS3Route ||
 		isApiAnimalRoute ||
 		isApiShelterRoute ||
-		isApiSpeciesRoute ||
 		isApiNewAnimal ||
 		isApiDeleteAnimal ||
 		isApiNewShelter ||

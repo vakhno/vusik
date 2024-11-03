@@ -34,6 +34,8 @@ export const API_NEW_ANIMAL: string = "/api/animal/new-animal";
 export const API_DELETE_ANIMAL: string = "/api/animal/delete-animal";
 export const API_GET_ANIMAL_BY_ID: string = "/api/animal/get-animal-by-id";
 export const API_NEW_GET_USER_ANIMALS_BY_ID: string = "/api/animal/get-user-animals-by-id";
+export const API_GET_ANIMALS_BY_PAGE: string = "/api/animal/get-animals-by-page";
+export const API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS: string = "/api/animal/get-filter-options-for-all-animals";
 // SHELTER API
 export const API_NEW_SHELTER: string = "/api/shelter/new-shelter";
 export const API_NEW_GET_USER_SHELTERS_BY_ID: string = "/api/shelter/get-user-shelters-by-id";
@@ -44,8 +46,6 @@ export const API_USER_GET_USER_BY_ID: string = "/api/user/get-user-by-id";
 // AUTH API
 export const API_AUTH_SIGN_IN: string = "/api/auth/sign-in";
 export const API_AUTH_SIGN_UP: string = "/api/auth/sign-up";
-// SPECIES API
-export const API_SPECIES: string = "/api/species";
 // S3 API
 export const API_S3_UPLOAD_AVATAR: string = "/api/s3/upload-avatar";
 // REDIRECTION

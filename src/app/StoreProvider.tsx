@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import UserProvider from "@/zustand/provider/user.provider";
-// import SpeciesProvider from "@/zustand/provider/species.provider";
 import LikedAnimalsProvider from "@/zustand/provider/likedAnimals.provider";
 import { UserType } from "@/types/user.type";
 
@@ -14,18 +13,10 @@ type Props = {
 	};
 };
 
-const StoreProvider = ({
-	children,
-	userProviderInitialData,
-	// speciesProviderInitialData = { list: [] }
-}: Props) => {
+const StoreProvider = ({ children, userProviderInitialData }: Props) => {
 	return (
 		<UserProvider preloadUser={userProviderInitialData.user}>
-			<LikedAnimalsProvider>
-				{/* <SpeciesProvider preloadSpecies={speciesProviderInitialData?.list}> */}
-				{children}
-				{/* </SpeciesProvider> */}
-			</LikedAnimalsProvider>
+			<LikedAnimalsProvider>{children}</LikedAnimalsProvider>
 		</UserProvider>
 	);
 };

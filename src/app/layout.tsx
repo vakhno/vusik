@@ -18,7 +18,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 // UI components
 import { Toaster } from "@/components/ui/toaster";
-import { API_SPECIES } from "@/routes";
 // custom providers
 import StoreProvider from "@/app/StoreProvider";
 import TanstackQueryProvider from "@/app/TanstackQueryProvider";
@@ -54,23 +53,6 @@ export default async function RootLayout({
 	const cookie = cookies();
 	const token = cookie.get("token");
 	let authUser = null;
-	// let speciesList = [];
-	const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_SPECIES}`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
-
-	const { ok } = response;
-	if (ok) {
-		const data = await response.json();
-		const { success } = data;
-		if (success) {
-			// const { species } = data;
-			// speciesList = species;
-		}
-	}
 
 	if (token) {
 		const { value } = token;

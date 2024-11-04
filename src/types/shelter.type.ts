@@ -1,6 +1,8 @@
+import { ObjectId } from "mongoose";
+
 export type ShelterType = {
 	_id: string;
-	userId: string;
+	userId: ObjectId;
 	name: string;
 	mainPhoto: string;
 	secondaryPhotos: string[];

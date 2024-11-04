@@ -131,13 +131,13 @@ const uploadSecondaryPhotos = async (id: string, files: File[]): Promise<false |
 
 		formData.append("id", id);
 		formData.append("keyName", shelterSecondaryPhotosKeyName);
+
 		if (files && files.length) {
 			files.forEach((file) => {
 				formData.append("files[]", file);
 			});
-		} else {
-			formData.append("files[]", false);
 		}
+
 		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/s3/upload-multiple-image`, {
 			method: "POST",
 			body: formData,

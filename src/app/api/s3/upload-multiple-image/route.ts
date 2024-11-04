@@ -30,7 +30,7 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 			keyName: string;
 		};
 
-		const files = formData.getAll("files[]") as File[];
+		const files = formData.has("files[]") ? (formData.getAll("files[]") as File[]) : [];
 
 		const uploadedSecodaryPhotos = files.map(async (file, index) => {
 			const fileBuffer = Buffer.from(await file.arrayBuffer());

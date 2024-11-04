@@ -19,7 +19,12 @@ const days = (month: number) => {
 const FormSpecificDay = <T extends FieldValues>({ control, monthName, dayName, onHandleRemove }: Props<T>) => {
 	const monthWatch = watch({ control, name: monthName });
 	const monthList = monthLong.map((value, index) => ({ value: `${index}`, label: value }));
-	const [dayList, setDayList] = useState([]);
+	const [dayList, setDayList] = useState<
+		{
+			value: string;
+			label: string;
+		}[]
+	>([]);
 
 	useEffect(() => {
 		const newDayList = days(+monthWatch);

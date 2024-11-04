@@ -14,15 +14,26 @@ type Props = {
 	avatar: string;
 	name: string;
 	email: string;
-	isEditable: boolean;
-	facebook: string;
-	instagram: string;
-	twitter: string;
-	telegram: string;
-	youtube: string;
+	isEditable?: boolean;
+	facebook?: string;
+	instagram?: string;
+	twitter?: string;
+	telegram?: string;
+	youtube?: string;
 };
 
-const Index = ({ id, avatar, name, email, isEditable, facebook, instagram, twitter, telegram, youtube }: Props) => {
+const Index = ({
+	id,
+	avatar,
+	name,
+	email,
+	isEditable = false,
+	facebook,
+	instagram,
+	twitter,
+	telegram,
+	youtube,
+}: Props) => {
 	const [isEditUserModalVisible, setIsEditUserModalVisible] = useState(false);
 	const { toast } = useToast();
 
@@ -37,11 +48,11 @@ const Index = ({ id, avatar, name, email, isEditable, facebook, instagram, twitt
 
 		formData.append("id", id.toString());
 		formData.append("name", name);
-		formData.append("facebook", facebook);
-		formData.append("telegram", telegram);
-		formData.append("twitter", twitter);
-		formData.append("instagram", instagram);
-		formData.append("youtube", youtube);
+		formData.append("facebook", facebook || "");
+		formData.append("telegram", telegram || "");
+		formData.append("twitter", twitter || "");
+		formData.append("instagram", instagram || "");
+		formData.append("youtube", youtube || "");
 
 		if (avatar) {
 			formData.append("avatar", avatar);

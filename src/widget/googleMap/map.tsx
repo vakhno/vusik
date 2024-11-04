@@ -67,8 +67,8 @@ const MapComponent = ({
 	const geocoder = new google.maps.Geocoder();
 
 	const handleMarkerDragEnd = async (event: google.maps.MapMouseEvent) => {
-		const newLat = event.latLng.lat();
-		const newLng = event.latLng.lng();
+		const newLat = event?.latLng?.lat();
+		const newLng = event?.latLng?.lng();
 		const newPosition = { lat: newLat, lng: newLng } as markerCoordinates;
 		const newAdress = {
 			country: "",

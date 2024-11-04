@@ -8,10 +8,9 @@ import { Types } from "mongoose";
 type Props = { isEditable: boolean; animals: AnimalType[]; shelters: ShelterType[]; userId: Types.ObjectId };
 
 const Index = ({ isEditable, animals, shelters, userId }: Props) => {
-	const likedAnimals = useLikedAnimalsStore((state) => state.likedAnimals);
+	const profileMutation = queryProfileMutation({ userId });
 	const handleAnimalLike = useLikedAnimalsStore((state) => state.handleAnimalLike);
 	const handleAnimalUnlike = useLikedAnimalsStore((state) => state.handleAnimalUnlike);
-	const profileMutation = queryProfileMutation({ userId });
 
 	const animalLike = (likedAnimalId: string) => {
 		handleAnimalLike(likedAnimalId);
@@ -40,7 +39,6 @@ const Index = ({ isEditable, animals, shelters, userId }: Props) => {
 								handleUnlike={(updateLikedAnimals) => animalUnlike(updateLikedAnimals)}
 								animal={animal}
 								shelters={shelters}
-								likedAnimals={likedAnimals}
 							/>
 						);
 					})}

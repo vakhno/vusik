@@ -3,7 +3,7 @@ import AnimalModel from "@/models/animal.model";
 import { AnimalType } from "@/types/animal.type";
 import { NextResponse } from "next/server";
 import { AnimalSearchSchemaType } from "@/schemas/animal/animalSearch.schema";
-
+import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
 type SuccessResponse = {
 	success: true;
 	animals: AnimalType[];
@@ -26,17 +26,17 @@ const validatedFilters = (
 					updatedFilters[key] = false;
 				}
 			} else {
-				if (value.split(",").length > 1) {
+				if (typeof value === "string" && value.split(",").length > 1) {
 					value.split(",").forEach((splitedValue) => {
 						splitedValue = splitedValue.trim();
-						if (updatedFilters[key] && updatedFilters[key].length) {
-							updatedFilters[key].push(splitedValue);
+						if (Array.isArray(updatedFilters[key])) {
+							(updatedFilters[key] as string[]).push(splitedValue);
 						} else {
 							updatedFilters[key] = [splitedValue];
 						}
 					});
 				} else {
-					updatedFilters[key] = [value];
+					updatedFilters[key] = Array.isArray(value) ? value : [value];
 				}
 			}
 		}
@@ -49,7 +49,7 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 	try {
 		await mongoConnection();
 		const { searchParams } = new URL(req.url);
-		const params = Object.fromEntries(searchParams.entries());
+		const params = gettingValuesFromURLSearchParams(searchParams);
 		const validatedParams = validatedFilters(params);
 		// const page = pageParam ? Number(pageParam) || 1 : 1;
 		const animals = await AnimalModel.find(validatedParams);

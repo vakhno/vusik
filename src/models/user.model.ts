@@ -2,8 +2,6 @@
 import mongoose, { Schema } from "mongoose";
 // types
 import { UserType } from "@/types/user.type";
-import AnimalModel from "./animal.model";
-import ShelterModel from "./shelter.model";
 
 const UserSchema = new Schema<UserType>(
 	{
@@ -14,9 +12,11 @@ const UserSchema = new Schema<UserType>(
 		},
 		password: {
 			type: String,
+			// required: true, - if user sign up manually; required: false, - if user sign in/sign up by OAuth (google log in etc.)   
 			required: function () {
 				return !this.isSocial;
 			},
+			// select: false, - means, that this field will not be included by default in query result
 			select: false,
 		},
 		name: {
@@ -49,16 +49,14 @@ const UserSchema = new Schema<UserType>(
 		shelters: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				required: true,
-				ref: ShelterModel,
+				ref: "Shelter",
 				default: [],
 			},
 		],
 		animals: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				required: true,
-				ref: AnimalModel,
+				ref: "Animal",
 				default: [],
 			},
 		],

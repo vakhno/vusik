@@ -9,7 +9,7 @@ import postNewLocale from "@/actions/locale/postNewLocale";
 // constants
 import { locales } from "@/constants/locale";
 // types
-import { Locale } from "@/types/locale";
+import { Locale } from "@/types/locale.type";
 
 const LocaleSwitcher = () => {
 	const locale = useLocale();

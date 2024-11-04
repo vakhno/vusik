@@ -41,7 +41,7 @@ interface Props {
 }
 
 const ImageUploading = ({ onChange, isUploadingImitation = false, className, defaultFile }: Props) => {
-	const [previewImage, setPreviewImage] = useState<null | string>(null);
+	const [previewImage, setPreviewImage] = useState<string | null>(null);
 	const [imageFile, setImageFile] = useState<null | File>(null);
 	const [isDragEnter, setIsDragEnter] = useState<boolean>(false);
 
@@ -67,10 +67,10 @@ const ImageUploading = ({ onChange, isUploadingImitation = false, className, def
 				if (typeof defaultFile === "string") {
 					const urlFile = await mainPhotoUrlToFile(defaultFile);
 					setImageFile(urlFile);
+					setPreviewImage(defaultFile);
 				} else {
 					setImageFile(defaultFile);
 				}
-				setPreviewImage(defaultFile);
 			}
 		})();
 	}, [defaultFile]);

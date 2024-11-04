@@ -2,7 +2,7 @@ import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import AddNewShelterModal from "@/entities/shelterCardModal";
 import { Types } from "mongoose";
 import { ShelterType } from "@/types/shelter.type";
@@ -48,7 +48,7 @@ const Index = ({ userId, shelter, isEditable = false }: Props) => {
 	const { toast } = useToast();
 	const [isEditShelterOpened, setIsEditShelterOpened] = useState<boolean>(false);
 
-	const handleEditClick = (e: Event) => {
+	const handleEditClick = (e: MouseEvent<HTMLImageElement>) => {
 		e.preventDefault();
 		e.stopPropagation();
 		setIsEditShelterOpened(!isEditShelterOpened);
@@ -58,7 +58,7 @@ const Index = ({ userId, shelter, isEditable = false }: Props) => {
 		const formData = new FormData();
 
 		formData.append("shelterId", shelter._id);
-		formData.append("userId", shelter.userId);
+		formData.append("userId", String(shelter.userId));
 
 		shelter.activeMembers.forEach((activeMember) => formData.append("activeMembers[]", activeMember));
 		shelter.adoptedMembers.forEach((adoptedMember) => formData.append("adoptedMembers[]", adoptedMember));
@@ -136,7 +136,7 @@ const Index = ({ userId, shelter, isEditable = false }: Props) => {
 								height={40}
 								alt=""
 								src="/icons/edit.svg"
-								onClick={(e) => handleEditClick(e)}
+								onClick={(e: MouseEvent<HTMLImageElement>) => handleEditClick(e)}
 								className="absolute right-0 top-0 z-10 cursor-pointer"
 							/>
 						) : null}

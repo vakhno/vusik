@@ -50,15 +50,17 @@ export const comparingAnimalFilterWithOptions = ({
 		if (key in values) {
 			values[key]?.forEach((value: string | boolean) => {
 				if (key !== "injury" && key !== "sterilized") {
-					if (options[key].includes(value)) {
-						if (comparedFilters[key]) {
-							comparedFilters[key]?.push(value);
-						} else {
-							comparedFilters[key] = [value];
+					if ((options[key] as (string | boolean)[]).includes(value)) {
+						if (!comparedFilters[key]) {
+							comparedFilters[key] = [];
 						}
+						(comparedFilters[key] as string[]).push(value as string);
 					}
 				} else {
-					comparedFilters[key] = [value];
+					if (!comparedFilters[key]) {
+						comparedFilters[key] = [] as boolean[];
+					}
+					(comparedFilters[key] as boolean[]).push(value as boolean);
 				}
 			});
 		}

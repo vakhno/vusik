@@ -21,6 +21,8 @@ type Props =
 			animal: AnimalType;
 			shelters: ShelterType[];
 			handleDelete?: () => void;
+			handleLike: (id: string) => void;
+			handleUnlike: (id: string) => void;
 	  }
 	| {
 			isEditable: false;
@@ -28,6 +30,8 @@ type Props =
 			animal: AnimalType;
 			shelters?: ShelterType[];
 			handleDelete?: () => void;
+			handleLike: (id: string) => void;
+			handleUnlike: (id: string) => void;
 	  };
 
 const Index = ({ isEditable, userId, animal, shelters, handleDelete, handleLike, handleUnlike }: Props) => {
@@ -35,7 +39,6 @@ const Index = ({ isEditable, userId, animal, shelters, handleDelete, handleLike,
 	const handleAnimalLike = useLikedAnimalsStore((state) => state.handleAnimalLike);
 	const handleAnimalUnlike = useLikedAnimalsStore((state) => state.handleAnimalUnlike);
 	const { toast } = useToast();
-	const profileMutation = queryProfileMutation({ userId });
 	const [isEditAnimalOpened, setIsEditAnimalOpened] = useState<boolean>(false);
 
 	const animalUnlike = (id: string, name: string) => {
@@ -118,7 +121,9 @@ const Index = ({ isEditable, userId, animal, shelters, handleDelete, handleLike,
 			const { success } = data;
 
 			if (success) {
-				profileMutation.mutate(userId);
+				if (userId) {
+					queryProfileMutation({ userId }).mutate(userId);
+				}
 				setIsEditAnimalOpened(false);
 				toast({
 					title: "Success",

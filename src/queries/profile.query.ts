@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 // tanstack
 import { useQuery, QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 // actions

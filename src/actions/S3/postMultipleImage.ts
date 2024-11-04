@@ -1,7 +1,7 @@
 import {
 	SuccessResponse as S3UploadMainPhotoSuccessResponse,
 	ErrorResponse as S3UploadMainPhotoErrorResponse,
-} from "@/app/api/s3/upload-shelter-main-photo/route";
+} from "@/app/api/s3/upload-single-image/route";
 
 type Props = {
 	formData: FormData;

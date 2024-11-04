@@ -23,7 +23,6 @@ const Page = async ({ params }: Props) => {
 				<Animal animalId={animalId} />
 			</HydrationBoundary>
 		);
-		return <></>;
 	} else {
 		return null;
 	}

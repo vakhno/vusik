@@ -181,7 +181,7 @@ export const AutocompleteMultiselect = <T extends FieldValues>({
 																													: field.onChange(
 																															field.value?.filter(
 																																(
-																																	value,
+																																	value: string,
 																																) =>
 																																	value !==
 																																	breed.value,
@@ -204,7 +204,7 @@ export const AutocompleteMultiselect = <T extends FieldValues>({
 																							</CommandItem>
 																						</FormControl>
 																						<FormLabel className="font-normal">
-																							{item.label}
+																							{breed.label}
 																						</FormLabel>
 																					</FormItem>
 																				);
@@ -227,7 +227,7 @@ export const AutocompleteMultiselect = <T extends FieldValues>({
 											{options.map((item, index) => {
 												return (
 													<div key={index}>
-														<CommandGroup heading={item.heading} key={item.heading}>
+														<CommandGroup>
 															{item.values.map((breed) => (
 																<CommandItem className="w-full" key={breed.value}>
 																	{

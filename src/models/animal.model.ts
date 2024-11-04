@@ -2,7 +2,6 @@
 import mongoose, { Schema } from "mongoose";
 // types
 import { AnimalSchemaType } from "@/types/animal.type";
-import ShelterModel from "./shelter.model";
 
 const AnimalSchema = new Schema<AnimalSchemaType>(
 	{
@@ -20,20 +19,22 @@ const AnimalSchema = new Schema<AnimalSchemaType>(
 		},
 		userId: {
 			type: mongoose.Schema.Types.ObjectId,
-			// ref: "User",
+			ref: "User",
 			required: true,
 		},
 		shelterId: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: ShelterModel,
+			ref: "Shelter",
 		},
 		mainPhoto: {
 			type: String,
 		},
-		secondaryPhotos: {
-			type: [String],
-			default: undefined,
-		},
+		secondaryPhotos: [
+			{
+				type: String,
+				default: undefined,
+			},
+		],
 		size: {
 			type: String,
 			required: true,

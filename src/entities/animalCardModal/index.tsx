@@ -18,6 +18,7 @@ import FormInput from "@/components/formUi/formInput";
 import FormCheckbox from "@/components/formUi/formCheckbox";
 import { ShelterType } from "@/types/shelter.type";
 import { SpeciesType } from "@/types/species.type";
+import { useTranslations } from "next-intl";
 
 type Props =
 	| {
@@ -30,7 +31,7 @@ type Props =
 			setIsOpen?: (value: boolean) => void;
 			shelters: ShelterType[];
 			animal?: AnimalType;
-			species: SpeciesType[];
+			species: Record<string, SpeciesType>;
 			handleSuccessSubmitClick: (value: NewAnimalSchemaType) => void;
 			handleCloseClick: () => void;
 			handleSuccessDeleteClick?: false;
@@ -58,7 +59,7 @@ type Props =
 			setIsOpen?: (value: boolean) => void;
 			animal: AnimalType;
 			shelters?: ShelterType[];
-			species: SpeciesType[];
+			species: Record<string, SpeciesType>;
 			handleSuccessSubmitClick: (value: NewAnimalSchemaType) => void;
 			handleCloseClick: () => void;
 			handleSuccessDeleteClick?: (value: AnimalType) => void;
@@ -105,12 +106,13 @@ const AddNewAnimalModal = ({
 	injuryValue,
 	injuryDescriptionValue,
 }: Props) => {
-	const newAnimalSchema = NewAnimalSchema();
+	const t = useTranslations();
+	const newAnimalSchema = NewAnimalSchema(t);
 	const [sexList, setSexList] = useState([]);
 	const [sizeList, setSizeList] = useState([]);
 	const [breedList, setBreedList] = useState([]);
-	const [defaultMainImage, setDefaultMainImage] = useState<File | null>(null);
-	const [defaultSecondaryImages, setDefaultSecondaryImages] = useState<File[] | null>([]);
+	const [defaultMainImage, setDefaultMainImage] = useState<File>();
+	const [defaultSecondaryImages, setDefaultSecondaryImages] = useState<File[]>([]);
 
 	const speciesList = Object.entries(species)?.map(([key, _]) => ({
 		id: key,
@@ -208,9 +210,6 @@ const AddNewAnimalModal = ({
 
 	useEffect(() => {
 		const selectedSpecies = species[newPetForm.getValues("species")];
-		// const selectedSpecies = Object.values(species)?.find(
-		// 	(speciesItem) => speciesItem.name === newPetForm.getValues("species"),
-		// );
 
 		// every species can have different size, sex and breed, so after every species changing we need to update sex, sixe and breed fields
 		if (selectedSpecies) {
@@ -227,7 +226,7 @@ const AddNewAnimalModal = ({
 		}
 	}, [speciesWatch]);
 
-	const mainPhotoChange = (file: File) => {
+	const mainPhotoChange = (file: File | undefined) => {
 		newPetForm.setValue("mainPhoto", file);
 	};
 

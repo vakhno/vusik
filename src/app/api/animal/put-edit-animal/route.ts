@@ -148,7 +148,7 @@ const uploadSecondaryPhotos = async (id: string, files: File[]): Promise<false |
 				formData.append("files[]", file);
 			});
 		} else {
-			formData.append("files[]", false);
+			formData.append("files[]", '');
 		}
 		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/s3/upload-multiple-image`, {
 			method: "POST",

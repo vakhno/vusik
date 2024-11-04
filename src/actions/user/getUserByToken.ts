@@ -5,9 +5,10 @@ import { cookies } from "next/headers";
 // actions
 import { getUserById } from "@/actions/user/getUserById";
 // types
-import { UserType } from "@/types/user.type";
+import { ProfileType } from "@/types/profile.type";
+import { Types } from "mongoose";
 
-type Result = UserType | null;
+type Result = ProfileType | null;
 
 export const getUserByToken = async (): Promise<Result> => {
 	try {
@@ -16,8 +17,8 @@ export const getUserByToken = async (): Promise<Result> => {
 
 		if (token) {
 			const { value } = token;
-
-			const result = await getUserById({ userId: value });
+			const userId = new Types.ObjectId(value);
+			const result = await getUserById({ userId: userId });
 
 			return result;
 		} else {

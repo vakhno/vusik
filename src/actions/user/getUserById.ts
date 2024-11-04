@@ -1,7 +1,7 @@
 "use server";
 
 // types
-import { UserType } from "@/types/user.type";
+import { ProfileType } from "@/types/profile.type";
 // mongoose
 import { Types } from "mongoose";
 
@@ -9,7 +9,7 @@ interface Props {
 	userId: Types.ObjectId;
 }
 
-type Result = UserType | null;
+type Result = ProfileType | null;
 
 export const getUserById = async ({ userId }: Props): Promise<Result> => {
 	try {
@@ -32,12 +32,10 @@ export const getUserById = async ({ userId }: Props): Promise<Result> => {
 				const { user } = data;
 
 				return user;
-			} else {
-				return null;
 			}
-		} else {
-			return null;
 		}
+
+		return null;
 	} catch (_) {
 		return null;
 	}

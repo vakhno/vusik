@@ -92,7 +92,7 @@ const Index = ({ userId, isEditable = false, shelters }: Props) => {
 		setIsCreateNewShelterActive(true);
 	};
 
-	const handleSuccessSubmitClick = async (fields) => {
+	const handleSuccessSubmitClick = async (fields: NewShelterSchemaType) => {
 		const preparedFormData = buildFormDataForNewShelter(fields);
 
 		const result = await createNewShelter(preparedFormData);
@@ -118,7 +118,7 @@ const Index = ({ userId, isEditable = false, shelters }: Props) => {
 					userId={userId}
 					isOpen={isCreateNewShelterActive}
 					setIsOpen={setIsCreateNewShelterActive}
-					handleSuccessSubmitClick={(fields) => handleSuccessSubmitClick(fields)}
+					handleSuccessSubmitClick={(fields: NewShelterSchemaType) => handleSuccessSubmitClick(fields)}
 				/>
 			) : null}
 			{isEditable ? (

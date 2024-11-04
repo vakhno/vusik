@@ -8,6 +8,7 @@ import { queryProfileMutation } from "@/queries/profile.query";
 import AnimalCardModal from "@/entities/animalCardModal";
 import { Types } from "mongoose";
 import { species } from "@/constants/species";
+
 const ACTIVE_DOMEN = process.env.NEXT_PUBLIC_ACTIVE_DOMEN;
 
 type Props = {
@@ -18,7 +19,6 @@ type Props = {
 };
 
 const AddNewAnimal = ({ isOpen = false, setIsOpen, shelters, userId }: Props) => {
-	// const species = useSpeciesStore((state) => state.species);
 	const profileMutation = queryProfileMutation({ userId });
 
 	const handleSuccessSubmitClick = async (fields: NewAnimalSchemaType) => {
@@ -47,7 +47,7 @@ const AddNewAnimal = ({ isOpen = false, setIsOpen, shelters, userId }: Props) =>
 		formData.append("age", String(age));
 		formData.append("sterilized", JSON.stringify(sterilized));
 		formData.append("injury", JSON.stringify(injury));
-		formData.append("injuryDescription", injuryDescription);
+		formData.append("injuryDescription", String(injuryDescription));
 
 		if (mainPhoto) {
 			formData.append("mainPhoto", mainPhoto);
@@ -75,6 +75,7 @@ const AddNewAnimal = ({ isOpen = false, setIsOpen, shelters, userId }: Props) =>
 	const handleCloseClick = () => {
 		setIsOpen(false);
 	};
+
 	return (
 		<AnimalCardModal
 			isOpen={isOpen}
@@ -85,7 +86,7 @@ const AddNewAnimal = ({ isOpen = false, setIsOpen, shelters, userId }: Props) =>
 			shelters={shelters}
 			handleSuccessSubmitClick={(value) => handleSuccessSubmitClick(value)}
 			handleCloseClick={handleCloseClick}
-			species={species || []}
+			species={species}
 		/>
 	);
 };

@@ -7,17 +7,17 @@ import { validateAnimalFilterKeysAndValues } from "@/utils/filter";
 import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
 import { animalsPerPage } from "@/constants/counts";
 
-export type SuccessResponse = {
+export type SuccessResult = {
 	success: true;
 	animals: AnimalType[];
 	isHasMore: boolean;
 };
 
-export type ErrorResponse = {
+export type ErrorResult = {
 	success: false;
 };
 
-export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
+export async function GET(req: Request): Promise<NextResponse<SuccessResult | ErrorResult>> {
 	try {
 		await mongoConnection();
 		const { searchParams: URLSearchParams } = new URL(req.url);

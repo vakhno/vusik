@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Form } from "@/components/ui/form";
 // form UI components
 import FormInput from "@/components/formUi/formInput";
+import { useTranslations } from "next-intl";
 
 type Props = {
 	modalTitle: string;
@@ -46,8 +47,9 @@ const EditProfileModal = ({
 	twitterValue,
 	youtubeValue,
 }: Props) => {
-	const newAnimalSchema = EditUserSchema();
-	const [defaultMainImage, setDefaultMainImage] = useState<File | null>(null);
+	const t = useTranslations();
+	const newAnimalSchema = EditUserSchema(t);
+	const [defaultMainImage, setDefaultMainImage] = useState<File | undefined>(undefined);
 	const mainPhotoUrlToFile = async (url: string): Promise<File | null> => {
 		try {
 			const response = await fetch(url);
@@ -103,7 +105,7 @@ const EditProfileModal = ({
 		})();
 	}, []);
 
-	const mainPhotoChange = (file: File) => {
+	const mainPhotoChange = (file: File | undefined) => {
 		newPetForm.setValue("avatar", file);
 	};
 
@@ -120,7 +122,6 @@ const EditProfileModal = ({
 							className="h-full w-full space-y-8 px-2"
 						>
 							<ImageUploading
-								// defaultPreviewImage={mainPhotoValue}
 								defaultFile={defaultMainImage}
 								onChange={mainPhotoChange}
 								className="m-auto h-96 max-h-full w-80 max-w-full"

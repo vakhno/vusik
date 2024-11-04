@@ -44,13 +44,13 @@ const ShelterSchema = new Schema<ShelterType>(
 		activeMembers: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				// ref: "Animal",
+				ref: "Animal",
 			},
 		],
 		adoptedMembers: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				// ref: "Animal",
+				ref: "Animal",
 			},
 		],
 		workingDays: {
@@ -143,7 +143,7 @@ const ShelterSchema = new Schema<ShelterType>(
 			type: String,
 			required: true,
 		},
-		userId: { type: String, required: true },
+		userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 		specificWeekends: [
 			{
 				month: {

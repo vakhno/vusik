@@ -6,11 +6,10 @@ import UserInfoBlock from "@/features/profile/userInfoBlock";
 import AnimalTab from "@/features/profile/animalTab";
 import ShelterTab from "@/features/profile/shelterTab";
 import { Types } from "mongoose";
-import { AnimalSearchSchemaType } from "@/schemas/animal/animalSearch.schema";
 
 type Props = {
 	userId: Types.ObjectId;
-	searchParams?: AnimalSearchSchemaType;
+	searchParams?: Record<string, string | string[]>;
 	isEditable?: boolean;
 };
 

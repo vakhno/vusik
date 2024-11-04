@@ -16,13 +16,13 @@ const AvatarUploading = ({ onChange, imagesCount, defaultFiles = [] }: Props) =>
 		}
 	}, [defaultFiles]);
 
-	const handleAvatarsClick = (index?: number) => {
-		if (typeof index === "number" && imageFiles[index]) {
-			const newFileAvatars = imageFiles.filter((_, i) => i !== index);
+	// const handleAvatarsClick = (index?: number) => {
+	// 	if (typeof index === "number" && imageFiles[index]) {
+	// 		const newFileAvatars = imageFiles.filter((_, i) => i !== index);
 
-			setImageFiles(newFileAvatars);
-		}
-	};
+	// 		setImageFiles(newFileAvatars);
+	// 	}
+	// };
 
 	const oldImageChange = (file: File | undefined, index: number) => {
 		const oldImageFiles = [...imageFiles];
@@ -39,10 +39,15 @@ const AvatarUploading = ({ onChange, imagesCount, defaultFiles = [] }: Props) =>
 		onChange(updateImageFiles);
 	};
 
-	const defaultImageUpload = (file: File) => {
-		const newImageFiles = [...imageFiles, file];
-		setImageFiles(newImageFiles);
-		onChange(newImageFiles);
+	const defaultImageUpload = (file: File | undefined) => {
+		if (file) {
+			const newImageFiles = [...imageFiles, file];
+			setImageFiles(newImageFiles);
+			onChange(newImageFiles);
+		} else {
+			setImageFiles([]);
+			onChange([]);
+		}
 	};
 	return (
 		<div>
@@ -53,7 +58,7 @@ const AvatarUploading = ({ onChange, imagesCount, defaultFiles = [] }: Props) =>
 								key={`${previewAvatar.lastModified}_${index}`} // Unique key using lastModified and index
 								defaultFile={previewAvatar}
 								onChange={(file) => oldImageChange(file, index)}
-								onRemove={() => handleAvatarsClick(index)}
+								// onRemove={() => handleAvatarsClick(index)}
 								className="group relative m-auto h-64 max-h-full w-52 max-w-full cursor-pointer border-2 border-slate-950 bg-slate-400"
 							/>
 						))

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable react/prop-types */
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useId, useState, useRef } from "react";
 import {
 	Command,
@@ -31,16 +30,16 @@ type Props = {
 const multiselect = ({ items = [] }: Props) => {
 	const multiselectId = useId();
 	const [open, setOpen] = useState(false);
-	const multiSelectListRef = useRef();
-	const multiSelectPopupRef = useRef();
-	const inputRef = useRef();
+	const multiSelectListRef = useRef<HTMLDivElement | null>(null);
+	const multiSelectPopupRef = useRef<HTMLDivElement | null>(null);
+	const inputRef = useRef<HTMLInputElement | null>(null);
 	useEffect(() => {
-		const handleClickOutside = (e) => {
+		const handleClickOutside = (e: Event) => {
 			if (
 				multiSelectListRef.current &&
-				!multiSelectListRef.current.contains(e.target) &&
+				!multiSelectListRef.current.contains(e.target as Node) &&
 				multiSelectPopupRef.current &&
-				!multiSelectPopupRef.current.contains(e.target)
+				!multiSelectPopupRef.current.contains(e.target as Node)
 			) {
 				setOpen(false);
 			}
@@ -83,7 +82,7 @@ const multiselect = ({ items = [] }: Props) => {
 								e.stopPropagation();
 
 								setOpen(true);
-								inputRef.current.focus();
+								inputRef.current?.focus();
 							}}
 						/>
 					</PopoverTrigger>

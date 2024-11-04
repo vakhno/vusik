@@ -1,41 +1,50 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
 import { SuccessResult, ErrorResult } from "@/app/api/animal/get-filter-options-for-all-animals/route";
+// routes
+import { API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS } from "@/routes";
 
 type Props = {
 	searchParams: Record<string, string | string[]>;
 };
 
+type QueryResult = Omit<SuccessResult, "success"> | null;
+
+type PrefetchResult = Omit<SuccessResult, "success"> | null;
+
 export const queryGetAllAnimalsFilter = ({ searchParams }: Props) => {
 	return useQuery({
 		queryKey: ["all-animals-filter", searchParams],
-		queryFn: async () => {
-			const urlSearchParams = urlSearchParamsBuilder(searchParams);
-			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/animal/get-filter-options-for-all-animals/?${urlSearchParams}`,
-				{
-					method: "GET",
-				},
-			);
+		queryFn: async (): Promise<QueryResult> => {
+			try {
+				const urlSearchParams = urlSearchParamsBuilder(searchParams);
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS}/?${urlSearchParams}`,
+					{
+						method: "GET",
+					},
+				);
 
-			const { ok } = response;
+				const { ok } = response;
 
-			if (ok) {
-				const data = await response.json();
-				const { success } = data as SuccessResult | ErrorResult;
+				if (ok) {
+					const data = await response.json();
+					const { success } = data as SuccessResult | ErrorResult;
 
-				if (success) {
-					const { availableOptions, selectedOptions } = data;
+					if (success) {
+						const { availableOptions, selectedOptions } = data;
 
-					return { availableOptions, selectedOptions };
+						return { availableOptions: availableOptions, selectedOptions: selectedOptions };
+					}
 				}
-			}
 
-			return {};
+				return null;
+			} catch (_) {
+				return null;
+			}
 		},
 	});
 };
@@ -45,30 +54,34 @@ export const queryPrefetchGetAllAnimalsFilter = async ({ searchParams }: Props) 
 
 	await queryClient.prefetchQuery({
 		queryKey: ["all-animals-filter", searchParams],
-		queryFn: async () => {
-			const urlSearchParams = urlSearchParamsBuilder(searchParams);
+		queryFn: async (): Promise<PrefetchResult> => {
+			try {
+				const urlSearchParams = urlSearchParamsBuilder(searchParams);
 
-			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/animal/get-filter-options-for-all-animals/?${urlSearchParams}`,
-				{
-					method: "GET",
-				},
-			);
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS}/?${urlSearchParams}`,
+					{
+						method: "GET",
+					},
+				);
 
-			const { ok } = response;
+				const { ok } = response;
 
-			if (ok) {
-				const data = await response.json();
-				const { success } = data as SuccessResult | ErrorResult;
+				if (ok) {
+					const data = await response.json();
+					const { success } = data as SuccessResult | ErrorResult;
 
-				if (success) {
-					const { availableOptions, selectedOptions } = data;
+					if (success) {
+						const { availableOptions, selectedOptions } = data;
 
-					return { availableOptions, selectedOptions };
+						return { availableOptions: availableOptions, selectedOptions: selectedOptions };
+					}
 				}
-			}
 
-			return {};
+				return null;
+			} catch (_) {
+				return null;
+			}
 		},
 	});
 

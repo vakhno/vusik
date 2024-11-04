@@ -24,6 +24,8 @@ import { species } from "@/constants/species";
 import { animalsPerPage } from "@/constants/counts";
 // skeleton componets
 import AnimalCardSkeleton from "@/components/skeleton/animalCardSkeleton";
+import { ShelterType } from "@/types/shelter.type";
+import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
 
 type Props = {
 	searchParams: Record<string, string | string[]>;
@@ -35,7 +37,7 @@ const Index = ({ searchParams }: Props) => {
 	// url search params
 	const [animalSearchParams, setAnimalSearchParams] = useState<Record<string, string | string[]>>(searchParams);
 	// list of displayed animals
-	const [animals, setAnimals] = useState([]);
+	const [animals, setAnimals] = useState<AnimalType[]>([]);
 	// list of filter full available options
 	const [animalFiltersOptionList, setAnimalFiltersOptionList] = useState<
 		Partial<Record<keyof AnimalSearchSchemaType, Option[]>>
@@ -74,9 +76,20 @@ const Index = ({ searchParams }: Props) => {
 		isFetchingNextPage,
 		refetch: dataAnimalsRefetch,
 	} = queryGetAllAnimals({ searchParams: animalSearchParams });
+	const handleAnimalLike = useLikedAnimalsStore((state) => state.handleAnimalLike);
+	const handleAnimalUnlike = useLikedAnimalsStore((state) => state.handleAnimalUnlike);
+
+	const animalLike = (likedAnimalId: string) => {
+		handleAnimalLike(likedAnimalId);
+	};
+
+	const animalUnlike = (unlikedAnimalId: string) => {
+		handleAnimalUnlike(unlikedAnimalId);
+	};
+
 	// list of animals memoizations
 	useMemo(() => {
-		const initialAnimals = dataAnimals?.pages.map((pages) => pages.animals).flat() ?? [];
+		const initialAnimals = dataAnimals?.pages.map((pages) => pages?.animals || []).flat() ?? [];
 
 		setAnimals(initialAnimals);
 	}, [dataAnimals]);
@@ -103,7 +116,7 @@ const Index = ({ searchParams }: Props) => {
 		} as Partial<Record<keyof AnimalSearchSchemaType, Option[]>>;
 
 		const { availableOptions, selectedOptions } = dataOptions as {
-			availableOptions: Record<keyof AnimalSearchSchemaType, string[] | boolean[]>;
+			availableOptions: Record<keyof AnimalSearchSchemaType, string[] | boolean[] | ShelterType[]>;
 			selectedOptions: Record<keyof AnimalSearchSchemaType, string[] | boolean[]>;
 		};
 		// filling selected options
@@ -136,7 +149,9 @@ const Index = ({ searchParams }: Props) => {
 				filterOptionsList.breed = value.map((speciesValue) => ({
 					heading: { label: speciesValue, value: speciesValue },
 					values: availableOptions.breed
-						.filter((breed) => species[speciesValue].breed.includes(breed))
+						.filter((breed) =>
+							species[speciesValue as keyof typeof species].breed.includes(breed as string),
+						)
 						.map((breed) => ({
 							label: breed,
 							value: breed,
@@ -155,7 +170,7 @@ const Index = ({ searchParams }: Props) => {
 					values: [{ label: ageValue, value: ageValue }],
 				})) as Option[];
 			} else if (key === "shelter") {
-				filterOptionsList.shelter = value.map((shelter) => ({
+				filterOptionsList.shelter = (value as ShelterType[]).map((shelter) => ({
 					values: [{ label: shelter.name, value: shelter._id }],
 				})) as Option[];
 			}
@@ -198,14 +213,14 @@ const Index = ({ searchParams }: Props) => {
 	return (
 		<div>
 			<AnimalSearch
-				defaultSpeciesListValue={animalFiltersDefaultOptions?.species || []}
-				defaultBreedListValue={animalFiltersDefaultOptions?.breed || []}
-				defaultSexListValue={animalFiltersDefaultOptions?.sex || []}
-				defaultAgeListValue={animalFiltersDefaultOptions?.age || []}
-				defaultSizeListValue={animalFiltersDefaultOptions?.size || []}
-				defaultShelterListValue={animalFiltersDefaultOptions?.shelter || []}
-				defaultInjuryValue={animalFiltersDefaultOptions?.injury || false}
-				defaultSterilizedValue={animalFiltersDefaultOptions?.sterilized || false}
+				defaultSpeciesListValue={(animalFiltersDefaultOptions?.species as string[]) || []}
+				defaultBreedListValue={(animalFiltersDefaultOptions?.breed as string[]) || []}
+				defaultSexListValue={(animalFiltersDefaultOptions?.sex as string[]) || []}
+				defaultAgeListValue={(animalFiltersDefaultOptions?.age as string[]) || []}
+				defaultSizeListValue={(animalFiltersDefaultOptions?.size as string[]) || []}
+				defaultShelterListValue={(animalFiltersDefaultOptions?.shelter as string[]) || []}
+				defaultInjuryValue={(animalFiltersDefaultOptions?.injury as boolean) || false}
+				defaultSterilizedValue={(animalFiltersDefaultOptions?.sterilized as boolean) || false}
 				speciesList={animalFiltersOptionList?.species || []}
 				breedList={animalFiltersOptionList?.breed || []}
 				sexList={animalFiltersOptionList?.sex || []}
@@ -221,7 +236,13 @@ const Index = ({ searchParams }: Props) => {
 							<div className="m-auto grid h-full w-full grid-cols-auto-fit-260-420 gap-4">
 								{animals.map((animal: AnimalType) => {
 									return (
-										<AnimalCard isEditable={false} key={animal._id.toString()} animal={animal} />
+										<AnimalCard
+											isEditable={false}
+											key={animal._id.toString()}
+											animal={animal}
+											handleLike={(updateLikedAnimals) => animalLike(updateLikedAnimals)}
+											handleUnlike={(updateLikedAnimals) => animalUnlike(updateLikedAnimals)}
+										/>
 									);
 								})}
 								{isFetchingNextPage || isPending ? (

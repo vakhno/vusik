@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo } from "react";
-// next tools
 // UI components
 import { Button } from "@/components/ui/button";
 // zod
@@ -22,6 +21,7 @@ import { animalsPerPage } from "@/constants/counts";
 
 import AnimalCardSkeleton from "@/components/skeleton/animalCardSkeleton";
 import { useTranslations } from "next-intl";
+import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
 
 type Props = {
 	isEditable?: boolean;
@@ -29,17 +29,6 @@ type Props = {
 	userId: Types.ObjectId;
 	searchParams?: Record<string, string | string[]>;
 };
-
-// const defaultFilterValues: AnimalSearchSchemaType = {
-// 	species: [],
-// 	breed: [],
-// 	sex: [],
-// 	age: [],
-// 	size: [],
-// 	shelter: [],
-// 	sterilized: false,
-// 	injury: false,
-// };
 
 const Index = ({ isEditable = false, shelters, userId, searchParams = {} }: Props) => {
 	const [isCreateNewPetActive, setIsCreateNewPetActive] = useState<boolean>(false);
@@ -61,10 +50,21 @@ const Index = ({ isEditable = false, shelters, userId, searchParams = {} }: Prop
 		refetch: dataAnimalsRefetch,
 	} = queryGetProfileAnimals({ searchParams: animalFilters, id: userId });
 
-	const [animals, setAnimals] = useState([]);
+	const [animals, setAnimals] = useState<AnimalType[]>([]);
+
+	const handleAnimalLike = useLikedAnimalsStore((state) => state.handleAnimalLike);
+	const handleAnimalUnlike = useLikedAnimalsStore((state) => state.handleAnimalUnlike);
+
+	const animalLike = (likedAnimalId: string) => {
+		handleAnimalLike(likedAnimalId);
+	};
+
+	const animalUnlike = (unlikedAnimalId: string) => {
+		handleAnimalUnlike(unlikedAnimalId);
+	};
 
 	useMemo(() => {
-		const initialAnimals = dataAnimals?.pages.map((pages) => pages.animals).flat() ?? [];
+		const initialAnimals = dataAnimals?.pages.map((pages) => pages?.animals || []).flat() ?? [];
 
 		setAnimals(initialAnimals);
 	}, [dataAnimals]);
@@ -105,7 +105,7 @@ const Index = ({ isEditable = false, shelters, userId, searchParams = {} }: Prop
 		if (!dataOptions) return initialState;
 
 		const { availableOptions, selectedOptions } = dataOptions as {
-			availableOptions: Record<keyof AnimalSearchSchemaType, string[] | boolean[]>;
+			availableOptions: Record<keyof AnimalSearchSchemaType, string[] | boolean[] | ShelterType[]>;
 			selectedOptions: Record<keyof AnimalSearchSchemaType, string[] | boolean[]>;
 		};
 		// Fill default values
@@ -128,39 +128,39 @@ const Index = ({ isEditable = false, shelters, userId, searchParams = {} }: Prop
 				initialState.defaultShelterList = value as string[];
 			}
 		});
-
 		// Create formatted option lists
 		Object.entries(availableOptions).forEach(([key, value]) => {
 			if (key === "species") {
 				initialState.speciesList = value.map((speciesValue) => ({
 					values: [{ label: speciesValue, value: speciesValue }],
-				}));
-
+				})) as Option[];
 				initialState.breedList = value.map((speciesValue) => ({
 					heading: { label: speciesValue, value: speciesValue },
 					values: availableOptions.breed
-						.filter((breed) => species[speciesValue].breed.includes(breed))
+						.filter((breed) =>
+							species[speciesValue as keyof typeof species].breed.includes(breed as string),
+						)
 						.map((breed) => ({
 							label: breed,
 							value: breed,
 						})),
-				}));
+				})) as Option[];
 			} else if (key === "size") {
 				initialState.sizeList = value.map((sizeValue) => ({
 					values: [{ label: sizeValue, value: sizeValue }],
-				}));
+				})) as Option[];
 			} else if (key === "sex") {
 				initialState.sexList = value.map((sexValue) => ({
 					values: [{ label: sexValue, value: sexValue }],
-				}));
+				})) as Option[];
 			} else if (key === "age") {
 				initialState.ageList = value.map((ageValue) => ({
 					values: [{ label: ageValue, value: ageValue }],
-				}));
+				})) as Option[];
 			} else if (key === "shelter") {
-				initialState.shelterList = value.map((shelter) => ({
+				initialState.shelterList = (value as ShelterType[]).map((shelter) => ({
 					values: [{ label: shelter.name, value: shelter._id }],
-				}));
+				})) as Option[];
 			}
 		});
 		return initialState;
@@ -239,7 +239,13 @@ const Index = ({ isEditable = false, shelters, userId, searchParams = {} }: Prop
 							<div className="m-auto grid h-full w-full grid-cols-auto-fit-260-420 gap-4">
 								{animals.map((animal: AnimalType) => {
 									return (
-										<AnimalCard isEditable={false} key={animal._id.toString()} animal={animal} />
+										<AnimalCard
+											handleLike={(updateLikedAnimals) => animalLike(updateLikedAnimals)}
+											handleUnlike={(updateLikedAnimals) => animalUnlike(updateLikedAnimals)}
+											isEditable={false}
+											key={animal._id.toString()}
+											animal={animal}
+										/>
 									);
 								})}
 								{isFetchingNextPage || isPending ? (

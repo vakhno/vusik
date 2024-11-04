@@ -25,6 +25,7 @@ import { Types } from "mongoose";
 import { ShelterType } from "@/types/shelter.type";
 import { Card, CardContent } from "@/components/ui/card";
 import FormSpecificDay from "@/components/formUi/formSpecificDay";
+import { useTranslations } from "next-intl";
 type Props = {
 	userId: Types.ObjectId;
 	isOpen: boolean;
@@ -133,7 +134,8 @@ const AddNewShelterModal = ({
 	workingDaysValue,
 	specificWeekendValue,
 }: Props) => {
-	const newShelterSchema = NewShelterSchema();
+	const t = useTranslations();
+	const newShelterSchema = NewShelterSchema(t);
 	const [isLocationAutoFill, setIsLocationAutoFill] = useState(false);
 
 	const [defaultMainImage, setDefaultMainImage] = useState<File | null>(null);
@@ -168,7 +170,7 @@ const AddNewShelterModal = ({
 		handleSuccessSubmitClick(fields);
 	};
 
-	const mainPhotoChange = (file: File) => {
+	const mainPhotoChange = (file: File | undefined) => {
 		newShelterForm.setValue("mainPhoto", file);
 	};
 
@@ -217,7 +219,6 @@ const AddNewShelterModal = ({
 		append({ month: "0", day: "0" });
 	};
 
-	console.log("fields", fields);
 	return (
 		<Dialog onOpenChange={setIsOpen} open={isOpen} modal defaultOpen={isOpen}>
 			<DialogContent className="h-full max-w-[720px]">

@@ -1,16 +1,18 @@
 // zod
 import * as z from "zod";
+// next-intl
+import { TranslationValues } from "next-intl";
 
-interface Props {
-	t: (key: string) => string;
-}
+type TFunction = (key: string, values?: TranslationValues) => string;
 
-const SignInSchema = ({ t }: Props) =>
-	z.object({
+export const SignInSchema = (t: TFunction) => {
+	return z.object({
 		email: z
 			.string()
 			.min(1, { message: t ? t("sign-in.schema-email-min") : "" })
 			.email({ message: t ? t("sign-in.schema-email-type") : "" }),
 		password: z.string().min(1, { message: t ? t("sign-in.schema-password-min") : "" }),
 	});
-export default SignInSchema;
+};
+
+export type SignInSchemaType = z.infer<ReturnType<typeof SignInSchema>>;

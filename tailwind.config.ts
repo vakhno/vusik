@@ -14,6 +14,10 @@ const config = {
 			},
 		},
 		extend: {
+			gridTemplateColumns: {
+				"auto-fit": "repeat(auto-fit)",
+				"auto-fit-260-420": "repeat(auto-fill, minmax(260px, 1fr))",
+			},
 			fontFamily: {
 				roboto: ["var(--font-roboto)", ...fontFamily.sans],
 				concert_one: ["var(--font-concert-one)", ...fontFamily.sans],

@@ -10,7 +10,7 @@ interface Props {
 
 const Header = ({ className }: Props) => {
 	return (
-		<header className={cn(className, "sticky top-0 h-20 w-full backdrop-blur-md")}>
+		<header className={cn(className, "sticky top-0 z-50 h-20 w-full backdrop-blur-md")}>
 			<div className="flex h-full w-full items-center justify-between px-4">
 				<HeaderLogo />
 				<HeaderContent />

@@ -5,18 +5,14 @@ import SignUpHeader from "@/features/sign-up/signUpHeader/index";
 // UI components
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
-interface Props {
-	withAvatarUploading?: boolean;
-}
-
-const SignUp = ({ withAvatarUploading = false }: Props) => {
+const SignUp = () => {
 	return (
 		<Card>
 			<CardHeader>
 				<SignUpHeader />
 			</CardHeader>
 			<CardContent>
-				<SignUpContent withAvatarUploading={withAvatarUploading} />
+				<SignUpContent />
 			</CardContent>
 			<CardFooter>
 				<SignUpFooter />

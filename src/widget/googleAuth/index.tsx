@@ -1,3 +1,4 @@
+"use client";
 // next tools
 import Link from "next/link";
 import Image from "next/image";
@@ -6,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 // libs
 import { cn } from "@/lib/utils";
 // actions
-import { getGoogleAuthUrl } from "@/actions/getGoogleAuthUrl";
+import { getGoogleAuthUrl } from "@/actions/auth/getGoogleAuthUrl";
 import { useTranslations } from "next-intl";
 
 interface Props {

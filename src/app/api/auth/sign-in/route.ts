@@ -1,5 +1,4 @@
-import * as z from "zod";
-import SignInSchema from "@/schemas/sign-in/sign-in.schema";
+import { SignInSchema, SignInSchemaType } from "@/schemas/sign-in/sign-in.schema";
 import { mongoConnection } from "@/lib/mongodb";
 import UserModel from "@/models/user.model";
 import bcrypt from "bcryptjs";
@@ -7,9 +6,8 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { UserType } from "@/types/user.type";
 import { NextResponse } from "next/server";
-import { VUSIK_LOCALE_COOKIE_KEY, defaultLocale } from "@/constants/locale";
 import { getTranslations } from "next-intl/server";
-
+import { getLocale } from "next-intl/server";
 export interface SuccessResponse {
 	success: true;
 	user: UserType;
@@ -17,18 +15,32 @@ export interface SuccessResponse {
 
 export interface ErrorResponse {
 	success: false;
+	error: string;
 }
+
+const getFormDataValue = (formData: FormData): SignInSchemaType => {
+	const data = {} as SignInSchemaType;
+
+	if (formData.has("email") && formData.get("email")) {
+		data.email = formData.get("email") as string;
+	}
+
+	if (formData.has("password") && formData.get("password")) {
+		data.password = formData.get("password") as string;
+	}
+
+	return data;
+};
 
 export async function POST(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	try {
 		await mongoConnection();
 
-		const cookie = cookies();
-		const locale = cookie.get(VUSIK_LOCALE_COOKIE_KEY)?.value || defaultLocale;
-		const t = await getTranslations({ locale });
-		const signInSchema = SignInSchema({ t });
 		const formData = await req.formData();
-		const data = Object.fromEntries(formData.entries()) as z.infer<typeof signInSchema>;
+		const locale = await getLocale();
+		const t = await getTranslations({ locale });
+		const signInSchema = SignInSchema(t);
+		const data = getFormDataValue(formData) as SignInSchemaType;
 		const validationResult = signInSchema.safeParse(data);
 		const { success: isValidationPassed } = validationResult;
 
@@ -57,6 +69,7 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 
 					cookies().set({
 						name: "token",
+						secure: true,
 						value: token,
 						maxAge: 3600,
 						httpOnly: true,
@@ -70,15 +83,18 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 						{ status: 200 },
 					);
 				} else {
-					return NextResponse.json({ success: false }, { status: 400 });
+					return NextResponse.json({ success: false, error: "Password is not valid" }, { status: 400 });
 				}
 			} else {
-				return NextResponse.json({ success: false }, { status: 400 });
+				return NextResponse.json({ success: false, error: "User is not exist yet" }, { status: 400 });
 			}
 		} else {
-			return NextResponse.json({ success: false }, { status: 400 });
+			const { errors } = validationResult.error;
+			const errorMessage = errors[0].message;
+
+			return NextResponse.json({ success: false, error: errorMessage }, { status: 400 });
 		}
 	} catch (_) {
-		return NextResponse.json({ success: false }, { status: 500 });
+		return NextResponse.json({ success: false, error: "Something went wrong" }, { status: 500 });
 	}
 }

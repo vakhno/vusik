@@ -9,7 +9,7 @@ const layout = ({ children }: Props) => {
 	return (
 		<div>
 			<Header />
-			{children}
+			<div className="m-auto max-w-[1400px]">{children}</div>
 		</div>
 	);
 };

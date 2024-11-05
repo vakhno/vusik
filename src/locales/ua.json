@@ -30,6 +30,20 @@
 		"description": "Знайди свого друга з нами"
 	},
 	"submit": "Підтвердити",
+	"search": "Пошук",
+	"loadMore": "Завантажити більше...",
+	"noAnimals": "Поки немає тварин",
+	"animal-search": {
+		"no-results-found": "Результати не знайдені",
+		"select-species": "Обрати вид",
+		"select-breed": "Обрати попроду",
+		"select-age": "Обрати вік",
+		"select-sex": "Обрати стать",
+		"select-size": "Обрати розмір",
+		"select-shelter": "Обрати притулок",
+		"sterilized": "Стерилізація",
+		"injury": "Травма"
+	},
 	"sign-in": {
 		"email-input-placeholder": "Електронна пошта...",
 		"email-input-label": "Електронна пошта",

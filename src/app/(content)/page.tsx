@@ -6,9 +6,11 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // queries
 import { queryPrefetchGetAllAnimals } from "@/queries/getAllAnimals.query";
 import { queryPrefetchGetAllAnimalsFilter } from "@/queries/getAllAnimalsFilter.query";
+// types
+import { SearchParamsType } from "@/types/searchParams.type";
 
 type Props = {
-	searchParams: Record<string, string | string[]>;
+	searchParams: SearchParamsType;
 };
 
 const Page = async ({ searchParams }: Props) => {

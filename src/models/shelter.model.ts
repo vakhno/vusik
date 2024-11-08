@@ -158,6 +158,6 @@ const ShelterSchema = new Schema<ShelterType>(
 	{ timestamps: true },
 );
 
-const ShelterModel = mongoose?.models?.Shelter || mongoose.model("Shelter", ShelterSchema);
+const ShelterModel = mongoose.models.Shelter || mongoose.model("Shelter", ShelterSchema);
 
 export default ShelterModel;

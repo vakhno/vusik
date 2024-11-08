@@ -22,17 +22,18 @@ import { animalsPerPage } from "@/constants/counts";
 import AnimalCardSkeleton from "@/components/skeleton/animalCardSkeleton";
 import { useTranslations } from "next-intl";
 import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
+import { SearchParamsType } from "@/types/searchParams.type";
 
 type Props = {
 	isEditable?: boolean;
 	shelters: ShelterType[];
 	userId: Types.ObjectId;
-	searchParams?: Record<string, string | string[]>;
+	searchParams?: SearchParamsType;
 };
 
 const Index = ({ isEditable = false, shelters, userId, searchParams = {} }: Props) => {
 	const [isCreateNewPetActive, setIsCreateNewPetActive] = useState<boolean>(false);
-	const [animalFilters, setAnimalFilters] = useState<Record<string, string | string[]>>(searchParams);
+	const [animalFilters, setAnimalFilters] = useState<SearchParamsType>(searchParams);
 	const t = useTranslations();
 	// queries
 	const { data: dataOptions, refetch: dataOptionRefetch } = queryGetProfileAnimalsFilter({

@@ -10,9 +10,11 @@ import { queryPrefetchProfile } from "@/queries/profile.query";
 import { getCookiesId } from "@/utils/cookies";
 import { queryPrefetchGetProfileAnimals } from "@/queries/getProfileAnimals";
 import { queryPrefetchGetProfileAnimalsFilter } from "@/queries/getProfileAnimalsFilter";
+// types
+import { SearchParamsType } from "@/types/searchParams.type";
 
 type Props = {
-	searchParams: Record<string, string | string[]>;
+	searchParams: SearchParamsType;
 };
 
 const page = async ({ searchParams }: Props) => {

@@ -6,10 +6,11 @@ import UserInfoBlock from "@/features/profile/userInfoBlock";
 import AnimalTab from "@/features/profile/animalTab";
 import ShelterTab from "@/features/profile/shelterTab";
 import { Types } from "mongoose";
+import { SearchParamsType } from "@/types/searchParams.type";
 
 type Props = {
 	userId: Types.ObjectId;
-	searchParams?: Record<string, string | string[]>;
+	searchParams?: SearchParamsType;
 	isEditable?: boolean;
 };
 

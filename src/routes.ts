@@ -36,6 +36,7 @@ export const API_GET_ANIMAL_BY_ID: string = "/api/animal/get-animal-by-id";
 export const API_NEW_GET_USER_ANIMALS_BY_ID: string = "/api/animal/get-user-animals-by-id";
 export const API_GET_ANIMALS_BY_PAGE: string = "/api/animal/get-animals-by-page";
 export const API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS: string = "/api/animal/get-filter-options-for-all-animals";
+export const API_GET_BY_USER_ID_ANIMALS_BY_PAGE: string = "/api/animal/get-by-user-id-animals-by-page";
 // SHELTER API
 export const API_NEW_SHELTER: string = "/api/shelter/new-shelter";
 export const API_NEW_GET_USER_SHELTERS_BY_ID: string = "/api/shelter/get-user-shelters-by-id";

@@ -13,6 +13,7 @@ import { queryGetAllAnimalsFilter, queryGetAllAnimalsFilterInvalidate } from "@/
 import AnimalSearch from "@/features/profile/animalTab/animalSearch";
 // types
 import { AnimalType } from "@/types/animal.type";
+import { SearchParamsType } from "@/types/searchParams.type";
 // next-intl
 import { useTranslations } from "next-intl";
 // schemas
@@ -28,14 +29,14 @@ import { ShelterType } from "@/types/shelter.type";
 import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
 
 type Props = {
-	searchParams: Record<string, string | string[]>;
+	searchParams: SearchParamsType;
 };
 
 const Index = ({ searchParams }: Props) => {
 	// translation
 	const t = useTranslations();
 	// url search params
-	const [animalSearchParams, setAnimalSearchParams] = useState<Record<string, string | string[]>>(searchParams);
+	const [animalSearchParams, setAnimalSearchParams] = useState<SearchParamsType>(searchParams);
 	// list of displayed animals
 	const [animals, setAnimals] = useState<AnimalType[]>([]);
 	// list of filter full available options

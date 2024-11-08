@@ -3,12 +3,16 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/animal/get-animals-by-page/route";
+import { SuccessResult, ErrorResult } from "@/app/api/animal/get-by-user-id-animals-by-page/route";
 import { AnimalType } from "@/types/animal.type";
 import { Types } from "mongoose";
+// types
+import { SearchParamsType } from "@/types/searchParams.type";
+// routes
+import { API_GET_BY_USER_ID_ANIMALS_BY_PAGE } from "@/routes";
 
 type Props = {
-	searchParams: Record<string, string | string[]>;
+	searchParams: SearchParamsType;
 	id: Types.ObjectId;
 };
 
@@ -24,7 +28,7 @@ export const queryGetProfileAnimals = ({ searchParams, id }: Props) => {
 				urlSearchParams.set("id", String(id));
 
 				const response = await fetch(
-					`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/animal/get-animals-by-page/?${urlSearchParams}`,
+					`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_BY_USER_ID_ANIMALS_BY_PAGE}/?${urlSearchParams}`,
 					{
 						method: "GET",
 					},

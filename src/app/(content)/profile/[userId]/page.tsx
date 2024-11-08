@@ -11,10 +11,12 @@ import { queryPrefetchGetProfileAnimals } from "@/queries/getProfileAnimals";
 import { queryPrefetchGetProfileAnimalsFilter } from "@/queries/getProfileAnimalsFilter";
 // mongoose
 import { Types } from "mongoose";
+// types
+import { SearchParamsType } from "@/types/searchParams.type";
 
 type Props = {
 	params: { userId: Types.ObjectId };
-	searchParams: Record<string, string | string[]>;
+	searchParams: SearchParamsType;
 };
 
 const page = async ({ params, searchParams }: Props) => {

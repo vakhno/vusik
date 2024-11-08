@@ -254,6 +254,8 @@ const Index = ({ isEditable, userId, animal, shelters, handleDelete, handleLike,
 								<div>
 									<span>{animal.sex}</span>
 									<span>{animal.age}</span>
+									<span>{animal.breed}</span>
+									<span>{animal.species}</span>
 								</div>
 							</div>
 							{likedAnimals.includes(animal._id.toString()) ? (

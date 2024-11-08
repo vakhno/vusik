@@ -6,9 +6,11 @@ import { urlSearchParamsBuilder } from "@/utils/searchParams";
 import { SuccessResult, ErrorResult } from "@/app/api/animal/get-filter-options-for-all-animals/route";
 // routes
 import { API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS } from "@/routes";
+// types
+import { SearchParamsType } from "@/types/searchParams.type";
 
 type Props = {
-	searchParams: Record<string, string | string[]>;
+	searchParams: SearchParamsType;
 };
 
 type QueryResult = Omit<SuccessResult, "success"> | null;

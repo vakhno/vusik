@@ -1,4 +1,5 @@
 import AnimalModel from "@/models/animal.model";
+import ShelterModel from "@/models/shelter.model";
 import { AnimalSearchSchemaType } from "@/schemas/animal/animalSearch.schema";
 import { NextResponse } from "next/server";
 import { validateAnimalFilterKeysAndValues, comparingAnimalFilterWithOptions } from "@/utils/filter";
@@ -52,9 +53,9 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResult | Er
 		let animals = [];
 
 		if (id && id[0]) {
-			animals = await AnimalModel.find({ userId: id[0] }).populate("shelterId");
+			animals = await AnimalModel.find({ userId: id[0] }).populate({ path: "shelterId", model: ShelterModel });
 		} else {
-			animals = await AnimalModel.find().populate("shelterId");
+			animals = await AnimalModel.find().populate({ path: "shelterId", model: ShelterModel });
 		}
 
 		const availableOptions = {

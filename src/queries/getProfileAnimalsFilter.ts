@@ -4,9 +4,11 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 import { SuccessResult, ErrorResult } from "@/app/api/animal/get-filter-options-for-all-animals/route";
 import { Types } from "mongoose";
+// types
+import { SearchParamsType } from "@/types/searchParams.type";
 
 type Props = {
-	searchParams: Record<string, string | string[]>;
+	searchParams: SearchParamsType;
 	id: Types.ObjectId;
 };
 

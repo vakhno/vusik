@@ -2,11 +2,11 @@ import { mongoConnection } from "@/lib/mongodb";
 // next tools
 import { NextResponse } from "next/server";
 // model
-import AnimalModel from "@/models/animal.model";
-import ShelterModel from "@/models/shelter.model";
+import AnimalModel from "@/entities/animal/model/model";
+import ShelterModel from "@/entities/shelter/model/model";
 // mongoose
-import UserModel from "@/models/user.model";
-import { ShelterType } from "@/types/shelter.type";
+import UserModel from "@/entities/profile/model/model";
+import { ShelterType } from "@/entities/shelter/model/type";
 
 export interface SuccessResponse {
 	success: true;

@@ -1,6 +1,7 @@
 import { mongoConnection } from "@/lib/mongodb";
-import ShelterModel from "@/models/shelter.model";
-import { NewShelterSchemaType, NewShelterSchema } from "@/schemas/shelter/shelter.schema";
+import ShelterModel from "@/entities/shelter/model/model";
+import { NewShelterSchema } from "@/entities/shelter/model/schema/newShelterForm";
+import { NewShelterSchemaType } from "@/entities/shelter/model/type/newShelterForm";
 import { getLocale, getTranslations } from "next-intl/server";
 import { NextResponse } from "next/server";
 import { shelterMainPhotoKeyName, shelterSecondaryPhotosKeyName } from "@/constants/s3";
@@ -19,13 +20,16 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 	if (formData.has("id") && formData.get("id")) {
 		data.id = formData.get("id") as string;
 	}
-
 	if (formData.has("name") && formData.get("name")) {
 		data.name = formData.get("name") as string;
 	}
 
 	if (formData.has("country") && formData.get("country")) {
 		data.country = formData.get("country") as string;
+	}
+
+	if (formData.has("state") && formData.get("state")) {
+		data.state = formData.get("state") as string;
 	}
 
 	if (formData.has("city") && formData.get("city")) {
@@ -36,16 +40,27 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 		data.street = formData.get("street") as string;
 	}
 
-	if (formData.has("coordinates") && formData.get("coordinates")) {
-		data.coordinates = JSON.parse(formData.get("coordinates") as string) as { lat: number; lng: number };
-	}
-
 	if (formData.has("postalCode") && formData.get("postalCode")) {
 		data.postalCode = formData.get("postalCode") as string;
 	}
 
 	if (formData.has("phone") && formData.get("phone")) {
 		data.phone = formData.get("phone") as string;
+	}
+
+	if (formData.has("coordinates") && formData.get("coordinates")) {
+		const coordinates = JSON.parse(formData.get("coordinates") as string);
+		if (coordinates?.lat && coordinates?.lng) {
+			data.coordinates = {
+				lat: coordinates.lat,
+				lng: coordinates.lng,
+			};
+		}
+	}
+
+	if (formData.has("workingDays") && formData.get("workingDays")) {
+		const workingDays = JSON.parse(formData.get("workingDays") as string);
+		data.workingDays = workingDays;
 	}
 
 	if (formData.has("mainPhoto") && formData.get("mainPhoto")) {
@@ -57,6 +72,14 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 
 		if (Array.isArray(secondaryPhotos) && secondaryPhotos.length) {
 			data.secondaryPhotos = secondaryPhotos;
+		}
+	}
+
+	if (formData.has("specificWeekends[]") && formData.get("specificWeekends[]")) {
+		const specificWeekends = formData.getAll("specificWeekends[]") as string[];
+
+		if (Array.isArray(specificWeekends) && specificWeekends.length) {
+			data.specificWeekends = specificWeekends.map((specificWeekend) => JSON.parse(specificWeekend));
 		}
 	}
 
@@ -202,8 +225,9 @@ export async function PUT(req: Request): Promise<NextResponse<SuccessResponse | 
 		const locale = await getLocale();
 		const t = await getTranslations({ locale });
 		const validationResult = NewShelterSchema(t).safeParse(data);
-		const { success: isValidationPassed } = validationResult;
+		const { success: isValidationPassed, error } = validationResult;
 
+		console.log("validationResult", error);
 		if (isValidationPassed) {
 			const { id, mainPhoto, secondaryPhotos, ...readyData } = data;
 			const updatedAnimal = new ShelterModel(readyData).toObject();

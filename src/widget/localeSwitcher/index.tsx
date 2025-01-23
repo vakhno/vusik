@@ -1,7 +1,7 @@
 "use client";
 // UI components
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/shared/ui/button";
+import { Separator } from "@/shared/ui/separator";
 // next-intl
 import { useTranslations, useLocale } from "next-intl";
 // actions

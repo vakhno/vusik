@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import UserModel from "@/models/user.model";
+import UserModel from "@/entities/profile/model/model";
 import { AuthUserTokenDataType } from "@/types/token.type";
-import { UserType } from "@/types/user.type";
+import { UserType } from "@/entities/profile/model/type";
 
 export interface SuccessResponse {
 	success: true;

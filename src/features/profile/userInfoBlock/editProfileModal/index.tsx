@@ -1,17 +1,18 @@
 // react
 import { useEffect, useState } from "react";
 // schemas
-import { EditUserSchema, EditUserSchemaType } from "@/schemas/user/userEdit.schema";
+import { EditUserSchemaType } from "@/entities/profile/model/type/editProfileForm";
+import { EditUserSchema } from "@/entities/profile/model/schema/editProfileForm";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ImageUploading from "@/components/shared/ImageUploading";
+import ImageUploading from "@/shared/shared/ImageUploading";
 // UI components
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
+import { Button } from "@/shared/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui/dialog";
+import { Form } from "@/shared/ui/form";
 // form UI components
-import FormInput from "@/components/formUi/formInput";
+import FormInput from "@/shared/formUi/formInput";
 import { useTranslations } from "next-intl";
 
 type Props = {

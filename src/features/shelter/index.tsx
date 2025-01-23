@@ -1,9 +1,10 @@
 "use client";
 
-import { queryShelter } from "@/queries/shelter.query";
+import { queryShelter } from "@/entities/shelter/model/query/shelterById";
+import { Types } from "mongoose";
 import Image from "next/image";
 
-type Props = { shelterId: string };
+type Props = { shelterId: Types.ObjectId };
 
 const Index = ({ shelterId }: Props) => {
 	const { data } = queryShelter({ shelterId: shelterId });

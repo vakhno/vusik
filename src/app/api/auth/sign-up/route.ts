@@ -1,7 +1,8 @@
-import { SignUpSchema, SignUpSchemaType } from "@/schemas/sign-up/sign-up.schema";
+import { SignUpSchema } from "@/features/auth/signUp/model/schema";
+import { SignUpSchemaType } from "@/features/auth/signUp/model/type";
 import { mongoConnection } from "@/lib/mongodb";
-import UserModel from "@/models/user.model";
-import { UserType } from "@/types/user.type";
+import UserModel from "@/entities/profile/model/model";
+import { UserType } from "@/entities/profile/model/type";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -67,17 +68,18 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 				});
 
 				if (newUser) {
-					const { _id: userId } = newUser;
+					const { _id: userId, role } = newUser;
 
 					await newUser.save();
 
 					const token = jwt.sign(
 						{
 							id: userId,
+							role: role,
 						},
 						process.env.JWT_SECRET || "",
 						{
-							expiresIn: "1h",
+							expiresIn: "6h",
 						},
 					);
 

@@ -1,7 +1,7 @@
 "use client";
 import { useRef, ReactNode } from "react";
 import UserSlice from "@/zustand/slice/user.slice";
-import { UserType } from "@/types/user.type";
+import { UserType } from "@/entities/profile/model/type";
 import UserContext from "@/zustand/context/user.context";
 
 type Props = {

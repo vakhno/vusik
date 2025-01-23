@@ -1,20 +1,20 @@
 import { mongoConnection } from "@/lib/mongodb";
-import UserModel from "@/models/user.model";
+import UserModel from "@/entities/profile/model/model";
+import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
 	try {
 		await mongoConnection();
 
-		const formData = await req.formData();
-		const data = Object.fromEntries(formData.entries());
-		const { userId } = data;
-		const user = await UserModel.findById(userId).populate("animals").populate("shelters");
+		const { searchParams: URLSearchParams } = new URL(req.url);
+		const searchParams = gettingValuesFromURLSearchParams(URLSearchParams);
+		const { id } = searchParams;
+		const user = await UserModel.findById(id);
+		// .populate("animals")
+		// .populate("shelters")
+		// .populate({ path: "articles", model: ArticleModel });
 
-		if (user) {
-			return Response.json({ success: true, user: user }, { status: 200 });
-		} else {
-			return Response.json({ success: true }, { status: 400 });
-		}
+		return Response.json({ success: true, user: user }, { status: 200 });
 	} catch (_) {
 		return Response.json({ success: false }, { status: 500 });
 	}

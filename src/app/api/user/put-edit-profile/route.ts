@@ -1,11 +1,11 @@
 import { mongoConnection } from "@/lib/mongodb";
-import UserModel from "@/models/user.model";
+import UserModel from "@/entities/profile/model/model";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { AuthUserTokenDataType } from "@/types/token.type";
 import { userAvatarPhotoKeyName } from "@/constants/s3";
-import { EditUserSchemaType } from "@/schemas/user/userEdit.schema";
+import { EditUserSchemaType } from "@/entities/profile/model/type/editProfileForm";
 
 export interface SuccessResponse {
 	success: true;

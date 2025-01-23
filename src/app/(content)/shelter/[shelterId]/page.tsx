@@ -5,10 +5,11 @@ import Shelter from "@/features/shelter";
 // tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // mongoose
-import { queryPrefetchShelter } from "@/queries/shelter.query";
+import { queryPrefetchShelter } from "@/entities/shelter/model/query/shelterById";
+import { Types } from "mongoose";
 
 type Props = {
-	params: { shelterId: string };
+	params: { shelterId: Types.ObjectId };
 };
 
 const Page = async ({ params }: Props) => {

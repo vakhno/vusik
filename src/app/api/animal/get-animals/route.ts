@@ -1,8 +1,8 @@
 import { mongoConnection } from "@/lib/mongodb";
-import AnimalModel from "@/models/animal.model";
-import { AnimalType } from "@/types/animal.type";
+import AnimalModel from "@/entities/animal/model/model";
+import { AnimalType } from "@/entities/animal/model/type";
 import { NextResponse } from "next/server";
-import { AnimalSearchSchemaType } from "@/schemas/animal/animalSearch.schema";
+import { AnimalSearchSchemaType } from "@/features/animal/searchAnimal/model/type";
 import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
 type SuccessResponse = {
 	success: true;

@@ -1,14 +1,12 @@
-"use server";
-
 // features
 import Animal from "@/features/animal";
 // tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // mongoose
-import { queryPrefetchAnimal } from "@/queries/animal.query";
-
+import { queryPrefetchAnimal } from "@/entities/animal/model/query/animalById";
+import { Types } from "mongoose";
 type Props = {
-	params: { animalId: string };
+	params: { animalId: Types.ObjectId };
 };
 
 const Page = async ({ params }: Props) => {
@@ -20,7 +18,9 @@ const Page = async ({ params }: Props) => {
 
 		return (
 			<HydrationBoundary state={dehydrate(queryAnimal)}>
-				<Animal animalId={animalId} />
+				<div className="w-full">
+					<Animal animalId={animalId} />
+				</div>
 			</HydrationBoundary>
 		);
 	} else {

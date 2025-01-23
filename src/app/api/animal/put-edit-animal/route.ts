@@ -1,6 +1,7 @@
 import { mongoConnection } from "@/lib/mongodb";
-import AnimalModel from "@/models/animal.model";
-import { NewAnimalSchema, NewAnimalSchemaType } from "@/schemas/animal/animal.schema";
+import AnimalModel from "@/entities/animal/model/model";
+import NewAnimalSchema from "@/entities/animal/model/schema/newAnimalForm";
+import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
 import { NextResponse } from "next/server";
 import { animalMainPhotoKeyName, animalSecondaryPhotosKeyName } from "@/constants/s3";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -148,7 +149,7 @@ const uploadSecondaryPhotos = async (id: string, files: File[]): Promise<false |
 				formData.append("files[]", file);
 			});
 		} else {
-			formData.append("files[]", '');
+			formData.append("files[]", "");
 		}
 		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/s3/upload-multiple-image`, {
 			method: "POST",

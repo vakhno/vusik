@@ -5,7 +5,7 @@ interface Props {
 }
 
 const layout = ({ children }: Props) => {
-	return <div className="flex h-full items-center justify-center">{children}</div>;
+	return <div className="flex h-[100vh] items-center justify-center">{children}</div>;
 };
 
 export default layout;

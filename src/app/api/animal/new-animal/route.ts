@@ -1,14 +1,15 @@
 import { mongoConnection } from "@/lib/mongodb";
-import UserModel from "@/models/user.model";
+import UserModel from "@/entities/profile/model/model";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { getTranslations } from "next-intl/server";
-import { NewAnimalSchema, NewAnimalSchemaType } from "@/schemas/animal/animal.schema";
+import NewAnimalSchema from "@/entities/animal/model/schema/newAnimalForm";
+import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
 import { AuthUserTokenDataType } from "@/types/token.type";
 import { animalMainPhotoKeyName, animalSecondaryPhotosKeyName } from "@/constants/s3";
-import AnimalModel from "@/models/animal.model";
-import ShelterModel from "@/models/shelter.model";
+import AnimalModel from "@/entities/animal/model/model";
+import ShelterModel from "@/entities/shelter/model/model";
 import { getLocale } from "next-intl/server";
 
 export interface SuccessResponse {

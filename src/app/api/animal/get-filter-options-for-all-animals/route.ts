@@ -1,10 +1,11 @@
-import AnimalModel from "@/models/animal.model";
-import { AnimalSearchSchemaType } from "@/schemas/animal/animalSearch.schema";
+import AnimalModel from "@/entities/animal/model/model";
+import ShelterModel from "@/entities/shelter/model/model";
+import { AnimalSearchSchemaType } from "@/features/animal/searchAnimal/model/type";
 import { NextResponse } from "next/server";
 import { validateAnimalFilterKeysAndValues, comparingAnimalFilterWithOptions } from "@/utils/filter";
 import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
-import { AnimalType } from "@/types/animal.type";
-import { Types } from "mongoose";
+import { AnimalType } from "@/entities/animal/model/type";
+import { ShelterType } from "@/entities/shelter/model/type";
 
 export type SuccessResult = {
 	success: true;
@@ -33,13 +34,16 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResult | Er
 		const availableInjuryIdOptions = await AnimalModel.distinct("injury");
 		const availableSterilizedIdOptions = await AnimalModel.distinct("sterilized");
 
+		const availableStateOptions = await ShelterModel.distinct("state");
+
 		const allOptions = {
 			age: availableAgeOptions,
 			sex: availableSexOptions,
 			size: availableSizeOptions,
 			breed: availableBreedOptions,
 			species: availableSpeciesOptions,
-			shelter: availableShelterIdOptions,
+			state: availableStateOptions,
+			shelterId: availableShelterIdOptions,
 			injury: availableInjuryIdOptions,
 			sterilized: availableSterilizedIdOptions,
 		} as Record<keyof AnimalSearchSchemaType, string[] | boolean[]>;
@@ -48,24 +52,36 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResult | Er
 			options: allOptions,
 			values: validatedAnimalFilterKeysAndValues,
 		});
-
+		console.log("selectedOptions", allOptions, validatedAnimalFilterKeysAndValues);
 		let animals = [];
 
 		if (id && id[0]) {
-			animals = await AnimalModel.find({ userId: id[0] }).populate("shelterId");
+			animals = await AnimalModel.find({ userId: id[0] }).populate({ path: "shelterId", model: ShelterModel });
 		} else {
-			animals = await AnimalModel.find().populate("shelterId");
+			animals = await AnimalModel.find().populate({ path: "shelterId", model: ShelterModel });
 		}
 
 		const availableOptions = {
 			age: Array.from(new Set(animals.map((animal: AnimalType) => animal.age))),
 			sex: Array.from(new Set(animals.map((animal: AnimalType) => animal.sex))),
 			size: Array.from(new Set(animals.map((animal: AnimalType) => animal.size))),
+			state: animals.reduce((allStates: string[], animal: AnimalType & { shelterId: ShelterType }) => {
+				const shelter = animal.shelterId;
+				if (shelter && shelter.state && !allStates.includes(shelter.state)) {
+					allStates.push(shelter.state);
+				}
+				return allStates;
+			}, []),
 			breed: Array.from(new Set(animals.map((animal: AnimalType) => animal.breed))),
 			species: Array.from(new Set(animals.map((animal: AnimalType) => animal.species))),
-			shelter: animals.reduce((allShelters: Types.ObjectId[], animal: AnimalType) => {
+			shelterId: animals.reduce((allShelters: ShelterType[], animal: AnimalType & { shelterId: ShelterType }) => {
+				// const shelter = animal.shelterId as ShelterType;
+				// if (shelter && shelter._id && !allShelters.includes(shelter._id)) {
+				// 	allShelters.push(shelter._id);
+				// }
+				// return allShelters;
 				const ifExists = allShelters.some(
-					(existShelter: Types.ObjectId) => existShelter._id === animal.shelterId._id,
+					(existShelter: ShelterType) => existShelter._id === animal.shelterId._id,
 				);
 				if (!ifExists) {
 					allShelters.push(animal.shelterId);

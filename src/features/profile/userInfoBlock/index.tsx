@@ -1,13 +1,13 @@
-import TextWithClipboardCopy from "@/components/shared/TextWithClipboardCopy";
+import TextWithClipboardCopy from "@/shared/shared/TextWithClipboardCopy";
 import Link from "next/link";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/shared/ui/avatar";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import EditProfileModal from "./editProfileModal";
 import { useState } from "react";
-import { EditUserSchemaType } from "@/schemas/user/userEdit.schema";
+import { EditUserSchemaType } from "@/entities/profile/model/type/editProfileForm";
 import { Types } from "mongoose";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/shared/ui/use-toast";
 
 type Props = {
 	id: Types.ObjectId;
@@ -114,7 +114,7 @@ const Index = ({
 					/>
 				) : null
 			) : null}
-			<Avatar className="h-200 w-200 group relative m-auto">
+			<Avatar className="group relative m-auto h-60 w-60">
 				{avatar ? (
 					<AvatarImage src={avatar} referrerPolicy="no-referrer" />
 				) : (

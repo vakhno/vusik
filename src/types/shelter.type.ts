@@ -7,6 +7,7 @@ export type ShelterType = {
 	mainPhoto: string;
 	secondaryPhotos: string[];
 	country: string;
+	state: string;
 	city: string;
 	street: string;
 	coordinates: {

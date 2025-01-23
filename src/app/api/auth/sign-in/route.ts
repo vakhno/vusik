@@ -1,13 +1,15 @@
-import { SignInSchema, SignInSchemaType } from "@/schemas/sign-in/sign-in.schema";
+import { SignInSchema } from "@/features/auth/signIn/model/schema";
+import { SignInSchemaType } from "@/features/auth/signIn/model/type";
 import { mongoConnection } from "@/lib/mongodb";
-import UserModel from "@/models/user.model";
+import UserModel from "@/entities/profile/model/model";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import { UserType } from "@/types/user.type";
+import { UserType } from "@/entities/profile/model/type";
 import { NextResponse } from "next/server";
 import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
+
 export interface SuccessResponse {
 	success: true;
 	user: UserType;
@@ -60,10 +62,11 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 					const token = jwt.sign(
 						{
 							id: userWithoutPassword._id,
+							role: userWithoutPassword.role,
 						},
 						process.env.JWT_SECRET || "",
 						{
-							expiresIn: "1h",
+							expiresIn: "6h",
 						},
 					);
 

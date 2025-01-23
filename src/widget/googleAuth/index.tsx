@@ -1,31 +1,30 @@
 "use client";
 // next tools
-import Link from "next/link";
 import Image from "next/image";
-// UI components
-import { buttonVariants } from "@/components/ui/button";
+// components
+import { Button, buttonVariants } from "@/shared/ui/button";
 // libs
 import { cn } from "@/lib/utils";
 // actions
-import { getGoogleAuthUrl } from "@/actions/auth/getGoogleAuthUrl";
 import { useTranslations } from "next-intl";
+// routes
+import { GOOGLE_AUTH_ROUTE } from "@/routes";
 
 interface Props {
 	className?: string;
-	successRedirection: string;
-	errorRedirection: string;
 }
 
-const GoogleAuth = ({ className = "", successRedirection = "", errorRedirection = "" }: Props) => {
+const GoogleAuth = ({ className = "" }: Props) => {
 	const t = useTranslations();
 
+	const handleGoogleAuth = async () => {
+		window.location.href = `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${GOOGLE_AUTH_ROUTE}`;
+	};
+
 	return (
-		<Link
+		<Button
 			className={cn(buttonVariants({ variant: "default" }), "flex w-full justify-center gap-2", className)}
-			href={getGoogleAuthUrl({
-				successRedirection,
-				errorRedirection,
-			})}
+			onClick={handleGoogleAuth}
 		>
 			<Image
 				width={26}
@@ -35,7 +34,7 @@ const GoogleAuth = ({ className = "", successRedirection = "", errorRedirection 
 				className="brightness-0 invert dark:invert-0"
 			/>
 			<span>{t("auth.google")}</span>
-		</Link>
+		</Button>
 	);
 };
 

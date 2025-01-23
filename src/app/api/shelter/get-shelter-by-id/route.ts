@@ -1,6 +1,6 @@
 import { mongoConnection } from "@/lib/mongodb";
-import ShelterModel from "@/models/shelter.model";
-import { ShelterType } from "@/types/shelter.type";
+import ShelterModel from "@/entities/shelter/model/model";
+import { ShelterType } from "@/entities/shelter/model/type";
 import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
 import { NextResponse } from "next/server";
 

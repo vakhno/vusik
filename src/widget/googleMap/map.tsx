@@ -1,44 +1,44 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { GoogleMap, Marker } from "@react-google-maps/api";
-import { useState } from "react";
+import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
+import { useEffect, useState } from "react";
 import { defaultMarkerCoordiates } from "@/constants/googleMap";
 
-type markerCoordinates = {
+export type MarkerCoordinates = {
 	lat: number;
 	lng: number;
 };
 
-type markerAdress = {
+type MarkerAddress = {
 	country: string;
+	state: string;
 	city: string;
 	street: string;
 	streetNumber: string;
 };
 
-type markerPostalCode = string;
+type MarkerPostalCode = string;
 
-export type markerInfo = {
-	coordinates: markerCoordinates;
-	adress: markerAdress;
-	postalCode: markerPostalCode;
+export type MarkerInfo = {
+	coordinates: MarkerCoordinates;
+	address: MarkerAddress;
+	postalCode: MarkerPostalCode;
 };
 
 type Props = {
 	className?: string;
-	isMarker?: boolean;
 	isMarkerDraggable?: boolean;
-	markerCoordinates?: markerCoordinates;
-	centerCoordinates?: markerCoordinates;
-	markerPositionChange?: (value: markerInfo) => void;
+	markerCoordinates?: MarkerCoordinates[];
+	centerCoordinates?: MarkerCoordinates;
+	markerPositionChange?: (value: MarkerInfo, index: number) => void;
 };
 
 // default styling
 const defaultMapContainerStyle = {
 	width: "100%",
 	height: "100%",
-	borderRadius: "15px 0px 0px 15px",
+	borderRadius: "15px",
 };
 
 // default map coordinates
@@ -57,58 +57,57 @@ const defaultMapOptions = {
 
 const MapComponent = ({
 	className,
-	markerCoordinates,
+	markerCoordinates = [],
 	centerCoordinates,
-	isMarker = false,
 	isMarkerDraggable = false,
 	markerPositionChange,
 }: Props) => {
-	const [markerPosition, setMarkerPosition] = useState(markerCoordinates || defaultMapCenter);
+	const [markerPositions, setMarkerPositions] = useState<MarkerCoordinates[]>(markerCoordinates);
+	const [hoveredMarkerIndex, setHoveredMarkerIndex] = useState<number | null>(null);
+
+	useEffect(() => {
+		setMarkerPositions(markerCoordinates);
+	}, [markerCoordinates]);
+
 	const geocoder = new google.maps.Geocoder();
 
-	const handleMarkerDragEnd = async (event: google.maps.MapMouseEvent) => {
+	const handleMarkerDragEnd = async (event: google.maps.MapMouseEvent, index: number) => {
 		const newLat = event?.latLng?.lat();
 		const newLng = event?.latLng?.lng();
-		const newPosition = { lat: newLat, lng: newLng } as markerCoordinates;
-		const newAdress = {
+
+		if (newLat == null || newLng == null) return;
+
+		const newPosition = { lat: newLat, lng: newLng };
+		const updatedMarkerPositions = [...markerPositions];
+		updatedMarkerPositions[index] = newPosition;
+		setMarkerPositions(updatedMarkerPositions);
+
+		const newAddress = {
 			country: "",
+			state: "",
 			city: "",
 			street: "",
 			streetNumber: "",
-		} as markerAdress;
-		let newPostalCode = "" as markerPostalCode;
+		} as MarkerAddress;
+		let newPostalCode = "" as MarkerPostalCode;
 
-		setMarkerPosition(newPosition);
-
-		// fetching address using the Geocoding API
+		// Fetching address using the Geocoding API
 		await geocoder.geocode({ location: newPosition }, (results, status) => {
-			if (status === "OK") {
-				if (results) {
-					results[0].address_components.forEach((adress) => {
-						if (adress.types.includes("country")) {
-							newAdress.country = adress.long_name;
-						}
-						if (adress.types.includes("locality")) {
-							newAdress.city = adress.long_name;
-						}
-						if (adress.types.includes("route")) {
-							newAdress.street = adress.long_name;
-						}
-						if (adress.types.includes("street_number")) {
-							newAdress.streetNumber = adress.long_name;
-						}
-						if (adress.types.includes("postal_code")) {
-							newPostalCode = adress.long_name;
-						}
-					});
-				}
+			if (status === "OK" && results) {
+				results[0].address_components.forEach((address) => {
+					if (address.types.includes("country")) newAddress.country = address.long_name;
+					if (address.types.includes("locality")) newAddress.city = address.long_name;
+					if (address.types.includes("route")) newAddress.street = address.long_name;
+					if (address.types.includes("street_number")) newAddress.streetNumber = address.long_name;
+					if (address.types.includes("administrative_area_level_1")) newAddress.state = address.long_name;
+					if (address.types.includes("postal_code")) newPostalCode = address.long_name;
+				});
 			}
 		});
 
 		markerPositionChange &&
-			markerPositionChange({ coordinates: newPosition, adress: newAdress, postalCode: newPostalCode });
+			markerPositionChange({ coordinates: newPosition, address: newAddress, postalCode: newPostalCode }, index);
 	};
-
 	return (
 		<div className={cn(className, "h-full w-full")}>
 			<GoogleMap
@@ -117,9 +116,26 @@ const MapComponent = ({
 				zoom={defaultMapZoom}
 				options={defaultMapOptions}
 			>
-				{isMarker ? (
-					<Marker position={markerPosition} draggable={isMarkerDraggable} onDragEnd={handleMarkerDragEnd} />
-				) : null}
+				{markerPositions.map((position, index) => (
+					<Marker
+						key={index}
+						position={position}
+						draggable={isMarkerDraggable}
+						onDragEnd={(event) => handleMarkerDragEnd(event, index)}
+						onMouseOver={() => setHoveredMarkerIndex(index)} // Show InfoWindow on hover
+						onMouseOut={() => setHoveredMarkerIndex(null)} // Hide InfoWindow on mouse out
+					>
+						{hoveredMarkerIndex === index && (
+							<InfoWindow position={position}>
+								<div>
+									<p>Coordinates:</p>
+									<p>Lat: {position.lat}</p>
+									<p>Lng: {position.lng}</p>
+								</div>
+							</InfoWindow>
+						)}
+					</Marker>
+				))}
 			</GoogleMap>
 		</div>
 	);

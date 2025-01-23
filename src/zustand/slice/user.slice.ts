@@ -1,6 +1,6 @@
 import { createStore } from "zustand";
 import { devtools } from "zustand/middleware";
-import { UserType } from "@/types/user.type";
+import { UserType } from "@/entities/profile/model/type";
 
 export interface UserState {
 	user: UserType | null;

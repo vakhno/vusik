@@ -1,12 +1,13 @@
 import { mongoConnection } from "@/lib/mongodb";
-import UserModel from "@/models/user.model";
+import UserModel from "@/entities/profile/model/model";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { NewShelterSchema, NewShelterSchemaType } from "@/schemas/shelter/shelter.schema";
+import { NewShelterSchema } from "@/entities/shelter/model/schema/newShelterForm";
+import { NewShelterSchemaType } from "@/entities/shelter/model/type/newShelterForm";
 import { AuthUserTokenDataType } from "@/types/token.type";
 import { shelterMainPhotoKeyName, shelterSecondaryPhotosKeyName } from "@/constants/s3";
-import ShelterModel from "@/models/shelter.model";
+import ShelterModel from "@/entities/shelter/model/model";
 import { getLocale, getTranslations } from "next-intl/server";
 
 export interface SuccessResponse {
@@ -26,6 +27,10 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 
 	if (formData.has("country") && formData.get("country")) {
 		data.country = formData.get("country") as string;
+	}
+
+	if (formData.has("state") && formData.get("state")) {
+		data.state = formData.get("state") as string;
 	}
 
 	if (formData.has("city") && formData.get("city")) {
@@ -78,7 +83,7 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 			data.specificWeekends = specificWeekends.map((specificWeekend) => JSON.parse(specificWeekend));
 		}
 	}
-	
+
 	return data;
 };
 

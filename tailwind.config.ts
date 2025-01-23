@@ -16,7 +16,7 @@ const config = {
 		extend: {
 			gridTemplateColumns: {
 				"auto-fit": "repeat(auto-fit)",
-				"auto-fit-260-420": "repeat(auto-fill, minmax(260px, 1fr))",
+				"auto-fit-260-1fr": "repeat(auto-fill, minmax(420px, 1fr))",
 			},
 			fontFamily: {
 				roboto: ["var(--font-roboto)", ...fontFamily.sans],
@@ -56,6 +56,16 @@ const config = {
 					DEFAULT: "var(--card)",
 					foreground: "var(--card-foreground)",
 				},
+				sidebar: {
+					DEFAULT: "hsl(var(--sidebar-background))",
+					foreground: "hsl(var(--sidebar-foreground))",
+					primary: "hsl(var(--sidebar-primary))",
+					"primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+					accent: "hsl(var(--sidebar-accent))",
+					"accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+					border: "hsl(var(--sidebar-border))",
+					ring: "hsl(var(--sidebar-ring))",
+				},
 			},
 			borderRadius: {
 				lg: "var(--radius)",
@@ -64,7 +74,9 @@ const config = {
 			},
 			keyframes: {
 				"accordion-down": {
-					from: { height: "0" },
+					from: {
+						height: "0",
+					},
 					to: {
 						height: "var(--radix-accordion-content-height)",
 					},
@@ -73,7 +85,9 @@ const config = {
 					from: {
 						height: "var(--radix-accordion-content-height)",
 					},
-					to: { height: "0" },
+					to: {
+						height: "0",
+					},
 				},
 			},
 			animation: {

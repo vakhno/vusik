@@ -1,6 +1,6 @@
 import { mongoConnection } from "@/lib/mongodb";
-import UserModel from "@/models/user.model";
-import { UserType } from "@/types/user.type";
+import UserModel from "@/entities/profile/model/model";
+import { UserType } from "@/entities/profile/model/type";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -10,7 +10,6 @@ export async function GET(req: Request) {
 	const { searchParams } = new URL(req.url);
 	const state = searchParams.get("state");
 	const [successRedirection, errorRedirection] = state?.split(" ") as string[];
-
 	try {
 		await mongoConnection();
 
@@ -63,10 +62,11 @@ export async function GET(req: Request) {
 		const token = jwt.sign(
 			{
 				id: user._id,
+				role: user.role,
 			},
 			process.env.JWT_SECRET || "",
 			{
-				expiresIn: "1h",
+				expiresIn: "6h",
 			},
 		);
 

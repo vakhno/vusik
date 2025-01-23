@@ -1,7 +1,55 @@
 {
+	"symbols": {
+		"copyright": "©"
+	},
+	"general": {
+		"site-name": "VUSIK",
+		"creator": "Stanislav Vakhno"
+	},
 	"metadata": {
-		"title": "VUSIK",
-		"description": "Platform connects you with local animal shelters to find and adopt pets"
+		"home": {
+			"title": "VUSIK - HOME",
+			"description": "Platform connects you with local animal shelters to find and adopt pets",
+			"openGraph": {
+				"title": "VUSIK - find your friend with us",
+				"image": {
+					"alt": "Vusik - platform connects you with local animal shelters to find and adopt pets"
+				}
+			},
+			"twitter": {
+				"title": "VUSIK - find your friend with us",
+				"description": "Platform connects you with local animal shelters to find and adopt pets"
+			},
+			"keywords": "shelter, animal shelter, pet adoption, adopt a dog, rescue dogs, adopt a cat, rescue cats, find animal shelter, find animal shelter near me"
+		},
+		"sign-in": {
+			"title": "VUSIK - SIGN-IN",
+			"description": "SIGN-IN - to continue to help animals",
+			"openGraph": {
+				"title": "VUSIK - find your friend with us",
+				"image": {
+					"alt": "Vusik - platform connects you with local animal shelters to find and adopt pets"
+				}
+			},
+			"twitter": {
+				"title": "VUSIK - find your friend with us",
+				"description": "Platform connects you with local animal shelters to find and adopt pets"
+			}
+		},
+		"sign-up": {
+			"title": "VUSIK - SIGN-UP",
+			"description": "SIGN-UP - to help animals",
+			"openGraph": {
+				"title": "VUSIK - find your friend with us",
+				"image": {
+					"alt": "Vusik - platform connects you with local animal shelters to find and adopt pets"
+				}
+			},
+			"twitter": {
+				"title": "VUSIK - find your friend with us",
+				"description": "Platform connects you with local animal shelters to find and adopt pets"
+			}
+		}
 	},
 	"auth": {
 		"sign-in-label": "Sign in",
@@ -13,7 +61,7 @@
 	},
 	"locales": {
 		"en": "EN",
-		"ua": "UA"
+		"uk": "UA"
 	},
 	"avatar": {
 		"custom-avatar-alt-label": "custom profile avatar",
@@ -40,6 +88,7 @@
 		"select-age": "Select age",
 		"select-sex": "Select sex",
 		"select-size": "Select size",
+		"select-state": "Select state",
 		"select-shelter": "Select shelter",
 		"sterilized": "Sterilization",
 		"injury": "Injury"
@@ -49,10 +98,8 @@
 		"email-input-label": "Email",
 		"password-input-placeholder": "Password...",
 		"password-input-label": "Password",
-		"dont-have-an-account": "I don`t have an account!",
-		"dont-have-an-account-redirection": "Sign up!",
-		"agree-with-terms-of-use": "By sign in, you agree to our",
-		"terms-of-use": "terms of use",
+		"dont-have-an-account": "I don`t have an account! <signUp>Sign up!</signUp>",
+		"sign-in-agreement": "By sign in, you agree to our <termsOfUse>Terms of Use</termsOfUse> and <privacyPolicy>Privacy Policy</privacyPolicy>",
 		"schema-email-min": "Email is required!",
 		"schema-email-type": "Email is not valid!",
 		"schema-password-min": "Password is required!"
@@ -67,10 +114,10 @@
 		"password-input-label": "Password",
 		"confirm-password-input-placeholder": "Confirm password...",
 		"confirm-password-input-label": "Confirm password",
-		"have-an-account": "Already have an account!",
-		"have-an-account-redirection": "Sign in!",
-		"agree-with-terms-of-use": "By sign up, you agree to our",
-		"terms-of-use": "terms of use",
+		"have-an-account": "Already have an account! <signIn>Sign in</signIn>!",
+		"sign-up-agreement": "By sign up, you agree to our <termsOfUse></termsOfUse> and <privacyPolicy></privacyPolicy>",
+		"sign-up-agreement-terms-of-use": "Terms of Use",
+		"sign-up-agreement-privacy-policy": "Privacy Policy",
 		"schema-name-min": "Name is required!",
 		"schema-name-short": "Name is too short!",
 		"schema-email-min": "Email is required!",

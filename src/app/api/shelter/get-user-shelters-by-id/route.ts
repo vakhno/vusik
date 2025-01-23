@@ -1,7 +1,7 @@
 import { mongoConnection } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
-import { ShelterType } from "@/types/shelter.type";
-import ShelterModel from "@/models/shelter.model";
+import { ShelterType } from "@/entities/shelter/model/type";
+import ShelterModel from "@/entities/shelter/model/model";
 
 export interface SuccessResponse {
 	success: true;

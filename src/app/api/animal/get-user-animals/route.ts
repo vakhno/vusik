@@ -1,6 +1,7 @@
 import { mongoConnection } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
-import { AnimalType } from "@/types/animal.type";
+import { AnimalType } from "@/entities/animal/model/type";
+import AnimalModel from "@/entities/animal/model/model";
 
 export interface SuccessResponse {
 	success: true;
@@ -10,8 +11,6 @@ export interface SuccessResponse {
 export interface ErrorResponse {
 	success: false;
 }
-
-import AnimalModel from "@/models/animal.model";
 
 export async function POST(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	try {

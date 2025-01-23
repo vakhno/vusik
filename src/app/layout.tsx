@@ -1,3 +1,4 @@
+// react
 import { ReactNode } from "react";
 // next tools
 import type { Metadata } from "next";
@@ -17,10 +18,10 @@ import {
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 // UI components
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/shared/ui/toaster";
 // custom providers
-import StoreProvider from "@/app/StoreProvider";
-import TanstackQueryProvider from "@/app/TanstackQueryProvider";
+import StoreProvider from "@/providers/StoreProvider";
+import QueryProvider from "@/providers/QueryProvider";
 // dev tools
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -40,10 +41,35 @@ export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations({ locale });
 
 	return {
-		title: t("metadata.title"),
-		description: t("metadata.description"),
+		title: t("metadata.home.title"),
+		description: t("metadata.home.description"),
+		openGraph: {
+			title: t("metadata.home.title"),
+			description: t("metadata.home.description"),
+			url: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}`,
+			siteName: t("general.site-name"),
+			images: [
+				{
+					url: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/openGraph/home/1200x630.jpg`,
+					width: 1200,
+					height: 630,
+					alt: t("metadata.home.openGraph.image.alt"),
+					type: "image/jpeg",
+				},
+			],
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: t("metadata.home.twitter.title"),
+			description: t("metadata.home.twitter.description"),
+			images: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/openGraph/home/twitter/1200x630.jpg`,
+		},
+		keywords: t("metadata.home.keywords"),
 	};
 }
+
+export const viewport = "width=device-width, initial-scale=1";
 
 export default async function RootLayout({
 	children,
@@ -78,17 +104,16 @@ export default async function RootLayout({
 	const messages = await getMessages();
 
 	return (
-		<html lang={locale} className="h-full">
-			<body className={cn("font-inter h-full bg-background antialiased", roboto.variable, concertOne.variable)}>
+		<html lang={locale}>
+			<body
+				className={cn("font-inter h-[100vh] bg-background antialiased", roboto.variable, concertOne.variable)}
+			>
 				<NextIntlClientProvider messages={messages}>
-					<StoreProvider
-						userProviderInitialData={{ user: authUser }}
-						// speciesProviderInitialData={{ list: speciesList }}
-					>
-						<TanstackQueryProvider>
+					<StoreProvider userProviderInitialData={{ user: authUser }}>
+						<QueryProvider>
 							<ReactQueryDevtools initialIsOpen={false} />
 							{children}
-						</TanstackQueryProvider>
+						</QueryProvider>
 					</StoreProvider>
 				</NextIntlClientProvider>
 				<Toaster />

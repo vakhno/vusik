@@ -7,7 +7,7 @@ interface Props<T extends FieldValues> extends React.InputHTMLAttributes<HTMLInp
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	control: Control<T>;
 	label?: string;
-	description?: string;
+	description?: string | React.ReactNode;
 	name: Path<T>;
 }
 
@@ -32,7 +32,7 @@ const FormInput = <T extends FieldValues>({ onChange, control, label, name, desc
 							}}
 						/>
 					</FormControl>
-					{description && description.length ? <FormDescription>{description}</FormDescription> : null}
+					{description ? <FormDescription>{description}</FormDescription> : null}
 				</FormItem>
 			)}
 		/>

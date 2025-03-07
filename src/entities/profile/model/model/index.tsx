@@ -1,7 +1,7 @@
 // mongoose
 import mongoose, { Schema } from "mongoose";
 // types
-import { UserType } from "@/entities/profile/model/type";
+import { UserType } from "@/entities/profile/model/type/profile";
 //
 import { UserRole } from "@/constants/user";
 

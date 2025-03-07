@@ -53,6 +53,8 @@ export const queryPrefetchGetProfileSheltersFilter = async ({ searchParams, id }
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile-shelters-filter", searchParams, id],
 		queryFn: async () => {
 			const urlSearchParams = urlSearchParamsBuilder(searchParams);

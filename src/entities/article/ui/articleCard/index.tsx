@@ -3,7 +3,7 @@ import { AspectRatio } from "@/shared/ui/aspect-ratio";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
 import { useState, MouseEvent } from "react";
-import { ArticleType } from "@/entities/article/model/type";
+import { ArticleType } from "@/entities/article/model/type/article";
 // import { NewArticleSchemaType } from "@/entities/article/model/type/newArticleForm";
 // import { useToast } from "@/shared/ui/use-toast";
 import Link from "next/link";
@@ -86,58 +86,47 @@ const Index = ({ article, isEditable = false }: Props) => {
 	// };
 	// console.log("article", article);
 	return (
-		<>
-			{isEditArticleOpened ? (
-				<></>
-			) : // <AddNewArticleModal
-			// 	isOpen={isEditArticleOpened}
-			// 	setIsOpen={setIsEditArticleOpened}
-			// 	isDeletable={true}
-			// 	deleteButtonTitle={"Delete"}
-			// 	handleSuccessDeleteClick={handleSuccessDeleteClick}
-			// 	handleSuccessSubmitClick={(fields) => handleSuccessSubmitClick(fields)}
-			// 	article={article}
-			// 	titleValue={article.title}
-			// 	textValue={article.text}
-			// 	imageValue={article.image}
-			// 	categoryValue={article.category}
-			// />
-			null}
-			<Card className="w-full bg-secondary">
-				<Link href={`/article/${article._id}`}>
-					<CardContent className="relative h-full w-full overflow-hidden p-2">
-						{isEditable ? (
-							<Image
-								width={40}
-								height={40}
-								alt=""
-								src="/icons/edit.svg"
-								onClick={(e: MouseEvent<HTMLImageElement>) => handleEditClick(e)}
-								className="absolute right-0 top-0 z-10 cursor-pointer"
-							/>
-						) : null}
-						<div className="grid grid-cols-1 lg:grid-cols-2">
-							<AspectRatio ratio={5 / 3} className="relative h-full w-full">
-								{article?.image ? (
-									<Image
-										src={article.image}
-										alt="Article photo"
-										fill
-										className="h-full w-full object-cover"
-									/>
-								) : null}
-							</AspectRatio>
-							<div className="flex flex-col justify-between p-4">
-								<div className="flex flex-col">
-									<h2>{article.title}</h2>
-								</div>
-								<Button>More</Button>
+		<Card className="w-full bg-secondary">
+			<Link href={`/article/${article._id}`}>
+				<CardContent className="relative h-full w-full overflow-hidden p-2">
+					{isEditable ? (
+						<Image
+							width={40}
+							height={40}
+							alt=""
+							src="/icons/edit.svg"
+							onClick={(e: MouseEvent<HTMLImageElement>) => handleEditClick(e)}
+							className="absolute right-0 top-0 z-10 cursor-pointer"
+						/>
+					) : null}
+					<div className="grid grid-cols-1 lg:grid-cols-2">
+						<AspectRatio ratio={5 / 3} className="relative h-full w-full">
+							{article?.image ? (
+								<Image
+									src={article.image}
+									alt="Article photo"
+									fill
+									className="h-full w-full object-cover"
+								/>
+							) : null}
+						</AspectRatio>
+						<div className="flex flex-col justify-between p-4">
+							<div className="flex flex-col">
+								<h2>{article.title}</h2>
 							</div>
+							<Button>More</Button>
 						</div>
-					</CardContent>
-				</Link>
-			</Card>
-		</>
+					</div>
+					{isEditable ? (
+						<div className="absolute left-1 top-0">
+							<Link href={`/article/${article._id}/edit`} className="p-0">
+								<Image width={40} height={40} alt="edit" src="/icons/edit.svg" />
+							</Link>
+						</div>
+					) : null}
+				</CardContent>
+			</Link>
+		</Card>
 	);
 };
 

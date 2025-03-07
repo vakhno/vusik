@@ -3,8 +3,8 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/animal/get-by-user-id-animals-by-page/route";
-import { AnimalType } from "@/entities/animal/model/type";
+import { SuccessResult, ErrorResult } from "@/app/api/animal/get-profile-animals-by-page/route";
+import { AnimalType } from "@/entities/animal/model/type/animal";
 import { Types } from "mongoose";
 // types
 import { SearchParamsType } from "@/types/searchParams.type";
@@ -72,7 +72,8 @@ const fetchData = async ({
 export const queryGetProfileAnimals = ({ searchParams, id }: Props) => {
 	return useInfiniteQuery({
 		queryKey: ["profile-animals", searchParams, id],
-		gcTime: 0, // cache disabled
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryFn: async ({ pageParam = 1 }): Promise<{ animals: AnimalType[]; isHasMore: boolean } | null> => {
 			return fetchData({ id, searchParams, page: pageParam });
 		},
@@ -82,11 +83,12 @@ export const queryGetProfileAnimals = ({ searchParams, id }: Props) => {
 		},
 	});
 };
-
 export const queryPrefetchGetProfileAnimals = async ({ searchParams, id }: Props) => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchInfiniteQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile-animals", searchParams, id],
 		queryFn: async ({ pageParam = 1 }) => {
 			return fetchData({ id, searchParams, page: pageParam });

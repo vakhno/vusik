@@ -4,19 +4,22 @@ import { Checkbox } from "@/shared/ui/checkbox";
 import { Control, FieldValues, Path } from "react-hook-form";
 
 interface Props<T extends FieldValues> {
+	className?: string;
 	control: Control<T>;
 	label?: string;
 	description?: string;
 	name: Path<T>;
 }
 
-const FormCheckbox = <T extends FieldValues>({ control, label = "", description = "", name }: Props<T>) => {
+const FormCheckbox = <T extends FieldValues>({ className, control, label = "", description = "", name }: Props<T>) => {
 	return (
 		<FormField
 			control={control}
 			name={name}
 			render={({ field }) => (
-				<FormItem className="flex flex-row items-start space-x-2 space-y-0 rounded-md border px-3 py-2">
+				<FormItem
+					className={`flex flex-row items-start space-x-2 space-y-0 rounded-md border px-3 py-2 ${className}`}
+				>
 					<FormControl>
 						<>
 							<Checkbox id={name} checked={field.value} onCheckedChange={field.onChange} />

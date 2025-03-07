@@ -1,5 +1,5 @@
 // tanstack
-import { useQuery, QueryClient } from "@tanstack/react-query";
+import { useQuery, QueryClient, dehydrate } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
@@ -56,6 +56,8 @@ export const queryPrefetchGetAllArticlesFilter = async ({ searchParams }: Props)
 
 	await queryClient.prefetchQuery({
 		queryKey: ["all-articles-filter", searchParams],
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryFn: async (): Promise<PrefetchResult> => {
 			try {
 				const urlSearchParams = urlSearchParamsBuilder(searchParams);
@@ -86,8 +88,9 @@ export const queryPrefetchGetAllArticlesFilter = async ({ searchParams }: Props)
 			}
 		},
 	});
+	return dehydrate(queryClient);
 
-	return queryClient;
+	// return queryClient;
 };
 
 export const queryGetAllArticlesFilterInvalidate = ({ searchParams }: Props) => {

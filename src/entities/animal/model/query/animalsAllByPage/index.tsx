@@ -3,7 +3,7 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/animal/get-animals-by-page/route";
+import { SuccessResult, ErrorResult } from "@/app/api/animal/get-all-animals-by-page/route";
 //routes
 import { API_GET_ANIMALS_BY_PAGE } from "@/routes";
 // types
@@ -59,7 +59,11 @@ const fetchData = async (page: number, searchParams: SearchParamsType) => {
 export const queryGetAllAnimals = ({ searchParams }: Props) => {
 	return useInfiniteQuery({
 		queryKey: ["all-animals", searchParams],
-		gcTime: 0, // cache disabled
+		// gcTime: 0, // cache disabled
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
+		refetchOnMount: false, // Do not refetch on mount
+		refetchOnReconnect: false,
 		queryFn: async ({ pageParam }): Promise<QueryResult> => {
 			return fetchData(pageParam, searchParams);
 		},
@@ -83,9 +87,4 @@ export const queryPrefetchGetAllAnimals = async ({ searchParams }: Props) => {
 	});
 
 	return queryClient;
-};
-
-export const queryGetAllAnimalsInvalidate = ({ searchParams }: Props) => {
-	const queryClient = new QueryClient();
-	queryClient.invalidateQueries({ queryKey: ["all-animals", searchParams] });
 };

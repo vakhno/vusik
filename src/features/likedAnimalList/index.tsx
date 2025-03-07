@@ -1,6 +1,6 @@
 import AnimalCard from "@/entities/animal/ui/animalCard";
 import { cn } from "@/lib/utils";
-import { AnimalType } from "@/entities/animal/model/type";
+import { AnimalType } from "@/entities/animal/model/type/animal";
 import { useTranslations } from "next-intl";
 import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
 

@@ -50,15 +50,18 @@ const fetchData = async (userId: string | Types.ObjectId) => {
 
 export const queryProfile = ({ userId }: Props) => {
 	return useQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile", String(userId)],
 		queryFn: () => fetchData(userId),
 	});
 };
-
 export const queryPrefetchProfile = async ({ userId }: Props) => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile", userId],
 		queryFn: () => fetchData(userId),
 	});

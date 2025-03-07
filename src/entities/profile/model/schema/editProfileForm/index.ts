@@ -16,8 +16,8 @@ export const EditUserSchema = (t: TFunction) => {
 		name: z
 			.string()
 			.trim()
-			.min(1, { message: t("sign-up.schema-name-min") })
-			.min(5, { message: t("sign-up.schema-name-short") }),
+			.min(1, { message: t("page.auth.sign-up.schema-name-min") })
+			.min(5, { message: t("page.auth.sign-up.schema-name-short") }),
 		facebook: z.string().trim().optional(),
 		instagram: z.string().trim().optional(),
 		telegram: z.string().trim().optional(),

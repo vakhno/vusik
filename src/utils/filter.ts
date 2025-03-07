@@ -11,16 +11,8 @@ export const validateAnimalFilterKeysAndValues = (
 			case "injury":
 			case "sterilized":
 				{
-					const booleanValues: boolean[] = [];
-					value.forEach((val) => {
-						if (val === "true") {
-							booleanValues.push(true);
-						} else if (val === "false") {
-							booleanValues.push(false);
-						}
-					});
-					if (booleanValues.length) {
-						updatedFilters[key] = booleanValues;
+					if (value) {
+						updatedFilters[key] = true;
 					}
 				}
 				break;

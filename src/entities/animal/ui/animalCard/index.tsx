@@ -4,9 +4,9 @@ import Link from "next/link";
 import { Card, CardContent } from "@/shared/ui/card";
 import { AspectRatio } from "@/shared/ui/aspect-ratio";
 import { useToast } from "@/shared/ui/use-toast";
-import { AnimalType } from "@/entities/animal/model/type";
+import { AnimalType } from "@/entities/animal/model/type/animal";
 import { Button } from "@/shared/ui/button";
-import { ShelterType } from "@/entities/shelter/model/type";
+import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { Types } from "mongoose";
 import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
 

@@ -9,12 +9,12 @@ const AdoptAnimalSchema = (t: TFunction) => {
 	return z.object({
 		name: z
 			.string()
-			.min(1, { message: t("sign-up.schema-name-min") })
-			.min(5, { message: t("sign-up.schema-name-short") }),
+			.min(1, { message: t("page.auth.sign-up.schema-name-min") })
+			.min(5, { message: t("page.auth.sign-up.schema-name-short") }),
 		email: z
 			.string()
-			.min(1, { message: t("sign-up.schema-email-min") })
-			.email({ message: t("sign-up.schema-email-type") }),
+			.min(1, { message: t("page.auth.sign-up.schema-email-min") })
+			.email({ message: t("page.auth.sign-up.schema-email-type") }),
 	});
 };
 

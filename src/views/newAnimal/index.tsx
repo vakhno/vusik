@@ -1,11 +1,12 @@
 "use client";
 import NewAnimalForm from "@/features/animal/newAnimal/ui/newAnimalForm";
-import { queryProfileMutation } from "@/entities/profile/model/query/profileByProfileId";
 import { API_NEW_ANIMAL } from "@/routes";
 import { Types } from "mongoose";
-import { queryProfile } from "@/entities/profile/model/query/profileByProfileId";
+import { queryProfileMutation } from "@/entities/profile/model/query/profileByProfileId";
+import { queryGetProfileShelters } from "@/entities/shelter/model/query/sheltersAllByProfileId";
+
 import { species } from "@/constants/species";
-import { AnimalType } from "@/entities/animal/model/type";
+import { AnimalType } from "@/entities/animal/model/type/animal";
 import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
 const ACTIVE_DOMEN = process.env.NEXT_PUBLIC_ACTIVE_DOMEN;
 
@@ -14,7 +15,8 @@ type Props = {
 };
 
 const Index = ({ userId }: Props) => {
-	const { data } = queryProfile({ userId: userId });
+	// const { data } = queryProfile({ userId: userId });
+	const { data } = queryGetProfileShelters({ searchParams: {}, id: userId });
 	const profileMutation = queryProfileMutation({ userId });
 
 	const handleSuccessSubmitClick = async (fields: NewAnimalSchemaType) => {
@@ -61,14 +63,14 @@ const Index = ({ userId }: Props) => {
 		});
 		const data = (await response.json()) as { success: false } | { success: true; animal: AnimalType };
 		const { success } = data;
-
 		if (success) {
 			profileMutation.mutate(userId);
 		}
 	};
-	return (
-		<NewAnimalForm handleSuccessSubmitClick={handleSuccessSubmitClick} species={species} shelters={data.shelters} />
-	);
+
+	const { shelters } = data;
+
+	return <NewAnimalForm handleSuccessSubmitClick={handleSuccessSubmitClick} species={species} shelters={shelters} />;
 };
 
 export default Index;

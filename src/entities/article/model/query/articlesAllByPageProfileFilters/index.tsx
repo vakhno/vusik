@@ -14,6 +14,8 @@ type Props = {
 
 export const queryGetProfileArticlesFilter = ({ searchParams, id }: Props) => {
 	return useQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile-articles-filter", searchParams, id],
 		queryFn: async () => {
 			const urlSearchParams = urlSearchParamsBuilder(searchParams);
@@ -47,8 +49,9 @@ export const queryGetProfileArticlesFilter = ({ searchParams, id }: Props) => {
 
 export const queryPrefetchGetProfileArticlesFilter = async ({ searchParams, id }: Props) => {
 	const queryClient = new QueryClient();
-
 	await queryClient.prefetchQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile-articles-filter", searchParams, id],
 		queryFn: async () => {
 			const urlSearchParams = urlSearchParamsBuilder(searchParams);

@@ -8,12 +8,10 @@ export const urlSearchParamsBuilder = (
 			if (typeof value === "string") {
 				urlSearchParams.set(key, value);
 			} else if (typeof value === "number") {
-				// checking if number is not Infinity, -Infinity or NaN
 				if (isFinite(value) && !isNaN(value)) {
 					urlSearchParams.set(key, String(value));
 				}
 			} else if (typeof value === "boolean") {
-				// will be passed only 'true' boolean
 				if (value) {
 					urlSearchParams.set(key, String(value));
 				}

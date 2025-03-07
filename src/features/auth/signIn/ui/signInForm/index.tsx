@@ -51,29 +51,21 @@ const index = () => {
 			body: formData,
 		});
 
-		const { ok } = response;
+		const data: AuthSignInSuccessResponse | AuthSignInErrorResponse = await response.json();
+		const { success } = data;
 
-		if (ok) {
-			const data: AuthSignInSuccessResponse | AuthSignInErrorResponse = await response.json();
-			const { success } = data;
+		if (success) {
+			const { user } = data;
 
-			if (success) {
-				const { user } = data;
+			setUser(user);
 
-				setUser(user);
-
-				router.push("/");
-			} else {
-				toast({
-					title: "Error",
-					description: `Something went wrong!`,
-					variant: "destructive",
-				});
-			}
+			router.push("/");
 		} else {
+			const { error } = data;
+
 			toast({
 				title: "Error",
-				description: `Something went wrong!`,
+				description: error,
 				variant: "destructive",
 			});
 		}
@@ -84,20 +76,20 @@ const index = () => {
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 				<FormInput
 					control={form.control}
-					label={t("sign-in.email-input-label")}
+					label={t("page.auth.sign-in.email-input-label")}
 					name="email"
-					placeholder={t("sign-in.email-input-placeholder")}
+					placeholder={t("page.auth.sign-in.email-input-placeholder")}
 					type="email"
 				/>
 				<FormInput
 					control={form.control}
-					label={t("sign-in.password-input-label")}
+					label={t("page.auth.sign-in.password-input-label")}
 					name="password"
-					placeholder={t("sign-in.password-input-placeholder")}
+					placeholder={t("page.auth.sign-in.password-input-placeholder")}
 					type="password"
 				/>
 				<div className="mx-auto text-center">
-					{t.rich("sign-in.sign-in-agreement", {
+					{t.rich("page.auth.sign-in.sign-in-agreement", {
 						termsOfUse: (chunks) => {
 							return (
 								<Link href="/terms-of-use" className="font-bold">

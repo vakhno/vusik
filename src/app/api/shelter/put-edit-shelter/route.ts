@@ -225,9 +225,8 @@ export async function PUT(req: Request): Promise<NextResponse<SuccessResponse | 
 		const locale = await getLocale();
 		const t = await getTranslations({ locale });
 		const validationResult = NewShelterSchema(t).safeParse(data);
-		const { success: isValidationPassed, error } = validationResult;
+		const { success: isValidationPassed } = validationResult;
 
-		console.log("validationResult", error);
 		if (isValidationPassed) {
 			const { id, mainPhoto, secondaryPhotos, ...readyData } = data;
 			const updatedAnimal = new ShelterModel(readyData).toObject();

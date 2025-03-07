@@ -1,5 +1,5 @@
 // tanstack
-import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, QueryClient, dehydrate } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
@@ -63,7 +63,9 @@ export const queryPrefetchGetAllArticles = async ({ searchParams }: Props) => {
 
 	await queryClient.prefetchInfiniteQuery({
 		queryKey: ["all-articles", searchParams],
-		gcTime: 0, // cache disabled
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
+		// gcTime: 0, // cache disabled
 		queryFn: async ({ pageParam }): Promise<PrefetchResult> => {
 			try {
 				const urlSearchParams = urlSearchParamsBuilder(searchParams);
@@ -97,7 +99,8 @@ export const queryPrefetchGetAllArticles = async ({ searchParams }: Props) => {
 		initialPageParam: 1,
 	});
 
-	return queryClient;
+	return dehydrate(queryClient);
+	// return queryClient;
 };
 
 export const queryGetAllArticlesInvalidate = ({ searchParams }: Props) => {

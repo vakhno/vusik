@@ -31,6 +31,7 @@ export type Option = {
 };
 
 type Props<T extends FieldValues> = {
+	className?: string;
 	options: Option[];
 	emptyMessage: string;
 	disabled?: boolean;
@@ -41,6 +42,7 @@ type Props<T extends FieldValues> = {
 };
 
 export const FormAutocompleteMultiselect = <T extends FieldValues>({
+	className,
 	options,
 	placeholder,
 	disabled = false,
@@ -72,7 +74,7 @@ export const FormAutocompleteMultiselect = <T extends FieldValues>({
 	}, []);
 
 	return (
-		<CommandPrimitive ref={allAreaRef} className="rounded-lg border">
+		<CommandPrimitive ref={allAreaRef} className={`rounded-lg border ${className}`}>
 			<FormField
 				control={control}
 				name={name}
@@ -100,7 +102,8 @@ export const FormAutocompleteMultiselect = <T extends FieldValues>({
 							<div className="relative" ref={popupRef}>
 								<div
 									className={cn(
-										"absolute top-0 z-10 w-full rounded-xl bg-white outline-none animate-in fade-in-0 zoom-in-95",
+										"relative",
+										// "absolute top-0 z-10 w-full rounded-xl bg-white outline-none animate-in fade-in-0 zoom-in-95",
 										isOpen ? "block" : "hidden",
 									)}
 								>

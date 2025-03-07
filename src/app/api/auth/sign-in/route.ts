@@ -5,7 +5,7 @@ import UserModel from "@/entities/profile/model/model";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import { UserType } from "@/entities/profile/model/type";
+import { UserType } from "@/entities/profile/model/type/profile";
 import { NextResponse } from "next/server";
 import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
@@ -37,6 +37,7 @@ const getFormDataValue = (formData: FormData): SignInSchemaType => {
 export async function POST(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	try {
 		await mongoConnection();
+		// await FilterModel.create(filters);
 
 		const formData = await req.formData();
 		const locale = await getLocale();
@@ -86,18 +87,27 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 						{ status: 200 },
 					);
 				} else {
-					return NextResponse.json({ success: false, error: "Password is not valid" }, { status: 400 });
+					return NextResponse.json(
+						{ success: false, error: t("page.auth.sign-in.api.401") },
+						{ status: 401 },
+					);
 				}
 			} else {
-				return NextResponse.json({ success: false, error: "User is not exist yet" }, { status: 400 });
+				return NextResponse.json({ success: false, error: t("page.auth.sign-in.api.404") }, { status: 404 });
 			}
 		} else {
 			const { errors } = validationResult.error;
 			const errorMessage = errors[0].message;
 
-			return NextResponse.json({ success: false, error: errorMessage }, { status: 400 });
+			return NextResponse.json(
+				{
+					success: false,
+					error: t("page.auth.sign-in.api.400", { error: errorMessage }),
+				},
+				{ status: 400 },
+			);
 		}
 	} catch (_) {
-		return NextResponse.json({ success: false, error: "Something went wrong" }, { status: 500 });
+		return NextResponse.json({ success: false, error: "Something went wrong!" }, { status: 500 });
 	}
 }

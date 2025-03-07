@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import ArticleModel from "@/entities/article/model/model";
 // mongoose
 import UserModel from "@/entities/profile/model/model";
-import { ArticleType } from "@/entities/article/model/type";
+import { ArticleType } from "@/entities/article/model/type/article";
 
 export interface SuccessResponse {
 	success: true;
@@ -25,11 +25,11 @@ export async function DELETE(req: Request): Promise<NextResponse<SuccessResponse
 		const article = (await ArticleModel.findById(articleId)) as ArticleType;
 
 		if (article) {
-			const { _id, author } = article;
+			const { _id, userId } = article;
 
 			await ArticleModel.deleteOne({ _id: _id });
 
-			await UserModel.findByIdAndUpdate(author, {
+			await UserModel.findByIdAndUpdate(userId, {
 				$pull: {
 					articles: _id,
 				},

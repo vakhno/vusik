@@ -3,11 +3,18 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { queryProfile } from "@/entities/profile/model/query/profileByProfileId";
 import UserInfoBlock from "@/features/profile/userInfoBlock";
-import AnimalTab from "@/features/profile/animalTab";
-import ShelterTab from "@/features/profile/shelterTab";
-import ArticleTab from "@/features/profile/articleTab";
 import { Types } from "mongoose";
 import { SearchParamsType } from "@/types/searchParams.type";
+import { useTranslations } from "next-intl";
+// features
+import ProfileAnimalsFilters from "@/features/animal/loadProfileAnimalsFilters/ui/animalsFiltersForm";
+import ProfileAnimalsList from "@/features/animal/loadProfileAnimals/ui/animalsList";
+import ProfileSheltersFilters from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm";
+import ProfileSheltersList from "@/features/shelter/loadProfileShelters/ui/sheltersList";
+import ProfileArticlesFilters from "@/features/article/loadProfileArticlesFilters/ui/articlesFiltersForm";
+import ProfileArticlesList from "@/features/article/loadProfileArticles/ui/articlesList";
+import Link from "next/link";
+import { buttonVariants } from "@/shared/ui/button";
 
 type Props = {
 	userId: Types.ObjectId;
@@ -15,7 +22,8 @@ type Props = {
 	isEditable?: boolean;
 };
 
-const Profile = ({ userId, isEditable, searchParams }: Props) => {
+const Profile = ({ userId, isEditable, searchParams = {} }: Props) => {
+	const t = useTranslations();
 	const { data } = queryProfile({ userId: userId });
 	if (data) {
 		const { avatar, email, name, facebook, instagram, twitter, telegram, youtube } = data;
@@ -36,23 +44,41 @@ const Profile = ({ userId, isEditable, searchParams }: Props) => {
 				<Tabs defaultValue="pets" className="w-full p-4">
 					<TabsList className="m-auto flex">
 						<TabsTrigger value="pets" className="w-full">
-							Pets
+							{t("page.profile.animals.tab-trigger")}
 						</TabsTrigger>
 						<TabsTrigger value="shelters" className="w-full">
-							Shelters
+							{t("page.profile.organizations.tab-trigger")}
 						</TabsTrigger>
 						<TabsTrigger value="articles" className="w-full">
-							Articles
+							{t("page.profile.articles.tab-trigger")}
 						</TabsTrigger>
 					</TabsList>
 					<TabsContent value="pets">
-						<AnimalTab isEditable={isEditable} userId={userId} searchParams={searchParams} />
+						{isEditable ? (
+							<Link href="/profile/myprofile/new-animal" className={`${buttonVariants()} my-8 w-full`}>
+								{t("page.profile.animals.new")}
+							</Link>
+						) : null}
+						<ProfileAnimalsFilters id={userId} searchParams={searchParams} />
+						<ProfileAnimalsList isEditable={isEditable} userId={userId} animalSearchParams={searchParams} />
 					</TabsContent>
 					<TabsContent value="shelters">
-						<ShelterTab userId={userId} isEditable={isEditable} />
+						{isEditable ? (
+							<Link href="/profile/myprofile/new-shelter" className={`${buttonVariants()} my-8 w-full`}>
+								{t("page.profile.organizations.new")}
+							</Link>
+						) : null}
+						<ProfileSheltersFilters id={userId} searchParams={searchParams} />
+						<ProfileSheltersList isEditable={isEditable} id={userId} shelterSearchParams={searchParams} />
 					</TabsContent>
 					<TabsContent value="articles">
-						<ArticleTab userId={userId} isEditable={isEditable} />
+						{isEditable ? (
+							<Link href="/profile/myprofile/new-article" className={`${buttonVariants()} my-8 w-full`}>
+								{t("page.profile.articles.new")}
+							</Link>
+						) : null}
+						<ProfileArticlesFilters id={userId} searchParams={searchParams} />
+						<ProfileArticlesList isEditable={isEditable} id={userId} articleSearchParams={searchParams} />
 					</TabsContent>
 				</Tabs>
 			</div>

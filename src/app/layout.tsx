@@ -41,11 +41,11 @@ export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations({ locale });
 
 	return {
-		title: t("metadata.home.title"),
-		description: t("metadata.home.description"),
+		title: t("metadata.page.home.title"),
+		description: t("metadata.page.home.description"),
 		openGraph: {
-			title: t("metadata.home.title"),
-			description: t("metadata.home.description"),
+			title: t("metadata.page.home.title"),
+			description: t("metadata.page.home.description"),
 			url: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}`,
 			siteName: t("general.site-name"),
 			images: [
@@ -53,7 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
 					url: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/openGraph/home/1200x630.jpg`,
 					width: 1200,
 					height: 630,
-					alt: t("metadata.home.openGraph.image.alt"),
+					alt: t("metadata.page.home.openGraph.image.alt"),
 					type: "image/jpeg",
 				},
 			],
@@ -61,11 +61,11 @@ export async function generateMetadata(): Promise<Metadata> {
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: t("metadata.home.twitter.title"),
-			description: t("metadata.home.twitter.description"),
+			title: t("metadata.page.home.twitter.title"),
+			description: t("metadata.page.home.twitter.description"),
 			images: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/openGraph/home/twitter/1200x630.jpg`,
 		},
-		keywords: t("metadata.home.keywords"),
+		keywords: t("metadata.page.home.keywords"),
 	};
 }
 

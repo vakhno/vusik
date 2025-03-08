@@ -1,7 +1,173 @@
 {
 	"metadata": {
-		"title": "ВУСИК",
-		"description": "Платформа, яка надає вам список місцевих притулків для тварин, щоб знайти свою домашню тваринку"
+		"page": {
+			"home": {
+				"title": "VUSIK - ГОЛОВНА",
+				"description": "Платформа зв’язує вас із місцевими притулками для тварин, щоб знайти і прихистити тваринку",
+				"openGraph": {
+					"title": "VUSIK - знайди свого друга з нами",
+					"image": {
+						"alt": "VUSIK - платформа зв’язує вас із місцевими притулками для тварин, щоб знайти і прихистити тваринку"
+					}
+				},
+				"twitter": {
+					"title": "VUSIK - знайди свого друга з нами",
+					"description": "Платформа зв’язує вас із місцевими притулками для тварин, щоб знайти і прихистити тваринку"
+				},
+				"keywords": "притулок, притулок для тварин, усиновлення домашніх тварин, усиновлення собаки, порятунок собак, усиновлення кота, порятунок котів, знайти притулок для тварин, знайти притулок для тварин поблизу мене"
+			},
+			"sign-in": {
+				"title": "VUSIK - ВХІД",
+				"description": "ВХІД - для допомоги тваринкам",
+				"openGraph": {
+					"title": "VUSIK - знайди свого друга з нами",
+					"image": {
+						"alt": "VUSIK - платформа зв’язує вас із місцевими притулками для тварин, щоб знайти і прихистити тваринку"
+					}
+				},
+				"twitter": {
+					"title": "VUSIK - знайди свого друга з нами",
+					"description": "Платформа зв’язує вас із місцевими притулками для тварин, щоб знайти і прихистити тваринку"
+				}
+			},
+			"sign-up": {
+				"title": "VUSIK - РЕЄСТРАЦІЯ",
+				"description": "РЕЄСТРАЦІЯ - для допомоги тваринкам",
+				"openGraph": {
+					"title": "VUSIK - знайди свого друга з нами",
+					"image": {
+						"alt": "VUSIK - платформа зв’язує вас із місцевими притулками для тварин, щоб знайти і прихистити тваринку"
+					}
+				},
+				"twitter": {
+					"title": "VUSIK - знайди свого друга з нами",
+					"description": "Платформа зв’язує вас із місцевими притулками для тварин, щоб знайти і прихистити тваринку"
+				}
+			}
+		}
+	},
+	"page": {
+		"home": {
+			"main-card": {
+				"title": "Читати статті",
+				"button-title": "Читатті"
+			},
+			"secondary-card-1": {
+				"title": "Знайти притулок",
+				"button-title": "Знайти"
+			},
+			"secondary-card-2": {
+				"title": "Прихистити тваринку",
+				"button-title": "Прихистити"
+			}
+		},
+		"auth": {
+			"sign-in": {
+				"email-input-placeholder": "Електронна пошта...",
+				"email-input-label": "Електронна пошта",
+				"password-input-placeholder": "Пароль...",
+				"password-input-label": "Пароль",
+				"dont-have-an-account": "В мене немає аккаунту! <signUp>Зареєструватись!</signUp>",
+				"sign-in-agreement": "Входячи, ви погоджуєтесь з нашими <termsOfUse>Правилами</termsOfUse> і <privacyPolicy>Політикою</privacyPolicy>.",
+				"schema": {
+					"email-min": "Електрона пошта обов'язкова!",
+					"email-type": "Електрона пошта має не валідний тип!",
+					"password-min": "Пароль обов'язковий!"
+				},
+				"api": {
+					"400": "Некоректні данні: \"{error}\"!",
+					"401": "Пароль або пошта неправильні!",
+					"404": "Каристувача не існує!"
+				}
+			},
+			"sign-up": {
+				"name-input-placeholder": "Ім'я або організація...",
+				"name-input-label": "Ім'я або організація",
+				"name-input-description": "Це ваше публічне ім'я",
+				"email-input-placeholder": "Електронна пошта...",
+				"email-input-label": "Електронна пошта",
+				"password-input-placeholder": "Пароль...",
+				"password-input-label": "Пароль",
+				"confirm-password-input-placeholder": "Підтвердити пароль...",
+				"confirm-password-input-label": "Підтвердити пароль",
+				"have-an-account": "В мене вже є аккаунт! <signIn>Увійти</signIn>!",
+				"sign-up-agreement": "Реєструючись, ви погоджуєтесь з нашими <termsOfUse>Правилами</termsOfUse> і <privacyPolicy>Політикою</privacyPolicy>.",
+				"sign-up-agreement-terms-of-use": "Правилами",
+				"sign-up-agreement-privacy-policy": "Політикою",
+				"schema": {
+					"name-min": "Ім'я обов'язкове!",
+					"name-short": "Ім'я надто коротке!",
+					"email-min": "Електрона пошта обов'язкова!",
+					"email-type": "Електрона пошта має не валідний тип!",
+					"password-min": "Пароль обов'язковий!",
+					"confirm-password-min": "Підтвердження пароля обов'язкове!",
+					"passwords-match": "Паролі не співпадають!"
+				},
+				"api": {
+					"400": "Некоректні данні: \"{error}\"!",
+					"409": "Такий профіль вже існує!",
+					"503": "Щось пішло не так! Спробуйте пізніше!"
+				}
+			}
+		},
+		"animals": {
+			"species-autocomplete-multiselect-placeholder": "Вибрати вид",
+			"species-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"breed-autocomplete-multiselect-placeholder": "Вибрати породу",
+			"breed-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"age-autocomplete-multiselect-placeholder": "Вибрати вік",
+			"age-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"sex-autocomplete-multiselect-placeholder": "Вибрати стать",
+			"sex-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"size-autocomplete-multiselect-placeholder": "Вибрати розмір",
+			"size-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"state-autocomplete-multiselect-placeholder": "Вибрати область",
+			"state-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"city-autocomplete-multiselect-placeholder": "Вибрати місто",
+			"city-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"shelter-autocomplete-multiselect-placeholder": "Вибрати притулок",
+			"shelter-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"sterilization-checkbox-label": "Стерилізація",
+			"injury-checkbox-label": "Травма",
+			"search": "Пошук",
+			"load-more": "Завантажити більше",
+			"no-animals": "Немає тваринок",
+			"select-species-for-more-filters": "Оберіть вид, щоб використати більше фільтрів",
+			"select-state-for-more-filters": "Оберіть область, щоб використати більше фільтрів",
+			"filtering-accordion-tab": "Фільтрація",
+			"sorting-accordion-tab": "Сортування"
+		},
+		"shelters": {
+			"city-autocomplete-multiselect-placeholder": "Вибрати місто",
+			"city-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"state-autocomplete-multiselect-placeholder": "Вибрати область",
+			"state-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"search": "Пошук",
+			"load-more": "Завантажити більше",
+			"no-shelters": "Немає тваринок"
+		},
+		"articles": {
+			"category-autocomplete-multiselect-placeholder": "Вибрати категорію",
+			"category-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"search": "Пошук",
+			"load-more": "Завантажити більше",
+			"no-articles": "Немає статтей"
+		},
+		"profile": {
+			"edit-profile": "Редагувати профіль",
+			"animals": {
+				"tab-trigger": "Тварини",
+				"new": "Додати нову тваринку"
+			},
+			"organizations": {
+				"tab-trigger": "Організації",
+				"new": "Додати нову організацію"
+			},
+			"articles": {
+				"tab-trigger": "Статті",
+				"new": "Додати нову статтю"
+			}
+		}
 	},
 	"auth": {
 		"sign-in-label": "Вхід",
@@ -23,11 +189,15 @@
 		"or": "АБО"
 	},
 	"logo-link": {
-		"image-alt": "логотип Vusik",
-		"link-aria-label": "логотип Vusik"
+		"image-alt": "логотип VUSIK",
+		"link-aria-label": "логотип VUSIK"
 	},
 	"logo-with-slogan-link": {
 		"description": "Знайди свого друга з нами"
+	},
+	"general": {
+		"site-name": "VUSIK",
+		"creator": "Станіслав Вахно"
 	},
 	"submit": "Підтвердити",
 	"search": "Пошук",
@@ -44,42 +214,5 @@
 		"select-shelter": "Обрати притулок",
 		"sterilized": "Стерилізація",
 		"injury": "Травма"
-	},
-	"sign-in": {
-		"email-input-placeholder": "Електронна пошта...",
-		"email-input-label": "Електронна пошта",
-		"password-input-placeholder": "Пароль...",
-		"password-input-label": "Пароль",
-		"dont-have-an-account": "В мене немає аккаунту!",
-		"dont-have-an-account-redirection": "Зареєструватись!",
-		"sign-in-agreement": "Входячи, ви погоджуєтесь з {termsOfUse} і {privacyPolicy}",
-		"sign-in-agreement-terms-of-use": "Правилами",
-		"sign-in-agreement-privacy-policy": "Політикою",
-		"schema-email-min": "Електрона пошта обов'язкова!",
-		"schema-email-type": "Електрона пошта має не валідний тип!",
-		"schema-password-min": "Пароль обов'язковий!"
-	},
-	"sign-up": {
-		"name-input-placeholder": "Ім'я або організація...",
-		"name-input-label": "Ім'я або організація",
-		"name-input-description": "Це ваше публічне ім'я",
-		"email-input-placeholder": "Електронна пошта...",
-		"email-input-label": "Електронна пошта",
-		"password-input-placeholder": "Пароль...",
-		"password-input-label": "Пароль",
-		"confirm-password-input-placeholder": "Підтвердити пароль...",
-		"confirm-password-input-label": "Підтвердити пароль",
-		"have-an-account": "В мене вже є аккаунт!",
-		"have-an-account-redirection": "Увійти!",
-		"sign-up-agreement": "Реєструючись, ви погоджуєтесь з {termsOfUse} і {privacyPolicy}",
-		"sign-up-agreement-terms-of-use": "Правилами",
-		"sign-up-agreement-privacy-policy": "Політикою",
-		"schema-name-min": "Ім'я обов'язкове!",
-		"schema-name-short": "Ім'я надто коротке!",
-		"schema-email-min": "Електрона пошта обов'язкова!",
-		"schema-email-type": "Електрона пошта має не валідний тип!",
-		"schema-password-min": "Пароль обов'язковий!",
-		"schema-confirm-password-min": "Підтвердження пароля обов'язкове!",
-		"schema-passwords-match": "Паролі не співпадають!"
 	}
 }

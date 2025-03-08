@@ -17,17 +17,15 @@ import { queryPrefetchGetProfileArticles } from "@/entities/article/model/query/
 import { queryPrefetchGetProfileArticlesFilter } from "@/entities/article/model/query/articlesAllByPageProfileFilters";
 // mongoose
 import { Types } from "mongoose";
-// types
-import { SearchParamsType } from "@/types/searchParams.type";
 
 type Props = {
 	params: { userId: Types.ObjectId };
-	searchParams: SearchParamsType;
+	// searchParams: SearchParamsType;
 };
 
-const page = async ({ params, searchParams }: Props) => {
+const page = async ({ params }: Props) => {
 	const { userId } = params;
-
+	const searchParams = {};
 	if (userId) {
 		// to prefetch user profile
 		const queryClient = await queryPrefetchProfile({ userId: userId });

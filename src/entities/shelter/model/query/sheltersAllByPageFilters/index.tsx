@@ -3,7 +3,7 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/shelter/get-filter-options-for-all-shelters/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-filter-options-for-all-shelters/route";
 // routes
 import { API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS } from "@/routes";
 // types
@@ -34,7 +34,7 @@ export const queryGetAllSheltersFilter = ({ searchParams }: Props) => {
 
 				if (ok) {
 					const data = await response.json();
-					const { success } = data as SuccessResult | ErrorResult;
+					const { success } = data as SuccessResponse | ErrorResponse;
 
 					if (success) {
 						const { availableOptions, selectedOptions } = data;
@@ -71,7 +71,7 @@ export const queryPrefetchGetAllSheltersFilter = async ({ searchParams }: Props)
 
 				if (ok) {
 					const data = await response.json();
-					const { success } = data as SuccessResult | ErrorResult;
+					const { success } = data as SuccessResponse | ErrorResponse;
 
 					if (success) {
 						const { availableOptions, selectedOptions } = data;

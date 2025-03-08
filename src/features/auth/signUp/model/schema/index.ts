@@ -10,19 +10,19 @@ export const SignUpSchema = (t: TFunction) => {
 		.object({
 			name: z
 				.string()
-				.min(1, { message: t("sign-up.schema-name-min") })
-				.min(5, { message: t("sign-up.schema-name-short") }),
+				.min(1, { message: t("page.auth.sign-up.schema.name-min") })
+				.min(5, { message: t("page.auth.sign-up.schema.name-short") }),
 			email: z
 				.string()
-				.min(1, { message: t("sign-up.schema-email-min") })
-				.email({ message: t("sign-up.schema-email-type") }),
-			password: z.string().min(1, { message: t("sign-up.schema-password-min") }),
+				.min(1, { message: t("page.auth.sign-up.schema.email-min") })
+				.email({ message: t("page.auth.sign-up.schema.email-type") }),
+			password: z.string().min(1, { message: t("page.auth.sign-up.schema.password-min") }),
 			confirmPassword: z.string().min(1, {
-				message: t("sign-up.schema-confirm-password-min"),
+				message: t("page.auth.sign-up.schema.confirm-password-min"),
 			}),
 		})
 		.refine((data) => data.password === data.confirmPassword, {
 			path: ["confirmPassword"],
-			message: t("sign-up.schema-passwords-match"),
+			message: t("page.auth.sign-up.schema.passwords-match"),
 		});
 };

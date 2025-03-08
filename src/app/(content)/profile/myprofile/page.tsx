@@ -9,7 +9,7 @@ import { queryPrefetchProfile } from "@/entities/profile/model/query/profileByPr
 // utils
 import { getCookiesId } from "@/utils/cookies";
 import { queryPrefetchGetProfileAnimals } from "@/entities/animal/model/query/animalsAllByPageProfile";
-import { queryPrefetchGetProfileAnimalsFilter } from "@/entities/animal/model/query/animalsAllByPageProfileFilters";
+import { queryPrefetchGetProfileAnimalsFilter } from "@/features/animal/loadProfileAnimalsFilters/model/query/fetchAllAnimalsFilters";
 import { queryPrefetchGetProfileShelters } from "@/entities/shelter/model/query/sheltersAllByPageProfile";
 import { queryPrefetchGetProfileSheltersFilter } from "@/entities/shelter/model/query/sheltersAllByPageProfileFilters";
 

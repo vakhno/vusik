@@ -1,6 +1,6 @@
 import { createStore } from "zustand";
 import { devtools, persist, StorageValue } from "zustand/middleware";
-import { AnimalType } from "@/entities/animal/model/type";
+import { AnimalType } from "@/entities/animal/model/type/animal";
 
 interface LikedAnimalsValues {
 	likedAnimals: Map<string, AnimalType>;

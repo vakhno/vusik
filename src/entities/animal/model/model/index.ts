@@ -1,7 +1,7 @@
 // mongoose
 import mongoose, { Schema } from "mongoose";
 // types
-import { AnimalType } from "@/entities/animal/model/type";
+import { AnimalType } from "@/entities/animal/model/type/animal";
 
 const AnimalSchema = new Schema<AnimalType>(
 	{
@@ -32,7 +32,7 @@ const AnimalSchema = new Schema<AnimalType>(
 		secondaryPhotos: [
 			{
 				type: String,
-				default: undefined,
+				default: [],
 			},
 		],
 		size: {

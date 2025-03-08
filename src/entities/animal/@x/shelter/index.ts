@@ -1,1 +1,1 @@
-export type { AnimalType } from "@/entities/animal/model/type";
+export type { AnimalType } from "@/entities/animal/model/type/animal";

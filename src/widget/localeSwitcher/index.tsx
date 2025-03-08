@@ -5,7 +5,7 @@ import { Separator } from "@/shared/ui/separator";
 // next-intl
 import { useTranslations, useLocale } from "next-intl";
 // actions
-import postNewLocale from "@/actions/locale/postNewLocale";
+import { postNewLocale } from "@/actions/locale/postNewLocale";
 // constants
 import { locales } from "@/constants/locale";
 // types

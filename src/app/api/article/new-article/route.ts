@@ -130,7 +130,7 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 				const user = await UserModel.findById(tokenId);
 				user.articles.push(article._id);
 
-				article.author = user._id;
+				article.userId = user._id;
 
 				await user.save();
 

@@ -1,7 +1,7 @@
 // mongoose
 import mongoose, { Schema } from "mongoose";
 // types
-import { ArticleType } from "@/entities/article/model/type";
+import { ArticleType } from "@/entities/article/model/type/article";
 
 const ArticleSchema = new Schema<ArticleType>(
 	{
@@ -14,7 +14,7 @@ const ArticleSchema = new Schema<ArticleType>(
 			type: String,
 			required: true,
 		},
-		author: {
+		userId: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 			required: true,

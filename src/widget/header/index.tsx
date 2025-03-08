@@ -11,7 +11,7 @@ import Image from "next/image";
 // UI components
 import { Avatar, AvatarImage } from "@/shared/ui/avatar";
 // UI components
-import { UserType } from "@/entities/profile/model/type";
+import { UserType } from "@/entities/profile/model/type/profile";
 // next-intl
 import { useTranslations } from "next-intl";
 // UI components

@@ -22,13 +22,20 @@ const NewAnimalSchema = (t: TFunction) => {
 			name: z.string().trim().min(1, { message: "" }).max(40, { message: "" }),
 			breed: z.string().min(1),
 			shelterId: z.string().min(1),
-			size: z.string().min(1, { message: t("sign-up.schema-email-min") }),
+			size: z.string().min(1, { message: t("page.auth.sign-up.schema-email-min") }),
 			sex: z.string().min(1),
 			species: z.string().min(1),
 			sterilized: z.boolean(),
 			injury: z.boolean().optional(),
 			injuryDescription: z.string().optional(),
-			age: z.string().refine((val) => +val && +val > 0),
+			age: z
+				.string()
+				.refine((date) => !isNaN(Date.parse(date)), {
+					message: "",
+				})
+				.refine((date) => new Date(date) <= new Date(), {
+					message: "",
+				}),
 		})
 		.refine(
 			(data) => {

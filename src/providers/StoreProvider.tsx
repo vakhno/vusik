@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import UserProvider from "@/zustand/provider/user.provider";
 import LikedAnimalsProvider from "@/zustand/provider/likedAnimals.provider";
-import { UserType } from "@/entities/profile/model/type";
+import { UserType } from "@/entities/profile/model/type/profile";
 
 type Props = {
 	children: ReactNode;

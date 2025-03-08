@@ -1,7 +1,7 @@
 // widgets
 import ShelterListSkeleton from "@/widget/shelter/shelterList/ui/shelterListSkeleton";
 // entities
-import { ShelterType } from "@/entities/shelter/model/type";
+import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import ShelterCard from "@/entities/shelter/ui/shelterCard";
 
 type Props = {

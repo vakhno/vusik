@@ -3,8 +3,8 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
-import { ShelterType } from "@/entities/shelter/model/type";
+import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
+import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { Types } from "mongoose";
 // types
 import { SearchParamsType } from "@/types/searchParams.type";
@@ -37,7 +37,7 @@ const fetchShelterssByProfileIdPerPage = async (
 		const { ok } = response;
 
 		if (ok) {
-			const data = (await response.json()) as SuccessResult | ErrorResult;
+			const data = (await response.json()) as SuccessResponse | ErrorResponse;
 			const { success } = data;
 
 			if (success) {
@@ -77,8 +77,9 @@ const fetchData = async ({
 
 export const queryGetProfileShelters = ({ searchParams, id }: Props) => {
 	return useInfiniteQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile-shelters", searchParams, id],
-		gcTime: 0, // cache disabled
 		queryFn: async ({ pageParam = 1 }): Promise<{ shelters: ShelterType[]; isHasMore: boolean } | null> => {
 			return fetchData({ id, searchParams, page: pageParam });
 		},
@@ -93,6 +94,8 @@ export const queryPrefetchGetProfileShelters = async ({ searchParams, id }: Prop
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchInfiniteQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile-shelters", searchParams, id],
 		queryFn: async ({ pageParam = 1 }) => {
 			return fetchData({ id, searchParams, page: pageParam });

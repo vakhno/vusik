@@ -56,29 +56,21 @@ const index = () => {
 			body: formData,
 		});
 
-		const { ok } = response;
+		const data: AuthSignUpSuccessResponse | AuthSignUpErrorResponse = await response.json();
+		const { success } = data;
 
-		if (ok) {
-			const data: AuthSignUpSuccessResponse | AuthSignUpErrorResponse = await response.json();
-			const { success } = data;
+		if (success) {
+			const { user } = data;
 
-			if (success) {
-				const { user } = data;
+			setUser(user);
 
-				setUser(user);
-
-				router.push("/");
-			} else {
-				toast({
-					title: "Error",
-					description: `Something went wrong!`,
-					variant: "destructive",
-				});
-			}
+			router.push("/");
 		} else {
+			const { error } = data;
+
 			toast({
 				title: "Error",
-				description: `Something went wrong!`,
+				description: error,
 				variant: "destructive",
 			});
 		}
@@ -89,45 +81,45 @@ const index = () => {
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 				<FormInput
 					control={form.control}
-					label={t("sign-up.name-input-label")}
+					label={t("page.auth.sign-up.name-input-label")}
 					name="name"
-					placeholder={t("sign-up.name-input-placeholder")}
-					description={t("sign-up.name-input-description")}
+					placeholder={t("page.auth.sign-up.name-input-placeholder")}
+					description={t("page.auth.sign-up.name-input-description")}
 				/>
 				<FormInput
 					type="email"
 					control={form.control}
-					label={t("sign-up.email-input-label")}
+					label={t("page.auth.sign-up.email-input-label")}
 					name="email"
-					placeholder={t("sign-up.email-input-placeholder")}
+					placeholder={t("page.auth.sign-up.email-input-placeholder")}
 				/>
 				<FormInput
 					type="password"
 					control={form.control}
-					label={t("sign-up.password-input-label")}
+					label={t("page.auth.sign-up.password-input-label")}
 					name="password"
-					placeholder={t("sign-up.password-input-placeholder")}
+					placeholder={t("page.auth.sign-up.password-input-placeholder")}
 				/>
 				<FormInput
 					type="password"
 					control={form.control}
-					label={t("sign-up.confirm-password-input-label")}
+					label={t("page.auth.sign-up.confirm-password-input-label")}
 					name="confirmPassword"
-					placeholder={t("sign-up.confirm-password-input-placeholder")}
+					placeholder={t("page.auth.sign-up.confirm-password-input-placeholder")}
 				/>
 				<div className="mx-auto text-center">
-					{t.rich("sign-up.sign-up-agreement", {
+					{t.rich("page.auth.sign-up.sign-up-agreement", {
 						termsOfUse: () => {
 							return (
 								<Link href="/terms-of-use" className="font-bold">
-									{t("sign-up.sign-up-agreement-terms-of-use")}
+									{t("page.auth.sign-up.sign-up-agreement-terms-of-use")}
 								</Link>
 							);
 						},
 						privacyPolicy: () => {
 							return (
 								<Link href="/privacy-policy" className="font-bold">
-									{t("sign-up.sign-up-agreement-privacy-policy")}
+									{t("page.auth.sign-up.sign-up-agreement-privacy-policy")}
 								</Link>
 							);
 						},

@@ -26,7 +26,7 @@ export const NewShelterSchema = (t: TFunction) => {
 			lat: z.number(),
 			lng: z.number(),
 		}),
-		postalCode: z.string().min(1, { message: t("sign-up.schema-email-min") }),
+		postalCode: z.string().min(1, { message: t("page.auth.sign-up.schema-email-min") }),
 		phone: z.string().min(1),
 		workingDays: z.object({
 			monday: z.object({

@@ -31,7 +31,7 @@ const Index = () => {
 			</CardContent>
 			<CardFooter>
 				<div className="flex w-full justify-center">
-					{t.rich("sign-in.dont-have-an-account", {
+					{t.rich("page.auth.sign-in.dont-have-an-account", {
 						signUp: (chunks) => {
 							return (
 								<Link href="/auth/sign-up" className="font-bold">

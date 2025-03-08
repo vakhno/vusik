@@ -7,11 +7,11 @@ export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations({ locale });
 
 	return {
-		title: t("metadata.sign-up.title"),
-		description: t("metadata.sign-up.description"),
+		title: t("metadata.page.sign-up.title"),
+		description: t("metadata.page.sign-up.description"),
 		openGraph: {
-			title: t("metadata.sign-up.title"),
-			description: t("metadata.sign-up.description"),
+			title: t("metadata.page.sign-up.title"),
+			description: t("metadata.page.sign-up.description"),
 			url: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}`,
 			siteName: t("general.site-name"),
 			images: [
@@ -19,15 +19,15 @@ export async function generateMetadata(): Promise<Metadata> {
 					url: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/openGraph/sign-up/1200x630.jpg`,
 					width: 1200,
 					height: 630,
-					alt: t("metadata.sign-up.openGraph.image.alt"),
+					alt: t("metadata.page.sign-up.openGraph.image.alt"),
 					type: "image/jpeg",
 				},
 			],
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: t("metadata.sign-up.twitter.title"),
-			description: t("metadata.sign-up.twitter.description"),
+			title: t("metadata.page.sign-up.twitter.title"),
+			description: t("metadata.page.sign-up.twitter.description"),
 			images: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/openGraph/sign-up/twitter/1200x630.jpg`,
 		},
 	};

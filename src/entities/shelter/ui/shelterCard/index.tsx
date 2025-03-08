@@ -2,7 +2,7 @@ import Image from "next/image";
 import { AspectRatio } from "@/shared/ui/aspect-ratio";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
-import { ShelterType } from "@/entities/shelter/model/type";
+import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import Link from "next/link";
 
 type Props = {

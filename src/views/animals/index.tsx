@@ -1,41 +1,33 @@
-"use client";
-// react
-import { useState } from "react";
+"use server";
+
 // types
 import { SearchParamsType } from "@/types/searchParams.type";
 // features
-import SearchAnimalForm from "@/features/animal/searchAnimal/ui/searchAnimalForm";
-import LoadMoreAnimalsList from "@/features/animal/loadMoreAnimals/ui/loadMoreAnimalsList";
-// utils
-import { windowHistoryPush } from "@/utils/window";
+import AnimalsList from "@/features/animal/loadAllAnimals/ui/animalsList";
+import AnimalsFiltersForm from "@/features/animal/loadAllAnimalsFilters/ui/animalsFiltersForm";
+//tanstack
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+// queries
+import { queryPrefetchGetAllAnimals } from "@/features/animal/loadAllAnimals/model/query/getAllAnimals";
+import { queryPrefetchGetAllAnimalsFilter } from "@/features/animal/loadAllAnimalsFilters/model/query/fetchAllAnimalsFilters";
 
 type Props = {
 	searchParams: SearchParamsType;
 };
 
-const Index = ({ searchParams }: Props) => {
-	const [animalSearchParams, setAnimalSearchParams] = useState<SearchParamsType>(searchParams);
-
-	const handleFitlerChange = (values: SearchParamsType) => {
-		const urlSearchParams = new URLSearchParams();
-		Object.entries(values).forEach(([key, value]) => {
-			if (value) {
-				if (Array.isArray(value)) {
-					value.forEach((v) => urlSearchParams.append(key, String(v)));
-				} else {
-					urlSearchParams.set(key, String(value));
-				}
-			}
-		});
-		windowHistoryPush(urlSearchParams);
-		setAnimalSearchParams(values);
-	};
+const Index = async ({ searchParams }: Props) => {
+	const [queryAnimals, queryFilters] = await Promise.all([
+		queryPrefetchGetAllAnimals({ searchParams: searchParams }),
+		queryPrefetchGetAllAnimalsFilter({ searchParams: searchParams }),
+	]);
 
 	return (
-		<>
-			<SearchAnimalForm className="mb-8" searchParams={animalSearchParams} filterChage={handleFitlerChange} />
-			<LoadMoreAnimalsList animalSearchParams={animalSearchParams} />
-		</>
+		<HydrationBoundary state={dehydrate(queryAnimals)}>
+			<HydrationBoundary state={dehydrate(queryFilters)}>
+				<AnimalsFiltersForm searchParams={searchParams} />
+				<AnimalsList animalSearchParams={searchParams} />
+			</HydrationBoundary>
+		</HydrationBoundary>
 	);
 };
 

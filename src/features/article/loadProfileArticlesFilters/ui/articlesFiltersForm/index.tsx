@@ -1,0 +1,57 @@
+"use client";
+
+// types
+import { SearchParamsType } from "@/types/searchParams.type";
+// features
+import FiltersForm from "@/features/article/loadProfileArticlesFilters/ui/articlesFiltersForm/fullForm";
+import availableFiltersType from "@/features/article/loadAllArticlesFilters/model/type/availableFiltersType";
+import { queryGetProfileArticlesFilter } from "@/features/article/loadProfileArticlesFilters/model/query/fetchProfileArticlesFilters";
+import { SearchAllArticlesFiltersFormSchemaType } from "@/features/article/loadProfileArticlesFilters/model/type/filtersFormSchemaType";
+// hooks
+import { useWindowHistoryPush } from "@/hooks/use-window-history-push";
+// mongoose
+import { Types } from "mongoose";
+// utils
+import { urlSearchParamsBuilder } from "@/utils/searchParams";
+
+type Props = {
+	searchParams: SearchParamsType;
+	id: Types.ObjectId;
+};
+
+const generateVisibleOptions = (availableOptions: availableFiltersType) => {
+	const filteredOptions = {
+		category: availableOptions.category,
+	} as availableFiltersType;
+
+	return filteredOptions;
+};
+
+const Index = ({ searchParams, id }: Props) => {
+	const handleWindowHistoryPush = useWindowHistoryPush();
+	const { data: fetchedFilters } = queryGetProfileArticlesFilter({
+		searchParams: searchParams,
+		id: id,
+	});
+	const availableOptions = (fetchedFilters?.availableOptions &&
+		fetchedFilters?.selectedOptions &&
+		generateVisibleOptions(fetchedFilters?.availableOptions)) || {
+		category: [],
+	};
+	const selectedOptions = fetchedFilters?.selectedOptions || {};
+
+	const filterChange = (data: SearchAllArticlesFiltersFormSchemaType) => {
+		const urlSearchParams = urlSearchParamsBuilder(data);
+		handleWindowHistoryPush(urlSearchParams);
+	};
+
+	return (
+		<FiltersForm
+			availableOptions={availableOptions}
+			selectedValues={selectedOptions}
+			handleFilterChange={filterChange}
+		/>
+	);
+};
+
+export default Index;

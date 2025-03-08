@@ -1,7 +1,7 @@
 // widgets
 import AnimalListSkeleton from "@/widget/animal/animalList/ui/animalListSkeleton";
 // entities
-import { AnimalType } from "@/entities/animal/model/type";
+import { AnimalType } from "@/entities/animal/model/type/animal";
 import AnimalCard from "@/entities/animal/ui/animalCard";
 
 type Props = {

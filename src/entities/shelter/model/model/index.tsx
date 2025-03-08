@@ -1,7 +1,7 @@
 // mongoose
 import mongoose, { Schema } from "mongoose";
 // types
-import { ShelterType } from "@/entities/shelter/model/type";
+import { ShelterType } from "@/entities/shelter/model/type/shelter";
 
 const ShelterSchema = new Schema<ShelterType>(
 	{

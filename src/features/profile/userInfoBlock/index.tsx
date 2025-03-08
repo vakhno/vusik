@@ -8,7 +8,7 @@ import { useState } from "react";
 import { EditUserSchemaType } from "@/entities/profile/model/type/editProfileForm";
 import { Types } from "mongoose";
 import { useToast } from "@/shared/ui/use-toast";
-
+import { useTranslations } from "next-intl";
 type Props = {
 	id: Types.ObjectId;
 	avatar: string;
@@ -34,6 +34,7 @@ const Index = ({
 	telegram,
 	youtube,
 }: Props) => {
+	const t = useTranslations();
 	const [isEditUserModalVisible, setIsEditUserModalVisible] = useState(false);
 	const { toast } = useToast();
 
@@ -69,8 +70,6 @@ const Index = ({
 			const data = await response.json();
 			const { success } = data;
 			if (success) {
-				// profileMutation.mutate(userId);
-				// setIsEditAnimalOpened(false);
 				toast({
 					title: "Success",
 					description: `Edited`,
@@ -157,7 +156,7 @@ const Index = ({
 					</Link>
 				) : null}
 			</div>
-			{isEditable ? <Button onClick={handleProfileEdit}>Edit profile</Button> : null}
+			{isEditable ? <Button onClick={handleProfileEdit}>{t("page.profile.edit-profile")}</Button> : null}
 		</>
 	);
 };

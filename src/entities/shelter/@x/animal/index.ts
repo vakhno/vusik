@@ -1,1 +1,1 @@
-export type { ShelterType } from "@/entities/shelter/model/type";
+export type { ShelterType } from "@/entities/shelter/model/type/shelter";

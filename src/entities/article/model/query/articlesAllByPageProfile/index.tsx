@@ -3,8 +3,8 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/article/get-by-user-id-articles-by-page/route";
-import { ArticleType } from "@/entities/article/model/type";
+import { SuccessResponse, ErrorResponse } from "@/app/api/article/get-by-user-id-articles-by-page/route";
+import { ArticleType } from "@/entities/article/model/type/article";
 import { Types } from "mongoose";
 // types
 import { SearchParamsType } from "@/types/searchParams.type";
@@ -35,7 +35,7 @@ const fetchArticlesByProfileIdPerPage = async (
 		const { ok } = response;
 
 		if (ok) {
-			const data = (await response.json()) as SuccessResult | ErrorResult;
+			const data = (await response.json()) as SuccessResponse | ErrorResponse;
 			const { success } = data;
 
 			if (success) {
@@ -75,8 +75,9 @@ const fetchData = async ({
 
 export const queryGetProfileArticles = ({ searchParams, id }: Props) => {
 	return useInfiniteQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile-articles", searchParams, id],
-		gcTime: 0, // cache disabled
 		queryFn: async ({ pageParam = 1 }): Promise<{ articles: ArticleType[]; isHasMore: boolean } | null> => {
 			return fetchData({ id, searchParams, page: pageParam });
 			// try {
@@ -120,6 +121,8 @@ export const queryPrefetchGetProfileArticles = async ({ searchParams, id }: Prop
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchInfiniteQuery({
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryKey: ["profile-articles", searchParams, id],
 		queryFn: async ({ pageParam = 1 }) => {
 			return fetchData({ id, searchParams, page: pageParam });

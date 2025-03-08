@@ -2,7 +2,7 @@ import { SignUpSchema } from "@/features/auth/signUp/model/schema";
 import { SignUpSchemaType } from "@/features/auth/signUp/model/type";
 import { mongoConnection } from "@/lib/mongodb";
 import UserModel from "@/entities/profile/model/model";
-import { UserType } from "@/entities/profile/model/type";
+import { UserType } from "@/entities/profile/model/type/profile";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -50,9 +50,9 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 		const locale = await getLocale();
 		const t = await getTranslations({ locale });
 		const validationResult = SignUpSchema(t).safeParse(data);
-		const { success: isValidationsuccess } = validationResult;
+		const { success: isValidationPassed } = validationResult;
 
-		if (isValidationsuccess) {
+		if (isValidationPassed) {
 			const { password: enteredPassword, email: enteredEmail, name: enteredName } = data;
 			const user = await UserModel.findOne({
 				email: enteredEmail,
@@ -93,18 +93,24 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 
 					return NextResponse.json({ success: true, user: newUser }, { status: 200 });
 				} else {
-					return NextResponse.json({ success: false, error: "Something went wrong" }, { status: 500 });
+					return NextResponse.json(
+						{ success: false, error: t("page.auth.sign-up.api.503") },
+						{ status: 503 },
+					);
 				}
 			} else {
-				return NextResponse.json({ success: false, error: "User already exist" }, { status: 400 });
+				return NextResponse.json({ success: false, error: t("page.auth.sign-up.api.409") }, { status: 409 });
 			}
 		} else {
 			const { errors } = validationResult.error;
 			const errorMessage = errors[0].message;
 
-			return NextResponse.json({ success: false, error: errorMessage }, { status: 400 });
+			return NextResponse.json(
+				{ success: false, error: t("page.auth.sign-up.api.400", { error: errorMessage }) },
+				{ status: 400 },
+			);
 		}
 	} catch (_) {
-		return NextResponse.json({ success: false, error: "Something went wrong" }, { status: 500 });
+		return NextResponse.json({ success: false, error: "Something went wrong!" }, { status: 500 });
 	}
 }

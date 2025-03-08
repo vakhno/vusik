@@ -9,8 +9,8 @@ export const SignInSchema = (t: TFunction) => {
 	return z.object({
 		email: z
 			.string()
-			.min(1, { message: t ? t("sign-in.schema-email-min") : "" })
-			.email({ message: t ? t("sign-in.schema-email-type") : "" }),
-		password: z.string().min(1, { message: t ? t("sign-in.schema-password-min") : "" }),
+			.min(1, { message: t ? t("page.auth.sign-in.schema.email-min") : "" })
+			.email({ message: t ? t("page.auth.sign-in.schema.email-type") : "" }),
+		password: z.string().min(5, { message: t ? t("page.auth.sign-in.schema.password-min") : "" }),
 	});
 };

@@ -1,8 +1,10 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
+// mongoose
+import { Types } from "mongoose";
 
 type Props = {
-	articleId: string;
+	articleId: Types.ObjectId;
 };
 
 export const queryArticle = ({ articleId }: Props) => {
@@ -11,7 +13,7 @@ export const queryArticle = ({ articleId }: Props) => {
 		queryFn: async () => {
 			try {
 				const urlSearchParams = new URLSearchParams();
-				urlSearchParams.set("id", articleId);
+				urlSearchParams.set("id", String(articleId));
 				const response = await fetch(
 					`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/article/get-article-by-id/?${urlSearchParams}`,
 					{
@@ -44,7 +46,7 @@ export const queryPrefetchArticle = async ({ articleId }: Props) => {
 		queryFn: async () => {
 			try {
 				const urlSearchParams = new URLSearchParams();
-				urlSearchParams.set("id", articleId);
+				urlSearchParams.set("id", String(articleId));
 				const response = await fetch(
 					`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/article/get-article-by-id/?${urlSearchParams}`,
 					{

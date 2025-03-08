@@ -1,9 +1,9 @@
 // tanstack
-import { useQuery, QueryClient } from "@tanstack/react-query";
+import { useQuery, QueryClient, dehydrate } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/article/get-filter-options-for-all-articles/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/article/get-filter-options-for-all-articles/route";
 // routes
 import { API_GET_FILTER_OPTIONS_FOR_ALL_ARTICLES } from "@/routes";
 // types
@@ -13,9 +13,9 @@ type Props = {
 	searchParams: SearchParamsType;
 };
 
-type QueryResult = Omit<SuccessResult, "success"> | null;
+type QueryResult = Omit<SuccessResponse, "success"> | null;
 
-type PrefetchResult = Omit<SuccessResult, "success"> | null;
+type PrefetchResult = Omit<ErrorResponse, "success"> | null;
 
 export const queryGetAllArticlesFilter = ({ searchParams }: Props) => {
 	return useQuery({
@@ -34,7 +34,7 @@ export const queryGetAllArticlesFilter = ({ searchParams }: Props) => {
 
 				if (ok) {
 					const data = await response.json();
-					const { success } = data as SuccessResult | ErrorResult;
+					const { success } = data as SuccessResponse | ErrorResponse;
 
 					if (success) {
 						const { availableOptions, selectedOptions } = data;
@@ -56,6 +56,8 @@ export const queryPrefetchGetAllArticlesFilter = async ({ searchParams }: Props)
 
 	await queryClient.prefetchQuery({
 		queryKey: ["all-articles-filter", searchParams],
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
 		queryFn: async (): Promise<PrefetchResult> => {
 			try {
 				const urlSearchParams = urlSearchParamsBuilder(searchParams);
@@ -71,7 +73,7 @@ export const queryPrefetchGetAllArticlesFilter = async ({ searchParams }: Props)
 
 				if (ok) {
 					const data = await response.json();
-					const { success } = data as SuccessResult | ErrorResult;
+					const { success } = data as SuccessResponse | ErrorResponse;
 
 					if (success) {
 						const { availableOptions, selectedOptions } = data;
@@ -86,8 +88,9 @@ export const queryPrefetchGetAllArticlesFilter = async ({ searchParams }: Props)
 			}
 		},
 	});
+	return dehydrate(queryClient);
 
-	return queryClient;
+	// return queryClient;
 };
 
 export const queryGetAllArticlesFilterInvalidate = ({ searchParams }: Props) => {

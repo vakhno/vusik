@@ -1,9 +1,9 @@
 // tanstack
-import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, QueryClient, dehydrate } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/article/get-articles-by-page/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/article/get-articles-by-page/route";
 //routes
 import { API_GET_ARTICLES_BY_PAGE } from "@/routes";
 // types
@@ -13,9 +13,9 @@ type Props = {
 	searchParams: SearchParamsType;
 };
 
-type QueryResult = Omit<SuccessResult, "success"> | null;
+type QueryResult = Omit<SuccessResponse, "success"> | null;
 
-type PrefetchResult = Omit<SuccessResult, "success"> | null;
+type PrefetchResult = Omit<SuccessResponse, "success"> | null;
 
 export const queryGetAllArticles = ({ searchParams }: Props) => {
 	return useInfiniteQuery({
@@ -37,7 +37,7 @@ export const queryGetAllArticles = ({ searchParams }: Props) => {
 				const { ok } = response;
 
 				if (ok) {
-					const data = (await response.json()) as SuccessResult | ErrorResult;
+					const data = (await response.json()) as SuccessResponse | ErrorResponse;
 					const { success } = data;
 
 					if (success) {
@@ -63,7 +63,9 @@ export const queryPrefetchGetAllArticles = async ({ searchParams }: Props) => {
 
 	await queryClient.prefetchInfiniteQuery({
 		queryKey: ["all-articles", searchParams],
-		gcTime: 0, // cache disabled
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
+		// gcTime: 0, // cache disabled
 		queryFn: async ({ pageParam }): Promise<PrefetchResult> => {
 			try {
 				const urlSearchParams = urlSearchParamsBuilder(searchParams);
@@ -80,7 +82,7 @@ export const queryPrefetchGetAllArticles = async ({ searchParams }: Props) => {
 				const { ok } = response;
 
 				if (ok) {
-					const data = (await response.json()) as SuccessResult | ErrorResult;
+					const data = (await response.json()) as SuccessResponse | ErrorResponse;
 					const { success } = data;
 
 					if (success) {
@@ -97,7 +99,8 @@ export const queryPrefetchGetAllArticles = async ({ searchParams }: Props) => {
 		initialPageParam: 1,
 	});
 
-	return queryClient;
+	return dehydrate(queryClient);
+	// return queryClient;
 };
 
 export const queryGetAllArticlesInvalidate = ({ searchParams }: Props) => {

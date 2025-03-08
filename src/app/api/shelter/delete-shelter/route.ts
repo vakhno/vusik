@@ -6,7 +6,7 @@ import AnimalModel from "@/entities/animal/model/model";
 import ShelterModel from "@/entities/shelter/model/model";
 // mongoose
 import UserModel from "@/entities/profile/model/model";
-import { ShelterType } from "@/entities/shelter/model/type";
+import { ShelterType } from "@/entities/shelter/model/type/shelter";
 
 export interface SuccessResponse {
 	success: true;

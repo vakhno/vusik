@@ -175,7 +175,7 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/animal/get-all-animals-filters/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/animal/get-all-animals-filters/route";
 // routes
 import { API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS } from "@/routes";
 // types
@@ -185,7 +185,7 @@ type Props = {
 	searchParams: SearchParamsType;
 };
 
-type FetchResult = Omit<SuccessResult, "success"> | null;
+type FetchResult = Omit<SuccessResponse, "success"> | null;
 
 // const preparingAvailableFilterFields = (filters: FiltersPopulatedAnimalsType) => {
 // 	const { species, states, cities, shelters } = filters;
@@ -255,7 +255,7 @@ const fetchAnimalFilters = async (searchParams: SearchParamsType): Promise<Fetch
 
 		if (ok) {
 			const data = await response.json();
-			const { success } = data as SuccessResult | ErrorResult;
+			const { success } = data as SuccessResponse | ErrorResponse;
 
 			if (success) {
 				const { availableOptions, selectedOptions } = data;

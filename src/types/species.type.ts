@@ -1,6 +1,6 @@
 type LanguageLabel = {
-	eng: string;
-	ukr: string;
+	en: string;
+	uk: string;
 };
 
 type DynamicValues = Record<string, { label: LanguageLabel }>;

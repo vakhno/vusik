@@ -3,7 +3,7 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/article/get-by-user-id-articles-by-page/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/article/get-by-user-id-articles-by-page/route";
 import { ArticleType } from "@/entities/article/model/type/article";
 import { Types } from "mongoose";
 // types
@@ -35,7 +35,7 @@ const fetchArticlesByProfileIdPerPage = async (
 		const { ok } = response;
 
 		if (ok) {
-			const data = (await response.json()) as SuccessResult | ErrorResult;
+			const data = (await response.json()) as SuccessResponse | ErrorResponse;
 			const { success } = data;
 
 			if (success) {

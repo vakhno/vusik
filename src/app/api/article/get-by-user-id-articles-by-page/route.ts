@@ -51,6 +51,8 @@ import getProfileArticles, {
 	SuccessResponse,
 } from "@/features/article/loadProfileArticles/api/getAllArticles";
 
+export type { ErrorResponse, SuccessResponse };
+
 export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	const { searchParams: URLSearchParams } = new URL(req.url);
 	const result = await getProfileArticles({ searchParams: URLSearchParams });

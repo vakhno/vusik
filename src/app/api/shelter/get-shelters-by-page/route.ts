@@ -48,6 +48,8 @@
 import { NextResponse } from "next/server";
 import getAllShelters, { ErrorResponse, SuccessResponse } from "@/features/shelter/loadAllShelters/api/getAllShelters";
 
+export type { ErrorResponse, SuccessResponse };
+
 export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	const { searchParams: URLSearchParams } = new URL(req.url);
 	const result = await getAllShelters({ searchParams: URLSearchParams });

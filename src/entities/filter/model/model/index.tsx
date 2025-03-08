@@ -1,9 +1,9 @@
 // mongoose
 import mongoose, { Schema } from "mongoose";
 // types
-import { FilterType } from "@/entities/filter/model/type/filters";
+import { FiltersType } from "@/entities/filter/model/type/filters";
 
-const FilterSchema = new Schema<FilterType>({
+const FilterSchema = new Schema<FiltersType>({
 	animals: {
 		species: {
 			type: Map,

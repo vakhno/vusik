@@ -2,11 +2,13 @@
 import Article from "@/features/article";
 // tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-// mongoose
+// entities
 import { queryPrefetchArticle } from "@/entities/article/model/query/queryById";
+// mongoose
+import { Types } from "mongoose";
 
 type Props = {
-	params: { articleId: string };
+	params: { articleId: Types.ObjectId };
 };
 
 const Page = async ({ params }: Props) => {

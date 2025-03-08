@@ -3,7 +3,7 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/animal/get-all-animals-by-page/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/animal/get-all-animals-by-page/route";
 //routes
 import { API_GET_ANIMALS_BY_PAGE } from "@/routes";
 // types
@@ -13,9 +13,9 @@ type Props = {
 	searchParams: SearchParamsType;
 };
 
-type QueryResult = Omit<SuccessResult, "success"> | null;
+type QueryResult = Omit<SuccessResponse, "success"> | null;
 
-type PrefetchResult = Omit<SuccessResult, "success"> | null;
+type PrefetchResult = Omit<ErrorResponse, "success"> | null;
 
 const fetchAnimalsByPage = async (page: number, searchParams: SearchParamsType) => {
 	try {
@@ -33,7 +33,7 @@ const fetchAnimalsByPage = async (page: number, searchParams: SearchParamsType) 
 		const { ok } = response;
 
 		if (ok) {
-			const data = (await response.json()) as SuccessResult | ErrorResult;
+			const data = (await response.json()) as SuccessResponse | ErrorResponse;
 			const { success } = data;
 
 			if (success) {

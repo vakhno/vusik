@@ -22,7 +22,7 @@ type Props = {
 	isEditable?: boolean;
 };
 
-const Profile = ({ userId, isEditable, searchParams }: Props) => {
+const Profile = ({ userId, isEditable, searchParams = {} }: Props) => {
 	const t = useTranslations();
 	const { data } = queryProfile({ userId: userId });
 	if (data) {

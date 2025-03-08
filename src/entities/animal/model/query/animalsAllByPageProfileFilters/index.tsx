@@ -2,7 +2,7 @@
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // actions
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
-import { SuccessResult, ErrorResult } from "@/app/api/animal/get-all-animals-filters/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/animal/get-all-animals-filters/route";
 import { Types } from "mongoose";
 // types
 import { SearchParamsType } from "@/types/searchParams.type";
@@ -33,7 +33,7 @@ export const queryGetProfileAnimalsFilter = ({ searchParams, id }: Props) => {
 
 			if (ok) {
 				const data = await response.json();
-				const { success } = data as SuccessResult | ErrorResult;
+				const { success } = data as SuccessResponse | ErrorResponse;
 
 				if (success) {
 					const { availableOptions, selectedOptions } = data;
@@ -67,7 +67,7 @@ export const queryPrefetchGetProfileAnimalsFilter = async ({ searchParams, id }:
 
 			if (ok) {
 				const data = await response.json();
-				const { success } = data as SuccessResult | ErrorResult;
+				const { success } = data as SuccessResponse | ErrorResponse;
 
 				if (success) {
 					const { availableOptions, selectedOptions } = data;

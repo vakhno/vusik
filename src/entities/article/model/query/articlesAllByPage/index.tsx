@@ -3,7 +3,7 @@ import { useInfiniteQuery, QueryClient, dehydrate } from "@tanstack/react-query"
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/article/get-articles-by-page/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/article/get-articles-by-page/route";
 //routes
 import { API_GET_ARTICLES_BY_PAGE } from "@/routes";
 // types
@@ -13,9 +13,9 @@ type Props = {
 	searchParams: SearchParamsType;
 };
 
-type QueryResult = Omit<SuccessResult, "success"> | null;
+type QueryResult = Omit<SuccessResponse, "success"> | null;
 
-type PrefetchResult = Omit<SuccessResult, "success"> | null;
+type PrefetchResult = Omit<SuccessResponse, "success"> | null;
 
 export const queryGetAllArticles = ({ searchParams }: Props) => {
 	return useInfiniteQuery({
@@ -37,7 +37,7 @@ export const queryGetAllArticles = ({ searchParams }: Props) => {
 				const { ok } = response;
 
 				if (ok) {
-					const data = (await response.json()) as SuccessResult | ErrorResult;
+					const data = (await response.json()) as SuccessResponse | ErrorResponse;
 					const { success } = data;
 
 					if (success) {
@@ -82,7 +82,7 @@ export const queryPrefetchGetAllArticles = async ({ searchParams }: Props) => {
 				const { ok } = response;
 
 				if (ok) {
-					const data = (await response.json()) as SuccessResult | ErrorResult;
+					const data = (await response.json()) as SuccessResponse | ErrorResponse;
 					const { success } = data;
 
 					if (success) {

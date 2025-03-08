@@ -59,6 +59,8 @@ import getAllArticlesFilters, {
 	SuccessResponse,
 } from "@/features/article/loadAllArticlesFilters/api/getAllArticlesFilters";
 
+export type { ErrorResponse, SuccessResponse };
+
 export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	const { searchParams: URLSearchParams } = new URL(req.url);
 	const result = await getAllArticlesFilters({ searchParams: URLSearchParams });

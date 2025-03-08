@@ -3,7 +3,7 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { Types } from "mongoose";
 // types
@@ -37,7 +37,7 @@ const fetchShelterssByProfileIdPerPage = async (
 		const { ok } = response;
 
 		if (ok) {
-			const data = (await response.json()) as SuccessResult | ErrorResult;
+			const data = (await response.json()) as SuccessResponse | ErrorResponse;
 			const { success } = data;
 
 			if (success) {

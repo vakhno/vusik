@@ -3,8 +3,9 @@
 import { queryArticle } from "@/entities/article/model/query/queryById";
 import Image from "next/image";
 import { AspectRatio } from "@/shared/ui/aspect-ratio";
+import { Types } from "mongoose";
 
-type Props = { articleId: string };
+type Props = { articleId: Types.ObjectId };
 
 const Index = ({ articleId }: Props) => {
 	const { data } = queryArticle({ articleId: articleId });

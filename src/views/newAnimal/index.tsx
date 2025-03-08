@@ -8,6 +8,7 @@ import { queryGetProfileShelters } from "@/entities/shelter/model/query/shelters
 import { species } from "@/constants/species";
 import { AnimalType } from "@/entities/animal/model/type/animal";
 import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
+import { ShelterType } from "@/entities/shelter/@x/animal";
 const ACTIVE_DOMEN = process.env.NEXT_PUBLIC_ACTIVE_DOMEN;
 
 type Props = {
@@ -68,8 +69,11 @@ const Index = ({ userId }: Props) => {
 		}
 	};
 
-	const { shelters } = data;
+	let shelters = [] as ShelterType[];
 
+	if (data) {
+		shelters = data.shelters;
+	}
 	return <NewAnimalForm handleSuccessSubmitClick={handleSuccessSubmitClick} species={species} shelters={shelters} />;
 };
 

@@ -3,7 +3,7 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResult, ErrorResult } from "@/app/api/animal/get-profile-animals-by-page/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/animal/get-profile-animals-by-page/route";
 import { AnimalType } from "@/entities/animal/model/type/animal";
 import { Types } from "mongoose";
 // types
@@ -37,7 +37,7 @@ const fetchAnimalsByProfileIdPerPage = async (
 		const { ok } = response;
 
 		if (ok) {
-			const data = (await response.json()) as SuccessResult | ErrorResult;
+			const data = (await response.json()) as SuccessResponse | ErrorResponse;
 			const { success } = data;
 
 			if (success) {

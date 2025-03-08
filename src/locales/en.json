@@ -74,6 +74,8 @@
 					"email-type": "Email is not valid!",
 					"password-min": "Password is required!"
 				},
+				"submit": "Sign In",
+				"error-toast-title": "Error",
 				"api": {
 					"400": "Invalid data: \"{error}\"!",
 					"401": "Password or email is not valid!",
@@ -103,6 +105,8 @@
 					"confirm-password-min": "Confirm Password is required!",
 					"passwords-match": "Passwords don`t match!"
 				},
+				"submit": "Sign Up",
+				"error-toast-title": "Error",
 				"api": {
 					"400": "Invalid data: \"{error}\"!",
 					"409": "Such profile already exist!",

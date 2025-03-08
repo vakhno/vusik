@@ -1,14 +1,15 @@
 "use client";
+
 // zustand
 import useUserStore from "@/zustand/store/user.store";
 // actions
-import logout from "@/actions/auth/logout";
+import logout from "@/features/auth/logout/model/action/logout";
 // UI components
 import { Button } from "@/shared/ui/button";
 // next-intl
 import { useTranslations } from "next-intl";
 
-const index = () => {
+const Index = () => {
 	const t = useTranslations();
 	const setUser = useUserStore((state) => state.setUser);
 
@@ -24,4 +25,4 @@ const index = () => {
 	);
 };
 
-export default index;
+export default Index;

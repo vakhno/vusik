@@ -1,5 +1,6 @@
 "use client";
-// components
+
+// shared
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/ui/card";
 import LogoWithSloganLink from "@/shared/shared/LogoWithSloganLink";
 import TextBetweenSeparators from "@/shared/shared/TextBetweenSeparators";

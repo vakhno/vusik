@@ -1,9 +1,10 @@
 "use server";
 
+// next tools
 import { cookies } from "next/headers";
 
-const logout = async () => {
+const Index = async () => {
 	cookies().delete("token");
 };
 
-export default logout;
+export default Index;

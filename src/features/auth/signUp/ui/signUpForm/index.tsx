@@ -1,17 +1,7 @@
 "use client";
-// components
+
+// shared
 import { useToast } from "@/shared/ui/use-toast";
-import { Form } from "@/shared/ui/form";
-import { Button } from "@/shared/ui/button";
-import FormInput from "@/shared/formUi/formInput";
-// react-hook-form
-import { useForm } from "react-hook-form";
-// zod
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-// next tools
-import { SignUpSchema } from "@/features/auth/signUp/model/schema";
-import Link from "next/link";
 // types
 import {
 	SuccessResponse as AuthSignUpSuccessResponse,
@@ -25,24 +15,17 @@ import { API_AUTH_SIGN_UP } from "@/routes";
 import { useTranslations } from "next-intl";
 // zustand
 import useUserStore from "@/zustand/store/user.store";
+// features
+import SignUpFields from "@/features/auth/signUp/ui/signUpForm/signUpFields";
+import { SignUpSchemaType } from "@/features/auth/signUp/model/type/signUpFormSchema";
 
 const index = () => {
 	const t = useTranslations();
-	const signUpSchema = SignUpSchema(t);
 	const setUser = useUserStore((state) => state.setUser);
 	const router = useRouter();
 	const { toast } = useToast();
-	const form = useForm<z.infer<typeof signUpSchema>>({
-		defaultValues: {
-			name: "",
-			email: "",
-			password: "",
-			confirmPassword: "",
-		},
-		resolver: zodResolver(signUpSchema),
-	});
 
-	const onSubmit = async (fields: z.infer<typeof signUpSchema>) => {
+	const onHandleSubmit = async (fields: SignUpSchemaType) => {
 		const { name, email, password, confirmPassword } = fields;
 		const formData = new FormData();
 
@@ -69,68 +52,14 @@ const index = () => {
 			const { error } = data;
 
 			toast({
-				title: "Error",
+				title: t("page.auth.sign-up.error-toast-title"),
 				description: error,
 				variant: "destructive",
 			});
 		}
 	};
 
-	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-				<FormInput
-					control={form.control}
-					label={t("page.auth.sign-up.name-input-label")}
-					name="name"
-					placeholder={t("page.auth.sign-up.name-input-placeholder")}
-					description={t("page.auth.sign-up.name-input-description")}
-				/>
-				<FormInput
-					type="email"
-					control={form.control}
-					label={t("page.auth.sign-up.email-input-label")}
-					name="email"
-					placeholder={t("page.auth.sign-up.email-input-placeholder")}
-				/>
-				<FormInput
-					type="password"
-					control={form.control}
-					label={t("page.auth.sign-up.password-input-label")}
-					name="password"
-					placeholder={t("page.auth.sign-up.password-input-placeholder")}
-				/>
-				<FormInput
-					type="password"
-					control={form.control}
-					label={t("page.auth.sign-up.confirm-password-input-label")}
-					name="confirmPassword"
-					placeholder={t("page.auth.sign-up.confirm-password-input-placeholder")}
-				/>
-				<div className="mx-auto text-center">
-					{t.rich("page.auth.sign-up.sign-up-agreement", {
-						termsOfUse: () => {
-							return (
-								<Link href="/terms-of-use" className="font-bold">
-									{t("page.auth.sign-up.sign-up-agreement-terms-of-use")}
-								</Link>
-							);
-						},
-						privacyPolicy: () => {
-							return (
-								<Link href="/privacy-policy" className="font-bold">
-									{t("page.auth.sign-up.sign-up-agreement-privacy-policy")}
-								</Link>
-							);
-						},
-					})}
-				</div>
-				<Button className="w-full" type="submit">
-					{t("submit")}
-				</Button>
-			</form>
-		</Form>
-	);
+	return <SignUpFields onFormSubmit={onHandleSubmit} />;
 };
 
 export default index;

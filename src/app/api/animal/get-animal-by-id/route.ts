@@ -4,12 +4,12 @@ import { AnimalType } from "@/entities/animal/model/type/animal";
 import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
 import { NextResponse } from "next/server";
 
-type SuccessResponse = {
+export type SuccessResponse = {
 	success: true;
 	animal: AnimalType;
 };
 
-type ErrorResponse = {
+export type ErrorResponse = {
 	success: false;
 };
 
@@ -21,6 +21,7 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		const searchParams = gettingValuesFromURLSearchParams(URLSearchParams);
 		const { id } = searchParams;
 		const animal = await AnimalModel.findById(id);
+
 		return NextResponse.json({ success: true, animal: animal }, { status: 200 });
 	} catch (_) {
 		return NextResponse.json({ success: false }, { status: 500 });

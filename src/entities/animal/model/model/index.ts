@@ -28,6 +28,7 @@ const AnimalSchema = new Schema<AnimalType>(
 		},
 		mainPhoto: {
 			type: String,
+			default: null,
 		},
 		secondaryPhotos: [
 			{

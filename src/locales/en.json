@@ -16,6 +16,36 @@
 				},
 				"keywords": "shelter, animal shelter, pet adoption, adopt a dog, rescue dogs, adopt a cat, rescue cats, find animal shelter, find animal shelter near me"
 			},
+			"animal": {
+				"title": "Adopt {name}",
+				"description": "Adopt animal from shelter {name}",
+				"openGraph": {
+					"title": "Adopt {name}",
+					"description": "Adopt animal from shelter {name}",
+					"image": {
+						"alt": "Animal from shelter"
+					}
+				},
+				"twitter": {
+					"title": "Adopt {name}",
+					"description": "Adopt animal from shelter {name}"
+				}
+			},
+			"shelter": {
+				"title": "{name}",
+				"description": "{name} - search for animals here",
+				"openGraph": {
+					"title": "{name}",
+					"description": "{name} - search for animals here",
+					"image": {
+						"alt": "Animal shelter"
+					}
+				},
+				"twitter": {
+					"title": "{name}",
+					"description": "{name} - search for animals here"
+				}
+			},
 			"sign-in": {
 				"title": "VUSIK - SIGN-IN",
 				"description": "SIGN-IN - to help animals",
@@ -206,6 +236,7 @@
 	"logo-with-slogan-link": {
 		"description": "Find your friend with us"
 	},
+	"delete": "Delete",
 	"submit": "Submit",
 	"search": "Search",
 	"loadMore": "Load more...",
@@ -221,5 +252,9 @@
 		"select-shelter": "Select shelter",
 		"sterilized": "Sterilization",
 		"injury": "Injury"
+	},
+	"adopt": {
+		"title": "Adopt",
+		"button": "Adopt"
 	}
 }

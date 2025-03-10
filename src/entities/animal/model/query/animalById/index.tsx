@@ -1,12 +1,20 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import { Types } from "mongoose";
+import {
+	SuccessResponse as AnimalSuccessResponse,
+	ErrorResponse as AnimalErrorResponse,
+} from "@/app/api/animal/get-animal-by-id/route";
+import {
+	SuccessResponse as ShelterSuccessResponse,
+	ErrorResponse as ShelterErrorResponse,
+} from "@/app/api/shelter/get-shelter-by-id/route";
+import {
+	SuccessResponse as UserSuccessResponse,
+	ErrorResponse as UserErrorResponse,
+} from "@/app/api/user/get-user-by-id/route";
 
-type Props = {
-	animalId: Types.ObjectId;
-};
-
-const fetchAnimalById = async (animalId: string | Types.ObjectId) => {
+const fetchAnimalById = async (animalId: Types.ObjectId) => {
 	try {
 		const id = String(animalId);
 		const urlSearchParams = new URLSearchParams();
@@ -19,7 +27,7 @@ const fetchAnimalById = async (animalId: string | Types.ObjectId) => {
 		);
 		const { ok } = response;
 		if (ok) {
-			const data = await response.json();
+			const data = (await response.json()) as AnimalSuccessResponse | AnimalErrorResponse;
 			const { success } = data;
 			if (success) {
 				const { animal } = data;
@@ -33,7 +41,7 @@ const fetchAnimalById = async (animalId: string | Types.ObjectId) => {
 	}
 };
 
-const fetchShelterById = async (shelterId: string | Types.ObjectId) => {
+const fetchShelterById = async (shelterId: Types.ObjectId) => {
 	try {
 		const id = String(shelterId);
 		const urlSearchParams = new URLSearchParams();
@@ -46,7 +54,7 @@ const fetchShelterById = async (shelterId: string | Types.ObjectId) => {
 		);
 		const { ok } = response;
 		if (ok) {
-			const data = await response.json();
+			const data = (await response.json()) as ShelterSuccessResponse | ShelterErrorResponse;
 			const { success } = data;
 			if (success) {
 				const { shelter } = data;
@@ -60,7 +68,7 @@ const fetchShelterById = async (shelterId: string | Types.ObjectId) => {
 	}
 };
 
-const fetchUserById = async (userId: string | Types.ObjectId) => {
+const fetchUserById = async (userId: Types.ObjectId) => {
 	try {
 		const id = String(userId);
 		const urlSearchParams = new URLSearchParams();
@@ -73,7 +81,7 @@ const fetchUserById = async (userId: string | Types.ObjectId) => {
 		);
 		const { ok } = response;
 		if (ok) {
-			const data = await response.json();
+			const data = (await response.json()) as UserSuccessResponse | UserErrorResponse;
 			const { success } = data;
 			if (success) {
 				const { user } = data;
@@ -87,7 +95,7 @@ const fetchUserById = async (userId: string | Types.ObjectId) => {
 	}
 };
 
-const fetchData = async (animalId: string | Types.ObjectId) => {
+const fetchData = async (animalId: Types.ObjectId) => {
 	const animal = await fetchAnimalById(animalId);
 
 	if (animal) {
@@ -100,23 +108,27 @@ const fetchData = async (animalId: string | Types.ObjectId) => {
 	return null;
 };
 
-export const queryAnimal = ({ animalId }: Props) => {
+type FetchProps = {
+	animalId: Types.ObjectId;
+};
+
+export const queryAnimal = ({ animalId }: FetchProps) => {
 	return useQuery({
 		queryKey: ["animal", animalId],
-		queryFn: async () => {
-			return await fetchData(animalId);
-		},
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
+		queryFn: () => fetchData(animalId),
 	});
 };
 
-export const queryPrefetchAnimal = async ({ animalId }: Props) => {
+export const queryPrefetchAnimal = async ({ animalId }: FetchProps) => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchQuery({
 		queryKey: ["animal", animalId],
-		queryFn: async () => {
-			return await fetchData(animalId);
-		},
+		gcTime: 5 * 60 * 1000,
+		staleTime: 5 * 60 * 1000,
+		queryFn: () => fetchData(animalId),
 	});
 
 	return queryClient;

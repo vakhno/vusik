@@ -3,6 +3,8 @@ import AnimalListSkeleton from "@/widget/animal/animalList/ui/animalListSkeleton
 // entities
 import { AnimalType } from "@/entities/animal/model/type/animal";
 import AnimalCard from "@/entities/animal/ui/animalCard";
+// features
+import AnimalLikeButton from "@/features/animal/likeAnimal/ui/likeAnimalButton";
 
 type Props = {
 	isLoading: boolean;
@@ -25,6 +27,7 @@ const index = ({ isLoading, animals, isEditable, isFetching }: Props) => {
 											isEditable={isEditable}
 											key={animal._id.toString()}
 											animal={animal}
+											JSXLikeButton={AnimalLikeButton}
 										/>
 									);
 								})}

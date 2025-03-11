@@ -51,7 +51,7 @@ type InvalidationProps = {
 	id: Types.ObjectId;
 };
 
-export const queryGetAllSheltersFilter = ({ searchParams, id }: FetchProps) => {
+export const queryGetProfileSheltersFilter = ({ searchParams, id }: FetchProps) => {
 	return useQuery({
 		queryKey: ["profile-shelters-filter", searchParams, id],
 		queryFn: async () => {
@@ -60,7 +60,7 @@ export const queryGetAllSheltersFilter = ({ searchParams, id }: FetchProps) => {
 	});
 };
 
-export const queryPrefetchGetAllSheltersFilter = async ({ searchParams, id }: FetchProps) => {
+export const queryPrefetchGetProfileSheltersFilter = async ({ searchParams, id }: FetchProps) => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchQuery({
@@ -73,6 +73,6 @@ export const queryPrefetchGetAllSheltersFilter = async ({ searchParams, id }: Fe
 	return queryClient;
 };
 
-export const queryGetAllSheltersFilterInvalidate = ({ queryClient, searchParams, id }: InvalidationProps) => {
+export const queryGetProfileSheltersFilterInvalidate = ({ queryClient, searchParams, id }: InvalidationProps) => {
 	queryClient.invalidateQueries({ queryKey: ["profile-shelters-filter", searchParams, id] });
 };

@@ -3,24 +3,21 @@ import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import { urlSearchParamsBuilder } from "@/utils/searchParams";
 // api
-import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
+import { SuccessResponse, ErrorResponse } from "@/features/shelter/loadProfileShelters/api/getProfileShelters";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { Types } from "mongoose";
 // types
 import { SearchParamsType } from "@/types/searchParams.type";
-// routes
-// import { API_GET_BY_USER_ID_ANIMALS_BY_PAGE } from "@/routes";
 
-type Props = {
+const fetchData = async ({
+	id,
+	page,
+	searchParams,
+}: {
+	id: string | Types.ObjectId;
 	searchParams: SearchParamsType;
-	id: Types.ObjectId;
-};
-
-const fetchShelterssByProfileIdPerPage = async (
-	id: string | Types.ObjectId,
-	page: number,
-	searchParams: SearchParamsType,
-) => {
+	page: number;
+}) => {
 	try {
 		const urlSearchParams = urlSearchParamsBuilder(searchParams);
 
@@ -52,34 +49,22 @@ const fetchShelterssByProfileIdPerPage = async (
 	}
 };
 
-const fetchData = async ({
-	id,
-	page,
-	searchParams,
-}: {
-	id: string | Types.ObjectId;
+type FetchProps = {
 	searchParams: SearchParamsType;
-	page: number;
-}) => {
-	const shelters = await fetchShelterssByProfileIdPerPage(id, page, searchParams);
-
-	if (shelters) {
-		// const [sheltersData, sheltersData] = await Promise.all([
-		//     fetchSheltersByUserId(userId),
-		//     fetchSheltersByUserId(userId),
-		// ]);
-		// if (sheltersData && sheltersData) {
-		return shelters;
-		// }
-	}
-	return null;
+	id: Types.ObjectId;
 };
 
-export const queryGetProfileShelters = ({ searchParams, id }: Props) => {
+type InvalidationProps = {
+	searchParams: SearchParamsType;
+	queryClient: QueryClient;
+	id: Types.ObjectId;
+};
+
+export const queryGetProfileShelters = ({ searchParams, id }: FetchProps) => {
 	return useInfiniteQuery({
+		queryKey: ["profile-shelters", searchParams, id],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
-		queryKey: ["profile-shelters", searchParams, id],
 		queryFn: async ({ pageParam = 1 }): Promise<{ shelters: ShelterType[]; isHasMore: boolean } | null> => {
 			return fetchData({ id, searchParams, page: pageParam });
 		},
@@ -90,13 +75,13 @@ export const queryGetProfileShelters = ({ searchParams, id }: Props) => {
 	});
 };
 
-export const queryPrefetchGetProfileShelters = async ({ searchParams, id }: Props) => {
+export const queryPrefetchGetProfileShelters = async ({ searchParams, id }: FetchProps) => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchInfiniteQuery({
+		queryKey: ["profile-shelters", searchParams, id],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
-		queryKey: ["profile-shelters", searchParams, id],
 		queryFn: async ({ pageParam = 1 }) => {
 			return fetchData({ id, searchParams, page: pageParam });
 		},
@@ -106,7 +91,6 @@ export const queryPrefetchGetProfileShelters = async ({ searchParams, id }: Prop
 	return queryClient;
 };
 
-export const queryGetProfileSheltersInvalidate = ({ searchParams, id }: Props) => {
-	const queryClient = new QueryClient();
+export const queryGetProfileSheltersInvalidate = ({ queryClient, searchParams, id }: InvalidationProps) => {
 	queryClient.invalidateQueries({ queryKey: ["profile-shelters", searchParams, id] });
 };

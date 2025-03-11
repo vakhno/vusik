@@ -6,7 +6,7 @@ import { SearchParamsType } from "@/types/searchParams.type";
 import FiltersForm from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm/fullForm";
 import selectedFiltersType from "@/features/shelter/loadProfileSheltersFilters/model/type/selectedFiltersType";
 import availableFiltersType from "@/features/shelter/loadProfileSheltersFilters/model/type/availableFiltersType";
-import { queryGetAllSheltersFilter } from "@/features/shelter/loadProfileSheltersFilters/model/query/fetchAllSheltersFilters";
+import { queryGetProfileSheltersFilter } from "@/features/shelter/loadProfileSheltersFilters/model/query/fetchProfileSheltersFilters";
 import { SearchAllAnimalsFiltersFormSchemaType } from "@/features/shelter/loadProfileSheltersFilters/model/type/filtersFormSchemaType";
 // widgets
 import { MarkerCoordinates } from "@/widget/googleMap/map";
@@ -49,7 +49,7 @@ const generateVisibleOptions = (
 
 const Index = ({ searchParams, id }: Props) => {
 	const handleWindowHistoryPush = useWindowHistoryPush();
-	const { data: fetchedFilters } = queryGetAllSheltersFilter({
+	const { data: fetchedFilters } = queryGetProfileSheltersFilter({
 		searchParams: searchParams,
 		id: id,
 	});

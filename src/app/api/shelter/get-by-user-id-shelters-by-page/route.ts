@@ -50,7 +50,7 @@ import { NextResponse } from "next/server";
 import getProfileShelters, {
 	ErrorResponse,
 	SuccessResponse,
-} from "@/features/shelter/loadProfileShelters/api/getAllShelters";
+} from "@/features/shelter/loadProfileShelters/api/getProfileShelters";
 
 export type { ErrorResponse, SuccessResponse };
 

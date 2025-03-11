@@ -62,7 +62,7 @@ const fetchData = async ({ id, searchParams }: { id: string | Types.ObjectId; se
 	return null;
 };
 
-export const queryGetProfileShelters = ({ searchParams, id }: Props) => {
+export const queryGetAllProfileShelters = ({ searchParams, id }: Props) => {
 	return useQuery({
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
@@ -73,7 +73,7 @@ export const queryGetProfileShelters = ({ searchParams, id }: Props) => {
 	});
 };
 
-export const queryPrefetchGetProfileShelters = async ({ searchParams, id }: Props) => {
+export const queryPrefetchAllProfileShelters = async ({ searchParams, id }: Props) => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchQuery({
@@ -88,7 +88,7 @@ export const queryPrefetchGetProfileShelters = async ({ searchParams, id }: Prop
 	return queryClient;
 };
 
-export const queryGetProfileSheltersInvalidate = ({ searchParams, id }: Props) => {
+export const queryGetAllProfileSheltersInvalidate = ({ searchParams, id }: Props) => {
 	const queryClient = new QueryClient();
 	queryClient.invalidateQueries({ queryKey: ["all-profile-shelters", searchParams, id] });
 };

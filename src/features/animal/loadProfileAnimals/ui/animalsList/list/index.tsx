@@ -8,6 +8,8 @@ import AnimalCard from "@/entities/animal/ui/animalCard";
 import { AnimalType } from "@/entities/animal/model/type/animal";
 // next-intl
 import { useTranslations } from "next-intl";
+// features
+import LikeAnimalButton from "@/features/animal/likeAnimal/ui/likeAnimalButton";
 
 type Props = {
 	isEditable: boolean;
@@ -48,6 +50,7 @@ const Index = ({
 											isEditable={isEditable}
 											key={animal._id.toString()}
 											animal={animal}
+											JSXLikeButton={LikeAnimalButton}
 										/>
 									);
 								})}

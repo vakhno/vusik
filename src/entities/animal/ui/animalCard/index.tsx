@@ -1,48 +1,21 @@
 // next-tools
 import Image from "next/image";
 import Link from "next/link";
+// shared
 import { Card, CardContent } from "@/shared/ui/card";
 import { AspectRatio } from "@/shared/ui/aspect-ratio";
-import { useToast } from "@/shared/ui/use-toast";
+// entities
 import { AnimalType } from "@/entities/animal/model/type/animal";
-import { Button } from "@/shared/ui/button";
-import { ShelterType } from "@/entities/shelter/model/type/shelter";
-import { Types } from "mongoose";
-import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
 
-type Props =
-	| {
-			isEditable: boolean;
-			userId: Types.ObjectId;
-			animal: AnimalType;
-			shelters: ShelterType[];
-			handleDelete?: () => void;
-			onHandleCardClick?: () => void;
-	  }
-	| {
-			isEditable: boolean;
-			userId?: Types.ObjectId;
-			animal: AnimalType;
-			shelters?: ShelterType[];
-			handleDelete?: () => void;
-			onHandleCardClick?: () => void;
-	  };
+type Props = {
+	isEditable: boolean;
+	animal: AnimalType;
+	handleDelete?: () => void;
+	onHandleCardClick?: () => void;
+	JSXLikeButton: React.ComponentType<{ animal: AnimalType }>;
+};
 
-const Index = ({ isEditable, animal, onHandleCardClick }: Props) => {
-	const likedAnimals = useLikedAnimalsStore((state) => state.likedAnimals);
-	const handleAnimalLike = useLikedAnimalsStore((state) => state.handleAnimalLike);
-	const { toast } = useToast();
-
-	const animalLike = (animal: AnimalType, name: string) => {
-		handleAnimalLike(animal);
-
-		toast({
-			title: "Success",
-			description: `You liked ${name}`,
-			variant: "default",
-		});
-	};
-
+const Index = ({ isEditable, animal, onHandleCardClick, JSXLikeButton }: Props) => {
 	return (
 		<>
 			<Card className="w-full overflow-hidden">
@@ -75,22 +48,7 @@ const Index = ({ isEditable, animal, onHandleCardClick }: Props) => {
 							</div>
 						</div>
 						<div className="absolute right-1 top-0">
-							<Button
-								className="p-0"
-								variant="link"
-								onClick={(e) => {
-									e.preventDefault();
-									e.stopPropagation();
-									animalLike(animal, animal.name);
-								}}
-							>
-								<Image
-									src={`${likedAnimals.size && likedAnimals.has(String(animal._id)) ? "/icons/love-active.svg" : "/icons/love-non-active.svg"}`}
-									width={40}
-									height={40}
-									alt={`${likedAnimals.size && likedAnimals.has(String(animal._id)) ? "Unlike animal" : "Like animal"}`}
-								/>
-							</Button>
+							<JSXLikeButton animal={animal} />
 						</div>
 						{isEditable ? (
 							<div className="absolute left-1 top-0">

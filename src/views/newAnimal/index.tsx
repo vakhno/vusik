@@ -3,7 +3,7 @@ import NewAnimalForm from "@/features/animal/newAnimal/ui/newAnimalForm";
 import { API_NEW_ANIMAL } from "@/routes";
 import { Types } from "mongoose";
 import { queryProfileMutation } from "@/entities/profile/model/query/profileByProfileId";
-import { queryGetProfileShelters } from "@/entities/shelter/model/query/sheltersAllByProfileId";
+import { queryGetAllProfileShelters } from "@/entities/shelter/model/query/allProfileShelters";
 
 import { species } from "@/constants/species";
 import { AnimalType } from "@/entities/animal/model/type/animal";
@@ -17,7 +17,7 @@ type Props = {
 
 const Index = ({ userId }: Props) => {
 	// const { data } = queryProfile({ userId: userId });
-	const { data } = queryGetProfileShelters({ searchParams: {}, id: userId });
+	const { data } = queryGetAllProfileShelters({ searchParams: {}, id: userId });
 	const profileMutation = queryProfileMutation({ userId });
 
 	const handleSuccessSubmitClick = async (fields: NewAnimalSchemaType) => {
@@ -70,7 +70,7 @@ const Index = ({ userId }: Props) => {
 	};
 
 	let shelters = [] as ShelterType[];
-
+	console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", data);
 	if (data) {
 		shelters = data.shelters;
 	}

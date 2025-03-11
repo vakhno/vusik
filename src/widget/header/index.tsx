@@ -1,7 +1,7 @@
 "use client";
 // widgets
 import LocaleSwitcher from "@/widget/localeSwitcher";
-import LikedAnimals from "@/widget/likedAnimals";
+import LikedAnimals from "@/widget/likedAnimalsModal";
 // zustand
 import useUserStore from "@/zustand/store/user.store";
 // UI components

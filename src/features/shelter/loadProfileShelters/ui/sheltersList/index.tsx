@@ -1,7 +1,7 @@
 "use client";
 
 // features
-import { queryGetProfileShelters } from "@/features/shelter/loadProfileShelters/model/query/fetchAllShelters";
+import { queryGetProfileShelters } from "@/features/shelter/loadProfileShelters/model/query/fetchProfileShelters";
 import SheltersList from "@/features/shelter/loadProfileShelters/ui/sheltersList/list";
 // types
 import { SearchParamsType } from "@/types/searchParams.type";

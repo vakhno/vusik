@@ -32,29 +32,6 @@ const Index = ({onFormSubmit}: Props) => {
 
 	const { control } = form;
 
-	// const onNewAnimalSubmit = async (value: NewAnimalSchemaType) => {
-	// 	const { name, email } = value;
-	// 	const formData = new FormData();
-
-	// 	formData.set("name", name);
-	// 	formData.set("email", email);
-
-	// 	const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/ses/post-adoption-message`, {
-	// 		method: "POST",
-	// 		body: formData,
-	// 	});
-
-	// 	const { ok } = response;
-	// 	if (ok) {
-	// 		const result = await response.json();
-	// 		const { success } = result;
-
-	// 		if (success) {
-	// 			// console.log("success");
-	// 		}
-	// 	}
-	// };
-
     const onHandleSubmit = (value: AdoptSchemaType) => {
         onFormSubmit(value);
     };

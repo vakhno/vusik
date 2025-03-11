@@ -8,6 +8,8 @@ import AnimalCard from "@/entities/animal/ui/animalCard";
 import { AnimalType } from "@/entities/animal/model/type/animal";
 // next-intl
 import { useTranslations } from "next-intl";
+// features
+import LikeButton from "@/features/animal/likeAnimal/ui/likeAnimalButton";
 
 type Props = {
 	isEditable?: boolean;
@@ -45,6 +47,7 @@ const Index = ({
 								{animals.map((animal: AnimalType) => {
 									return (
 										<AnimalCard
+											JSXLikeButton={LikeButton}
 											isEditable={isEditable}
 											key={animal._id.toString()}
 											animal={animal}

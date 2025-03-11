@@ -253,5 +253,17 @@
 	"adopt": {
 		"title": "Прихистити",
 		"button": "Прихистити"
+	},
+	"like": {
+		"toast": {
+			"added-title": "Додано",
+			"added-description": "Вам сподобалась тваринка!",
+			"removed-title": "Прибрано",
+			"removed-description": "Ви прибрали тваринку!"
+		},
+
+		"modal": {
+			"title": "Лайкнуті тваринки"
+		}
 	}
 }

@@ -256,5 +256,16 @@
 	"adopt": {
 		"title": "Adopt",
 		"button": "Adopt"
+	},
+	"like": {
+		"toast": {
+			"added-title": "Added",
+			"added-description": "You liked animal!",
+			"removed-title": "Removed",
+			"removed-description": "You removed animal!"
+		},
+		"modal": {
+			"title": "Liked animals"
+		}
 	}
 }

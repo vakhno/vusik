@@ -6,7 +6,7 @@ import { SearchParamsType } from "@/types/searchParams.type";
 import FiltersForm from "@/features/animal/loadProfileAnimalsFilters/ui/animalsFiltersForm/fullForm";
 import selectedFiltersType from "@/features/animal/loadProfileAnimalsFilters/model/type/selectedFiltersType";
 import availableFiltersType from "@/features/animal/loadProfileAnimalsFilters/model/type/availableFiltersType";
-import { queryGetProfileAnimalsFilter } from "@/features/animal/loadProfileAnimalsFilters/model/query/fetchAllAnimalsFilters";
+import { queryGetProfileAnimalsFilter } from "@/features/animal/loadProfileAnimalsFilters/model/query/fetchProfileAnimalsFilters";
 import { SearchAllAnimalsFiltersFormSchemaType } from "@/features/animal/loadProfileAnimalsFilters/model/type/filtersFormSchemaType";
 // widgets
 import { MarkerCoordinates } from "@/widget/googleMap/map";

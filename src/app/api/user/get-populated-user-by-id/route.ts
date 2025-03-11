@@ -2,8 +2,19 @@ import { mongoConnection } from "@/lib/mongodb";
 import UserModel from "@/entities/profile/model/model";
 import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
 import ArticleModel from "@/entities/article/model/model";
+import { NextResponse } from "next/server";
+import { UserType } from "@/entities/profile/model/type/profilePopulated";
 
-export async function GET(req: Request) {
+export type SuccessResponse = {
+	success: true;
+	user: UserType;
+};
+
+export type ErrorResponse = {
+	success: false;
+};
+
+export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	try {
 		await mongoConnection();
 
@@ -14,8 +25,8 @@ export async function GET(req: Request) {
 			.populate("animals")
 			.populate("shelters")
 			.populate({ path: "articles", model: ArticleModel });
-		return Response.json({ success: true, user: user }, { status: 200 });
+		return NextResponse.json({ success: true, user: user }, { status: 200 });
 	} catch (_) {
-		return Response.json({ success: false }, { status: 500 });
+		return NextResponse.json({ success: false }, { status: 500 });
 	}
 }

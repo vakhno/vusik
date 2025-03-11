@@ -12,7 +12,7 @@ import {
 import {
 	SuccessResponse as UserSuccessResponse,
 	ErrorResponse as UserErrorResponse,
-} from "@/app/api/user/get-user-by-id/route";
+} from "@/app/api/user/get-populated-user-by-id/route";
 
 const fetchAnimalById = async (animalId: Types.ObjectId) => {
 	try {
@@ -74,7 +74,7 @@ const fetchUserById = async (userId: Types.ObjectId) => {
 		const urlSearchParams = new URLSearchParams();
 		urlSearchParams.set("id", id);
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/user/get-user-by-id/?${urlSearchParams}`,
+			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/user/get-populated-user-by-id/?${urlSearchParams}`,
 			{
 				method: "GET",
 			},

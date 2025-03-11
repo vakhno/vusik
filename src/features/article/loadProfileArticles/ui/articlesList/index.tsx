@@ -1,7 +1,7 @@
 "use client";
 
 // features
-import { queryGetAllArticles } from "@/features/article/loadProfileArticles/model/query/fetchProfileArticles";
+import { queryGetProfileArticles } from "@/features/article/loadProfileArticles/model/query/fetchProfileArticles";
 import ArticlesList from "@/features/article/loadProfileArticles/ui/articlesList/list";
 // types
 import { SearchParamsType } from "@/types/searchParams.type";
@@ -20,7 +20,7 @@ const Index = ({ isEditable = false, id, articleSearchParams }: Props) => {
 		isPending,
 		hasNextPage,
 		isFetchingNextPage,
-	} = queryGetAllArticles({ id, searchParams: articleSearchParams });
+	} = queryGetProfileArticles({ id, searchParams: articleSearchParams });
 
 	const articles = fetchedArticles?.pages.flatMap((page) => page?.articles || []) || [];
 

@@ -8,13 +8,13 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { queryPrefetchProfile } from "@/entities/profile/model/query/profileByProfileId";
 // utils
 import { getCookiesId } from "@/utils/cookies";
-import { queryPrefetchGetProfileAnimals } from "@/entities/animal/model/query/animalsAllByPageProfile";
-import { queryPrefetchGetProfileAnimalsFilter } from "@/features/animal/loadProfileAnimalsFilters/model/query/fetchAllAnimalsFilters";
-import { queryPrefetchGetProfileShelters } from "@/entities/shelter/model/query/sheltersAllByPageProfile";
-import { queryPrefetchGetProfileSheltersFilter } from "@/entities/shelter/model/query/sheltersAllByPageProfileFilters";
-
-import { queryPrefetchGetProfileArticles } from "@/entities/article/model/query/articlesAllByPageProfile";
-import { queryPrefetchGetProfileArticlesFilter } from "@/entities/article/model/query/articlesAllByPageProfileFilters";
+// features
+import { queryPrefetchGetProfileAnimals } from "@/features/animal/loadProfileAnimals/model/query/fetchProfileAnimals";
+import { queryPrefetchGetProfileAnimalsFilter } from "@/features/animal/loadProfileAnimalsFilters/model/query/fetchProfileAnimalsFilters";
+import { queryPrefetchGetProfileShelters } from "@/features/shelter/loadProfileShelters/model/query/fetchProfileShelters";
+import { queryPrefetchGetProfileSheltersFilter } from "@/features/shelter/loadProfileSheltersFilters/model/query/fetchProfileSheltersFilters";
+import { queryPrefetchGetProfileArticles } from "@/features/article/loadProfileArticles/model/query/fetchProfileArticles";
+import { queryPrefetchGetProfileArticlesFilter } from "@/features/article/loadProfileArticlesFilters/model/query/fetchProfileArticlesFilters";
 // types
 import { SearchParamsType } from "@/types/searchParams.type";
 

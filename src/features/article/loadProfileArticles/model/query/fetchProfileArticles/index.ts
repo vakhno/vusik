@@ -52,7 +52,7 @@ type InvalidationProps = {
 	id: Types.ObjectId;
 };
 
-export const queryGetAllArticles = ({ searchParams, id }: FetchProps) => {
+export const queryGetProfileArticles = ({ searchParams, id }: FetchProps) => {
 	return useInfiniteQuery({
 		queryKey: ["profile-articles", searchParams, id],
 		gcTime: 5 * 60 * 1000,
@@ -67,7 +67,7 @@ export const queryGetAllArticles = ({ searchParams, id }: FetchProps) => {
 	});
 };
 
-export const queryPrefetchGetAllArticles = async ({ searchParams, id }: FetchProps) => {
+export const queryPrefetchGetProfileArticles = async ({ searchParams, id }: FetchProps) => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchInfiniteQuery({
@@ -82,6 +82,6 @@ export const queryPrefetchGetAllArticles = async ({ searchParams, id }: FetchPro
 	return queryClient;
 };
 
-export const queryGetAllArticlesInvalidate = ({ queryClient, searchParams, id }: InvalidationProps) => {
+export const queryGetProfileArticlesInvalidate = ({ queryClient, searchParams, id }: InvalidationProps) => {
 	queryClient.invalidateQueries({ queryKey: ["profile-articles", searchParams, id] });
 };

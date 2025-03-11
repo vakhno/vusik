@@ -4,12 +4,12 @@ import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
 import { NextResponse } from "next/server";
 
-type SuccessResponse = {
+export type SuccessResponse = {
 	success: true;
 	shelter: ShelterType;
 };
 
-type ErrorResponse = {
+export type ErrorResponse = {
 	success: false;
 };
 

@@ -6,7 +6,8 @@ import NewAnimal from "@/views/newAnimal";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // queries
 import { queryPrefetchProfile } from "@/entities/profile/model/query/profileByProfileId";
-import { queryPrefetchGetProfileShelters } from "@/entities/shelter/model/query/sheltersAllByProfileId";
+// features
+import { queryPrefetchGetProfileShelters } from "@/features/shelter/loadProfileShelters/model/query/fetchProfileShelters";
 // utils
 import { getCookiesId } from "@/utils/cookies";
 

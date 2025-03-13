@@ -171,6 +171,18 @@
 			"filtering-accordion-tab": "Filtering",
 			"sorting-accordion-tab": "Sorting"
 		},
+		"edit-animal": {
+			"toast": {
+				"title": "Error",
+				"description": "Something went wrong while editing!"
+			}
+		},
+		"new-animal": {
+			"toast": {
+				"title": "Error",
+				"description": "Something went wrong while creating!"
+			}
+		},
 		"shelters": {
 			"city-autocomplete-multiselect-placeholder": "Select city",
 			"city-autocomplete-multiselect-empty-dropdown-message": "empty",

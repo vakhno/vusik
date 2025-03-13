@@ -1,7 +1,9 @@
 "use client";
 // react
 import { useEffect, useRef, useState } from "react";
-// react-hook-form
+// schemas
+import NewAnimalSchema from "@/entities/animal/model/schema/newAnimalForm";
+import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ImageUploading from "@/shared/shared/ImageUploading";
@@ -15,53 +17,42 @@ import FormInput from "@/shared/formUi/formInput";
 import FormCheckbox from "@/shared/formUi/formCheckbox";
 import { useTranslations } from "next-intl";
 import { Separator } from "@/shared/ui/separator";
-import AvailableEditAnimalOptionsType from "@/features/animal/editAnimal/model/type/availableFiltersType";
-import SelectedEditAnimalOptionsType from "@/features/animal/editAnimal/model/type/selectedFiltersType";
-import EditAnimalSchemaType from "@/features/animal/editAnimal/model/type/editAnimalSchemaType";
-import EditAnimalSchema from "@/features/animal/editAnimal/model/schema/editAnimalSchema";
 import { species } from "@/constants/species";
+import AvailableNewAnimalOptionsType from "@/features/animal/newAnimal/model/type/availableFiltersType";
 
 type Props = {
-	availableOptions: AvailableEditAnimalOptionsType;
-	selectedOptions: SelectedEditAnimalOptionsType | null;
-	handleSubmit?: (value: EditAnimalSchemaType) => void;
+	availableOptions: AvailableNewAnimalOptionsType;
+	handleSubmit?: (value: NewAnimalSchemaType) => void;
 };
 
 const calculateAnimalAge = (birthDay: string) => {
 	const dob = new Date(birthDay);
 	const currentDate = new Date();
 
-	// Ensure birth date is not in the future
 	if (dob > currentDate) {
-		return { years: 0, months: 0 }; // Prevent negative age
+		return { years: 0, months: 0 };
 	}
 
-	// Calculate difference in years, months, and days
 	let years = currentDate.getFullYear() - dob.getFullYear();
 	let months = currentDate.getMonth() - dob.getMonth();
 	let days = currentDate.getDate() - dob.getDate();
 
-	// Adjust if the current month is before the birth month
 	if (months < 0) {
 		years--;
 		months += 12;
 	}
 
-	// If days are negative, adjust months
 	if (days < 0) {
 		months--;
 
-		// Get the number of days in the previous month
 		const previousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
 		days += previousMonth.getDate();
 	}
 
-	// If the birth date is today, set months to 1
 	if (dob.toDateString() === currentDate.toDateString()) {
 		months = 1;
 	}
 
-	// If the age is less than a month but more than 0 days, set months to 1
 	if (years === 0 && months === 0 && days > 0) {
 		months = 1;
 	}
@@ -69,16 +60,13 @@ const calculateAnimalAge = (birthDay: string) => {
 	return { years, months };
 };
 
-const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) => {
+const NewAnimal = ({ availableOptions, handleSubmit }: Props) => {
 	const t = useTranslations();
-	const newAnimalSchema = EditAnimalSchema();
 	const { shelters } = availableOptions;
-	const animal = selectedOptions;
+	const newAnimalSchema = NewAnimalSchema();
 	const [sexList, setSexList] = useState([]);
 	const [sizeList, setSizeList] = useState([]);
 	const [breedList, setBreedList] = useState([]);
-	const [defaultMainImage, setDefaultMainImage] = useState<File>();
-	const [defaultSecondaryImages, setDefaultSecondaryImages] = useState<File[]>([]);
 
 	const speciesList = Object.entries(species)?.map(([key, _]) => ({
 		id: key,
@@ -91,46 +79,20 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 		label: shelter.name,
 	})) as [];
 
-	const mainPhotoUrlToFile = async (url: string): Promise<File | null> => {
-		try {
-			const response = await fetch(url);
-			const { ok } = response;
-
-			if (ok) {
-				const contentType = response.headers.get("Content-Type");
-
-				if (contentType === "image/jpeg" || contentType === "image/png" || contentType === "image/webp") {
-					const extension = contentType.split("/").pop();
-					const fileName = (url.split("/").pop() || "image") + `.${extension}`;
-					const blob = await response.blob();
-					const file = new File([blob], fileName, { type: contentType });
-
-					return file;
-				} else {
-					return null;
-				}
-			} else {
-				return null;
-			}
-		} catch (_) {
-			return null;
-		}
-	};
-
-	const form = useForm<EditAnimalSchemaType>({
+	const form = useForm<NewAnimalSchemaType>({
 		defaultValues: {
-			mainPhoto: defaultMainImage || undefined,
-			secondaryPhotos: defaultSecondaryImages || [],
-			name: animal?.name || "",
-			breed: animal?.breed || "",
-			shelterId: (animal?.shelterId.toString() || "") as string,
-			species: animal?.species || "",
-			size: animal?.size || "",
-			sex: animal?.sex || "",
-			sterilized: animal?.sterilized || false,
-			injury: animal?.injury || false,
-			injuryDescription: animal?.injuryDescription || "",
-			age: animal?.age || "",
+			mainPhoto: undefined,
+			secondaryPhotos: [],
+			name: "",
+			breed: "",
+			shelterId: "",
+			species: "",
+			size: "",
+			sex: "",
+			sterilized: false,
+			injury: false,
+			injuryDescription: "",
+			age: "",
 		},
 		resolver: zodResolver(newAnimalSchema),
 	});
@@ -138,34 +100,9 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 	const injuryWatch = form.watch("injury");
 	const speciesWatch = form.watch("species");
 
-	const onNewAnimalSubmit = async (fields: EditAnimalSchemaType) => {
+	const onNewAnimalSubmit = async (fields: NewAnimalSchemaType) => {
 		handleSubmit && handleSubmit(fields);
 	};
-
-	useEffect(() => {
-		(async () => {
-			if (animal?.mainPhoto) {
-				const mainPhotoFile = (await mainPhotoUrlToFile(animal.mainPhoto)) as File | null;
-				if (mainPhotoFile) {
-					setDefaultMainImage(mainPhotoFile);
-					form.setValue("mainPhoto", mainPhotoFile);
-				}
-			}
-
-			if (animal?.secondaryPhotos) {
-				const secondaryPhotosFile = (await Promise.all(
-					animal.secondaryPhotos.map(async (secondaryPhoto) => {
-						const secondaryPhotoFile = await mainPhotoUrlToFile(secondaryPhoto);
-						return secondaryPhotoFile;
-					}),
-				)) as File[] | null;
-				if (secondaryPhotosFile) {
-					setDefaultSecondaryImages(secondaryPhotosFile);
-					form.setValue("secondaryPhotos", secondaryPhotosFile);
-				}
-			}
-		})();
-	}, []);
 
 	useEffect(() => {
 		if (!injuryWatch) {
@@ -179,7 +116,6 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 		const speciesKey = form.getValues("species") as keyof typeof species;
 		const selectedSpecies = species[speciesKey];
 
-		// every species can have different size, sex and breed, so after every species changing we need to update sex, sixe and breed fields
 		if (selectedSpecies) {
 			const newSexList = Object.keys(selectedSpecies.sex).map((sexItem) => ({
 				value: sexItem,
@@ -209,7 +145,6 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 	};
 
 	const handleSpeciesChange = () => {
-		// after every handle species change size, sex and breed fields will be cleared, because every species can have different size, sex and breed values
 		speciesChanged.current = true;
 		form.setValue("size", "");
 		form.setValue("sex", "");
@@ -218,7 +153,6 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 
 	const birthDate = form.watch("age");
 
-	// Function to calculate age dynamically
 	const calculateAgeDescription = (date: string) => {
 		if (!date) {
 			return "";
@@ -231,18 +165,9 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onNewAnimalSubmit)} className="h-full w-full space-y-8 px-2">
-				<ImageUploading
-					// defaultPreviewImage={mainPhotoValue}
-					defaultFile={defaultMainImage}
-					onChange={mainPhotoChange}
-					className="m-auto h-96 max-h-full w-80 max-w-full"
-				/>
+				<ImageUploading onChange={mainPhotoChange} className="m-auto flex h-96 max-h-full w-80 max-w-full" />
 
-				<MultipleImageUploading
-					defaultFiles={defaultSecondaryImages}
-					onChange={secondaryPhotosChange}
-					imagesCount={4}
-				/>
+				<MultipleImageUploading onChange={secondaryPhotosChange} imagesCount={7} />
 
 				<FormInput control={form.control} label="Name" name="name" placeholder="Name" />
 

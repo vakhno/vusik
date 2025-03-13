@@ -80,6 +80,6 @@ export const queryPrefetchGetAllAnimals = async ({ searchParams }: FetchProps) =
 	return queryClient;
 };
 
-export const queryGetAllAnimalsInvalidate = ({ queryClient, searchParams }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["all-animals", searchParams] });
+export const queryGetAllAnimalsInvalidate = ({ queryClient }: InvalidationProps) => {
+	queryClient.invalidateQueries({ queryKey: ["all-animals"], exact: false });
 };

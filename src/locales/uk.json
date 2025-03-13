@@ -171,6 +171,18 @@
 			"filtering-accordion-tab": "Фільтрація",
 			"sorting-accordion-tab": "Сортування"
 		},
+		"edit-animal": {
+			"toast": {
+				"title": "Помилка",
+				"description": "Щось пішло не так при редагувані!"
+			}
+		},
+		"new-animal": {
+			"toast": {
+				"title": "Помилка",
+				"description": "Щось пішло не так при створені!"
+			}
+		},
 		"shelters": {
 			"city-autocomplete-multiselect-placeholder": "Вибрати місто",
 			"city-autocomplete-multiselect-empty-dropdown-message": "пусто",

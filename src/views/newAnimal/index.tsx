@@ -1,80 +1,26 @@
-"use client";
-import NewAnimalForm from "@/features/animal/newAnimal/ui/newAnimalForm";
-import { API_NEW_ANIMAL } from "@/routes";
-import { Types } from "mongoose";
-import { queryProfileMutation } from "@/entities/profile/model/query/profileByProfileId";
-import { queryGetAllProfileShelters } from "@/entities/shelter/model/query/allProfileShelters";
+"use server";
 
-import { species } from "@/constants/species";
-import { AnimalType } from "@/entities/animal/model/type/animal";
-import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
-import { ShelterType } from "@/entities/shelter/@x/animal";
-const ACTIVE_DOMEN = process.env.NEXT_PUBLIC_ACTIVE_DOMEN;
+// features
+import NewAnimalForm from "@/features/animal/newAnimal/ui/newAnimalForm/index";
+//tanstack
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+// queries
+import { queryPrefetchGetNewAnimalFilter } from "@/features/animal/newAnimal/model/query/fetchNewAnimalFilters";
+// mongoose
+import { Types } from "mongoose";
 
 type Props = {
 	userId: Types.ObjectId;
 };
 
-const Index = ({ userId }: Props) => {
-	// const { data } = queryProfile({ userId: userId });
-	const { data } = queryGetAllProfileShelters({ searchParams: {}, id: userId });
-	const profileMutation = queryProfileMutation({ userId });
+const Index = async ({ userId }: Props) => {
+	const queryNewAnimalFIlter = await queryPrefetchGetNewAnimalFilter({ id: userId });
 
-	const handleSuccessSubmitClick = async (fields: NewAnimalSchemaType) => {
-		const {
-			mainPhoto,
-			secondaryPhotos,
-			name,
-			species,
-			breed,
-			shelterId,
-			size,
-			sex,
-			sterilized,
-			injury,
-			injuryDescription,
-			age,
-		} = fields;
-		const formData = new FormData();
-
-		formData.append("name", name);
-		formData.append("species", species);
-		formData.append("breed", breed);
-		formData.append("shelterId", shelterId);
-		formData.append("size", size);
-		formData.append("sex", sex);
-		formData.append("age", String(age));
-		formData.append("sterilized", JSON.stringify(sterilized));
-		formData.append("injury", JSON.stringify(injury));
-		formData.append("injuryDescription", String(injuryDescription));
-
-		if (mainPhoto) {
-			formData.append("mainPhoto", mainPhoto);
-		}
-
-		if (secondaryPhotos && secondaryPhotos.length) {
-			secondaryPhotos.forEach((secondaryPhoto) => {
-				formData.append("secondaryPhotos[]", secondaryPhoto);
-			});
-		}
-
-		const response = await fetch(`${ACTIVE_DOMEN}${API_NEW_ANIMAL}`, {
-			method: "POST",
-			body: formData,
-		});
-		const data = (await response.json()) as { success: false } | { success: true; animal: AnimalType };
-		const { success } = data;
-		if (success) {
-			profileMutation.mutate(userId);
-		}
-	};
-
-	let shelters = [] as ShelterType[];
-	console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", data);
-	if (data) {
-		shelters = data.shelters;
-	}
-	return <NewAnimalForm handleSuccessSubmitClick={handleSuccessSubmitClick} species={species} shelters={shelters} />;
+	return (
+		<HydrationBoundary state={dehydrate(queryNewAnimalFIlter)}>
+			<NewAnimalForm userId={userId} />
+		</HydrationBoundary>
+	);
 };
 
 export default Index;

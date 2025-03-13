@@ -18,7 +18,7 @@ const NewAnimalSchema = () => {
 			name: z.string().trim().min(1, { message: "" }).max(40, { message: "" }),
 			breed: z.string().min(1),
 			shelterId: z.string().min(1),
-			size: z.string().min(1),
+			size: z.string(),
 			sex: z.string().min(1),
 			species: z.string().min(1),
 			sterilized: z.boolean(),

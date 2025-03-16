@@ -17,7 +17,7 @@ import FormInput from "@/shared/formUi/formInput";
 import FormCheckbox from "@/shared/formUi/formCheckbox";
 import { useTranslations } from "next-intl";
 import { Separator } from "@/shared/ui/separator";
-import { species } from "@/constants/species";
+import { species } from "@/shared/constants/species";
 import AvailableNewAnimalOptionsType from "@/features/animal/newAnimal/model/type/availableFiltersType";
 
 type Props = {

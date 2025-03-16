@@ -5,7 +5,7 @@ import { TranslationValues } from "next-intl";
 
 type TFunction = (key: string, values?: TranslationValues) => string;
 
-export const SignUpSchema = (t: TFunction) => {
+const SignUpSchema = (t: TFunction) => {
 	return z
 		.object({
 			name: z
@@ -26,3 +26,5 @@ export const SignUpSchema = (t: TFunction) => {
 			message: t("page.auth.sign-up.schema.passwords-match"),
 		});
 };
+
+export default SignUpSchema;

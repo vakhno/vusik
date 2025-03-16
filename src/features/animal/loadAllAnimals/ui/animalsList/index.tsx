@@ -4,9 +4,9 @@
 import { queryGetAllAnimals } from "@/features/animal/loadAllAnimals/model/query/getAllAnimals";
 import List from "@/features/animal/loadAllAnimals/ui/animalsList/list";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // constants
-import { animalsPerPage } from "@/constants/counts";
+import { animalsPerPage } from "@/shared/constants/counts";
 
 type Props = { animalSearchParams: SearchParamsType };
 

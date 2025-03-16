@@ -7,8 +7,8 @@ export type AnimalType = {
 	breed: string;
 	userId: Types.ObjectId;
 	shelterId: Types.ObjectId;
-	mainPhoto: string;
-	secondaryPhotos: string[];
+	mainPhoto: string | null;
+	secondaryPhotos: string[] | null;
 	size: string;
 	sex: string;
 	age: string;

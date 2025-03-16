@@ -1,7 +1,6 @@
 // UI components
 import { Button, buttonVariants } from "@/shared/ui/button";
-import { useToast } from "@/shared/ui/use-toast";
-import { ToastProps } from "@/shared/ui/toast";
+import { toast } from "sonner";
 import { VariantProps } from "class-variance-authority";
 
 type Props = {
@@ -12,7 +11,6 @@ type Props = {
 	isToastShow?: boolean;
 	toastTitle?: string;
 	toastDescription?: string;
-	toastVariant?: ToastProps["variant"];
 	className?: string;
 };
 
@@ -25,17 +23,12 @@ const TextWithClipboardCopy = ({
 	isToastShow = false,
 	toastTitle = "",
 	toastDescription = "",
-	toastVariant = "default",
 }: Props) => {
-	const { toast } = useToast();
-
 	const coppiedToClipboard = () => {
 		navigator.clipboard.writeText(copyText);
 		if (isToastShow) {
-			toast({
-				title: toastTitle,
+			toast(toastTitle, {
 				description: toastDescription,
-				variant: toastVariant,
 			});
 		}
 	};

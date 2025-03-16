@@ -1,4 +1,4 @@
-import SignUpPage from "@/views/sign-up";
+import SignUpPage from "@/screens/sign-up";
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 

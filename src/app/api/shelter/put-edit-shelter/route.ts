@@ -1,10 +1,10 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import ShelterModel from "@/entities/shelter/model/model";
 import { NewShelterSchema } from "@/entities/shelter/model/schema/newShelterForm";
 import { NewShelterSchemaType } from "@/entities/shelter/model/type/newShelterForm";
 import { getLocale, getTranslations } from "next-intl/server";
 import { NextResponse } from "next/server";
-import { shelterMainPhotoKeyName, shelterSecondaryPhotosKeyName } from "@/constants/s3";
+import { shelterMainPhotoKeyName, shelterSecondaryPhotosKeyName } from "@/shared/constants/s3";
 
 export interface SuccessResponse {
 	success: true;
@@ -239,7 +239,7 @@ export async function PUT(req: Request): Promise<NextResponse<SuccessResponse | 
 						updatedAnimal.mainPhoto = result;
 					}
 				} else {
-					updatedAnimal.mainPhoto = undefined;
+					updatedAnimal.mainPhoto = null;
 				}
 			}
 
@@ -252,7 +252,7 @@ export async function PUT(req: Request): Promise<NextResponse<SuccessResponse | 
 						updatedAnimal.secondaryPhotos = result;
 					}
 				} else {
-					updatedAnimal.secondaryPhotos = undefined;
+					updatedAnimal.secondaryPhotos = null;
 				}
 			}
 

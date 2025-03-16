@@ -4,11 +4,11 @@
 import { queryGetProfileAnimals } from "@/features/animal/loadProfileAnimals/model/query/fetchProfileAnimals";
 import AnimalsList from "@/features/animal/loadProfileAnimals/ui/animalsList/list";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // mongoose
 import { Types } from "mongoose";
 // constants
-import { animalsPerPage } from "@/constants/counts";
+import { animalsPerPage } from "@/shared/constants/counts";
 
 type Props = { isEditable?: boolean; userId: Types.ObjectId; animalSearchParams: SearchParamsType };
 

@@ -4,7 +4,7 @@ import { jwtVerify } from "jose";
 import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 // routes
-import { AUTH_ROUTES, SIGN_IN_ROUTE, HOME_ROUTE, PROFILE_ROUTE, MY_PROFILE_ROUTE } from "@/routes";
+import { AUTH_ROUTES, SIGN_IN_ROUTE, HOME_ROUTE, PROFILE_ROUTE, MY_PROFILE_ROUTE } from "@/shared/constants/routes";
 // next-intl
 import createMiddleware from "next-intl/middleware";
 

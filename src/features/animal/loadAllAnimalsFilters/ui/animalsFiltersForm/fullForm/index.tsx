@@ -21,7 +21,6 @@ import { Form } from "@/shared/ui/form";
 import { MarkerCoordinates } from "@/widget/googleMap/map";
 
 type Props = {
-	className?: string;
 	shelterMarkers: MarkerCoordinates[];
 	availableOptions: Omit<availableFiltersType, "sheltersList">;
 	selectedValues: SelectedAllAnimalsFiltersFormValuesType;
@@ -41,7 +40,7 @@ const generateFormDefaultValue = (
 	sterilized: value?.sterilized || false,
 });
 
-const Index = ({ className = "", shelterMarkers, availableOptions, selectedValues, handleFilterChange }: Props) => {
+const Index = ({ shelterMarkers, availableOptions, selectedValues, handleFilterChange }: Props) => {
 	const t = useTranslations();
 	const form = useForm<SearchAllAnimalsFiltersFormSchemaType>({
 		defaultValues: generateFormDefaultValue(selectedValues),
@@ -50,7 +49,7 @@ const Index = ({ className = "", shelterMarkers, availableOptions, selectedValue
 
 	return (
 		<Form {...form}>
-			<form className={`space-y-8 ${className}`}>
+			<form className="space-y-8">
 				<Accordion type="multiple" defaultValue={["filters"]}>
 					<AccordionItem value="filters">
 						<AccordionTrigger>{t("page.animals.filtering-accordion-tab")}</AccordionTrigger>

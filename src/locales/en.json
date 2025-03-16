@@ -109,7 +109,8 @@
 				"api": {
 					"400": "Invalid data: \"{error}\"!",
 					"401": "Password or email is not valid!",
-					"404": "User does not exist!"
+					"404": "User does not exist!",
+					"500": "Something went wrong!"
 				}
 			},
 			"sign-up": {
@@ -140,6 +141,7 @@
 				"api": {
 					"400": "Invalid data: \"{error}\"!",
 					"409": "Such profile already exist!",
+					"500": "Something went wrong!",
 					"503": "Something went wrong! Try later!"
 				}
 			}

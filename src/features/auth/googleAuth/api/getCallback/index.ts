@@ -1,4 +1,4 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import UserModel from "@/entities/profile/model/model";
 import { UserType } from "@/entities/profile/model/type/profile";
 import axios from "axios";

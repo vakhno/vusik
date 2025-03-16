@@ -11,7 +11,7 @@ import {
 	PRIVACY_POLICY_ROUTE,
 	SIGN_IN_ROUTE,
 	SIGN_UP_ROUTE,
-} from "@/routes";
+} from "@/shared/constants/routes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
 	return [

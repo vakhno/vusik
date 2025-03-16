@@ -1,12 +1,13 @@
 // tanstack
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/animal/newAnimal/api/postNewAnimal";
 // routes
 
 import NewAnimalSchemaType from "@/features/animal/newAnimal/model/type/newAnimalSchemaType";
+import { AnimalType } from "@/entities/animal/model/type/animal";
 
-const fetchData = async (animal: NewAnimalSchemaType & { id: string }) => {
+const mutationFn = async (animal: NewAnimalSchemaType & { id: string }) => {
 	try {
 		const {
 			mainPhoto,
@@ -58,28 +59,36 @@ const fetchData = async (animal: NewAnimalSchemaType & { id: string }) => {
 		if (ok) {
 			const data = (await response.json()) as SuccessResponse | ErrorResponse;
 			const { success } = data;
-			console.log("DATA", data);
+
 			if (success) {
 				const { animal } = data;
-				return { animal };
+				return animal;
+			} else {
+				throw new Error("");
 			}
+		} else {
+			throw new Error("");
 		}
-		return null;
-	} catch (_) {
-		return null;
+	} catch (error) {
+		if (error instanceof Error) {
+			throw new Error(error.message);
+		} else {
+			throw new Error(String(error));
+		}
 	}
 };
 
-export const queryEditAnimal = () => {
-	const queryClient = useQueryClient();
+type mutateProps = {
+	onSuccess?: (animal: AnimalType) => void;
+	onError?: (error: string) => void;
+};
 
+export const queryEditAnimal = ({ onSuccess, onError }: mutateProps) => {
 	return useMutation({
-		mutationFn: async (newAnimal: NewAnimalSchemaType & { id: string }) => {
-			return fetchData(newAnimal);
-		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["all-animals"] });
-			queryClient.invalidateQueries({ queryKey: ["all-animals-filter"] });
-		},
+		mutationFn,
+		onSuccess,
+		onError,
+		// queryClient.invalidateQueries({ queryKey: ["all-animals"] });
+		// queryClient.invalidateQueries({ queryKey: ["all-animals-filter"] });
 	});
 };

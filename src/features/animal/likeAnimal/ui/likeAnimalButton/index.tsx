@@ -1,10 +1,10 @@
 // shared
 import { Button } from "@/shared/ui/button";
-import { useToast } from "@/shared/ui/use-toast";
+import { toast } from "sonner";
 // next tools
 import Image from "next/image";
 // zustand
-import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
+import useLikedAnimalsStore from "@/shared/zustand/store/likedAnimals.store";
 // entities
 import { AnimalType } from "@/entities/animal/@x/shelter";
 // next-intl
@@ -18,7 +18,6 @@ const index = ({ animal }: Props) => {
 	const t = useTranslations();
 	const likedAnimals = useLikedAnimalsStore((state) => state.likedAnimals);
 	const handleAnimalLike = useLikedAnimalsStore((state) => state.handleAnimalLike);
-	const { toast } = useToast();
 
 	const onHandleClick = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -28,10 +27,8 @@ const index = ({ animal }: Props) => {
 
 		handleAnimalLike(animal);
 
-		toast({
-			title: isAlreadyLiked ? t("like.toast.removed-title") : t("like.toast.added-title"),
+		toast(isAlreadyLiked ? t("like.toast.removed-title") : t("like.toast.added-title"), {
 			description: isAlreadyLiked ? t("like.toast.removed-description") : t("like.toast.added-description"),
-			variant: "default",
 		});
 	};
 

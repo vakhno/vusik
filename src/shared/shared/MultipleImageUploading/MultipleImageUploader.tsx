@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { imageFileTypesAsString } from "@/constants/files";
+import { imageFileTypesAsString } from "@/shared/constants/files";
 
 type Props = {
 	onHandleChange?: (file: File[]) => void;

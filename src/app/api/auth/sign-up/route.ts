@@ -1,17 +1,10 @@
-// libs
-import { mongoConnection } from "@/lib/mongodb";
-// next tools
-import { NextResponse } from "next/server";
 // features
-import postSignUp from "@/features/auth/signUp/api/postSignUp";
-import { SuccessResponse, ErrorResponse } from "@/features/auth/signUp/api/postSignUp";
+import postSignUp, { SuccessResponse, ErrorResponse } from "@/features/auth/signUp/api/signUp";
 
 export type { SuccessResponse, ErrorResponse };
 
-export async function POST(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
-	await mongoConnection();
+export async function POST(req: Request) {
+	const result = await postSignUp({ req });
 
-	const formData = await req.formData();
-
-	return await postSignUp({ formData });
+	return result;
 }

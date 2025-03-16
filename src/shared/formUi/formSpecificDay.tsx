@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FieldValues, Path, Control, useWatch as watch } from "react-hook-form";
 import FormSingleSelect from "@/shared/formUi/formSingleSelect";
-import { monthLong } from "@/constants/month";
+import { monthLong } from "@/shared/constants/month";
 import { Button } from "@/shared/ui/button";
 
 type Props<T extends FieldValues> = {

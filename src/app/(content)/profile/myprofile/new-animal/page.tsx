@@ -1,7 +1,7 @@
 "use server";
 
 // features
-import NewAnimal from "@/views/newAnimal";
+import NewAnimal from "@/screens/newAnimal";
 //tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // queries
@@ -9,7 +9,7 @@ import { queryPrefetchProfile } from "@/entities/profile/model/query/profileByPr
 // features
 import { queryPrefetchGetProfileShelters } from "@/features/shelter/loadProfileShelters/model/query/fetchProfileShelters";
 // utils
-import { getCookiesId } from "@/utils/cookies";
+import { getCookiesId } from "@/shared/utils/cookies";
 
 const page = async () => {
 	const id = getCookiesId();

@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/ui/chart";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 type Props = {
 	className?: string;

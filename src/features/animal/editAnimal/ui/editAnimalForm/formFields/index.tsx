@@ -19,7 +19,7 @@ import AvailableEditAnimalOptionsType from "@/features/animal/editAnimal/model/t
 import SelectedEditAnimalOptionsType from "@/features/animal/editAnimal/model/type/selectedFiltersType";
 import EditAnimalSchemaType from "@/features/animal/editAnimal/model/type/editAnimalSchemaType";
 import EditAnimalSchema from "@/features/animal/editAnimal/model/schema/editAnimalSchema";
-import { species } from "@/constants/species";
+import { species } from "@/shared/constants/species";
 
 type Props = {
 	availableOptions: AvailableEditAnimalOptionsType;

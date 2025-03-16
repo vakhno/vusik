@@ -6,7 +6,7 @@ export type ArticleType = {
 	title: string;
 	text: string;
 	userId: Types.ObjectId;
-	image: string;
+	image: string | null;
 	viewsCount: number;
 	createdAt: Date;
 	updatedAt: Date;

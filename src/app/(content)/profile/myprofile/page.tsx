@@ -1,13 +1,13 @@
 "use server";
 
 // features
-import Profile from "@/views/profile";
+import Profile from "@/screens/profile";
 //tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // queries
 import { queryPrefetchProfile } from "@/entities/profile/model/query/profileByProfileId";
 // utils
-import { getCookiesId } from "@/utils/cookies";
+import { getCookiesId } from "@/shared/utils/cookies";
 // features
 import { queryPrefetchGetProfileAnimals } from "@/features/animal/loadProfileAnimals/model/query/fetchProfileAnimals";
 import { queryPrefetchGetProfileAnimalsFilter } from "@/features/animal/loadProfileAnimalsFilters/model/query/fetchProfileAnimalsFilters";
@@ -16,7 +16,7 @@ import { queryPrefetchGetProfileSheltersFilter } from "@/features/shelter/loadPr
 import { queryPrefetchGetProfileArticles } from "@/features/article/loadProfileArticles/model/query/fetchProfileArticles";
 import { queryPrefetchGetProfileArticlesFilter } from "@/features/article/loadProfileArticlesFilters/model/query/fetchProfileArticlesFilters";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 
 type Props = {
 	searchParams: SearchParamsType;

@@ -1,10 +1,10 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import UserModel from "@/entities/profile/model/model";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { AuthUserTokenDataType } from "@/types/token.type";
-import { userAvatarPhotoKeyName } from "@/constants/s3";
+import { AuthUserTokenDataType } from "@/shared/types/token.type";
+import { userAvatarPhotoKeyName } from "@/shared/constants/s3";
 import { EditUserSchemaType } from "@/entities/profile/model/type/editProfileForm";
 
 export interface SuccessResponse {
@@ -159,7 +159,7 @@ export async function PUT(req: Request): Promise<NextResponse<SuccessResponse | 
 						updatedUser.avatar = result;
 					}
 				} else {
-					updatedUser.avatar = undefined;
+					updatedUser.avatar = null;
 				}
 			}
 

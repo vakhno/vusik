@@ -1,6 +1,6 @@
 // libs
 import TextBetweenSeparators from "@/shared/shared/TextBetweenSeparators";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import Link from "next/link";
 
 interface Props {

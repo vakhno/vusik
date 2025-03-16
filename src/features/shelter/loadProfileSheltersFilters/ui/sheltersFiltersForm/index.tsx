@@ -1,7 +1,7 @@
 "use client";
 
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // features
 import FiltersForm from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm/fullForm";
 import selectedFiltersType from "@/features/shelter/loadProfileSheltersFilters/model/type/selectedFiltersType";
@@ -11,11 +11,11 @@ import { SearchAllAnimalsFiltersFormSchemaType } from "@/features/shelter/loadPr
 // widgets
 import { MarkerCoordinates } from "@/widget/googleMap/map";
 // hooks
-import { useWindowHistoryPush } from "@/hooks/use-window-history-push";
+import { useWindowHistoryPush } from "@/shared/hooks/use-window-history-push";
 // mongoose
 import { Types } from "mongoose";
 // utils
-import { urlSearchParamsBuilder } from "@/utils/searchParams";
+import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
 
 type Props = {
 	searchParams: SearchParamsType;

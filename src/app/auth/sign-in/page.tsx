@@ -1,5 +1,10 @@
-import SignInPage from "@/views/sign-in";
+"use server";
+
+// screens
+import SignInPage from "@/screens/sign-in";
+// next tools
 import { Metadata } from "next";
+// next-intl
 import { getLocale, getTranslations } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {

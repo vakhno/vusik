@@ -1,14 +1,15 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import UserModel from "@/entities/profile/model/model";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NewShelterSchema } from "@/entities/shelter/model/schema/newShelterForm";
 import { NewShelterSchemaType } from "@/entities/shelter/model/type/newShelterForm";
-import { AuthUserTokenDataType } from "@/types/token.type";
-import { shelterMainPhotoKeyName, shelterSecondaryPhotosKeyName } from "@/constants/s3";
+import { AuthUserTokenDataType } from "@/shared/types/token.type";
+import { shelterMainPhotoKeyName, shelterSecondaryPhotosKeyName } from "@/shared/constants/s3";
 import ShelterModel from "@/entities/shelter/model/model";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Types } from "mongoose";
 
 export interface SuccessResponse {
 	success: true;
@@ -197,12 +198,12 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 			if (validationResult) {
 				const newShelter = new ShelterModel(data);
 
-				newShelter.userId = tokenId;
+				newShelter.userId = new Types.ObjectId(tokenId);
 
 				const mainPhoto = data.mainPhoto;
 
 				if (mainPhoto) {
-					const result = await uploadMainPhoto(newShelter._id, mainPhoto);
+					const result = await uploadMainPhoto(String(newShelter._id), mainPhoto);
 					if (result) {
 						newShelter.mainPhoto = result;
 					}
@@ -211,17 +212,18 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 				const secondaryPhotos = data?.secondaryPhotos;
 
 				if (secondaryPhotos) {
-					const result = await uploadSecondaryPhotos(newShelter._id, secondaryPhotos);
+					const result = await uploadSecondaryPhotos(String(newShelter._id), secondaryPhotos);
 					if (result) {
 						newShelter.secondaryPhotos = result;
 					}
 				}
 
 				const user = await UserModel.findById(tokenId);
-				user.shelters.push(newShelter._id);
+				if (user) {
+					user.shelters.push(newShelter._id);
 
-				await user.save();
-
+					await user.save();
+				}
 				await newShelter.save();
 
 				return NextResponse.json({ success: true }, { status: 200 });

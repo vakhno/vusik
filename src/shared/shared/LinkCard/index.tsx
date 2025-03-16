@@ -2,7 +2,7 @@
 import { Card, CardContent, CardTitle } from "@/shared/ui/card";
 import { buttonVariants } from "@/shared/ui/button";
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 // next tools
 import Link from "next/link";
 

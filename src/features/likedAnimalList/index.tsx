@@ -1,8 +1,8 @@
 import AnimalCard from "@/entities/animal/ui/animalCard";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { AnimalType } from "@/entities/animal/model/type/animal";
 import { useTranslations } from "next-intl";
-import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
+import useLikedAnimalsStore from "@/shared/zustand/store/likedAnimals.store";
 import LikeAnimalButton from "@/features/animal/likeAnimal/ui/likeAnimalButton";
 
 type Props = { className?: string; closeModal: (value: boolean) => void };

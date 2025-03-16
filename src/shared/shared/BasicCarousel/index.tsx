@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { Carousel, CarouselContent, CarouselItem } from "@/shared/ui/carousel";
 import { EmblaOptionsType } from "embla-carousel";
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 type Props<T> = {
 	data: T[];

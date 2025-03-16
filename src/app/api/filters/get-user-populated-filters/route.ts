@@ -1,7 +1,7 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import FilterModel from "@/entities/filter/model/model";
 import { FiltersPopulatedUserType } from "@/entities/filter/model/type/filtersPopulated";
-import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
+import { gettingValuesFromURLSearchParams } from "@/shared/utils/URLSearchParams";
 import { NextResponse } from "next/server";
 
 type SuccessResponse = {

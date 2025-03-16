@@ -5,7 +5,7 @@ import { TranslationValues } from "next-intl";
 
 type TFunction = (key: string, values?: TranslationValues) => string;
 
-export const SignInSchema = (t: TFunction) => {
+const SignInSchema = (t: TFunction) => {
 	return z.object({
 		email: z
 			.string()
@@ -14,3 +14,5 @@ export const SignInSchema = (t: TFunction) => {
 		password: z.string().min(5, { message: t ? t("page.auth.sign-in.schema.password-min") : "" }),
 	});
 };
+
+export default SignInSchema;

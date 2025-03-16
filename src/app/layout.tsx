@@ -8,7 +8,7 @@ import "./globals.css";
 // fonts
 import { Roboto, Concert_One } from "next/font/google";
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 // API
 import {
 	SuccessResponse as UserByTokenSuccessResponse,
@@ -18,10 +18,10 @@ import {
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 // UI components
-import { Toaster } from "@/shared/ui/toaster";
+import { Toaster } from "@/shared/ui/sonner";
 // custom providers
-import StoreProvider from "@/providers/StoreProvider";
-import QueryProvider from "@/providers/QueryProvider";
+import StoreProvider from "@/shared/providers/StoreProvider";
+import QueryProvider from "@/shared/providers/QueryProvider";
 // dev tools
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 

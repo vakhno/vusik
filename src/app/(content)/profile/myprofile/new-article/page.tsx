@@ -1,13 +1,13 @@
 "use server";
 
 // features
-import NewArticle from "@/views/newArticle";
+import NewArticle from "@/screens/newArticle";
 //tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // queries
 import { queryPrefetchProfile } from "@/entities/profile/model/query/profileByProfileId";
 // utils
-import { getCookiesId } from "@/utils/cookies";
+import { getCookiesId } from "@/shared/utils/cookies";
 
 const page = async () => {
 	const id = getCookiesId();

@@ -1,5 +1,5 @@
 // entities
-import AnimalCardSkeleton from "@/entities/animal/ui/animalCard/animalCardSkeleton";
+import AnimalCardSkeleton from "@/entities/animal/ui/animalCardSkeleton";
 
 type Props = {
 	countOfSkeletons: number;

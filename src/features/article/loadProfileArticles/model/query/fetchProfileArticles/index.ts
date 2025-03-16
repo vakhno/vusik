@@ -1,9 +1,9 @@
 // tanstack
 import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/utils/searchParams";
+import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // features
 import { SuccessResponse, ErrorResponse } from "@/features/article/loadAllArticles/api/getAllArticles";
 // mongoose

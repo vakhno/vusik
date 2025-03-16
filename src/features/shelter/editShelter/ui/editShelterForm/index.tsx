@@ -4,7 +4,7 @@ import NewShelterForm from "@/features/shelter/editShelter/ui/editShelterForm/fo
 import { Types } from "mongoose";
 import { queryShelter } from "@/entities/shelter/model/query/shelterById";
 // import { AnimalType } from "@/entities/animal/model/type";
-import { useToast } from "@/shared/ui/use-toast";
+import { toast } from "sonner";
 import { NewShelterSchemaType } from "@/entities/shelter/model/type/newShelterForm";
 
 // const ACTIVE_DOMEN = process.env.NEXT_PUBLIC_ACTIVE_DOMEN;
@@ -62,9 +62,8 @@ const buildFormDataForEditShelter = (fields: NewShelterSchemaType, id: Types.Obj
 };
 
 const Index = ({ shelterId }: Props) => {
-	const { toast } = useToast();
-
 	const { data: shelter } = queryShelter({ shelterId: shelterId });
+
 	if (shelter) {
 		// const user = useUserStore((state) => state.user);
 		// console.log("DATA", data);
@@ -97,23 +96,17 @@ const Index = ({ shelterId }: Props) => {
 				if (success) {
 					// profileMutation.mutate(userId);
 					// setIsEditAnimalOpened(false);
-					toast({
-						title: "Success",
+					toast("Success", {
 						description: `Edited`,
-						variant: "default",
 					});
 				} else {
-					toast({
-						title: "Error",
+					toast.error("Error", {
 						description: `Something went wrong`,
-						variant: "destructive",
 					});
 				}
 			} else {
-				toast({
-					title: "Error",
+				toast.error("Error", {
 					description: `Something went wrong`,
-					variant: "destructive",
 				});
 			}
 		};

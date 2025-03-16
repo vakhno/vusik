@@ -1,14 +1,14 @@
 // libs
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 // entities
 import ArticleModel from "@/entities/article/model/model";
 import { ArticleType } from "@/entities/article/model/type/article";
 // next tools
 import { NextResponse } from "next/server";
 // utils
-import { validateToNaturalNumber } from "@/utils/number";
+import { validateToNaturalNumber } from "@/shared/utils/number";
 // constants
-import { articlesPerPage } from "@/constants/counts";
+import { articlesPerPage } from "@/shared/constants/counts";
 
 export type SuccessResponse = {
 	success: true;

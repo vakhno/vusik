@@ -5,7 +5,7 @@ import { buttonVariants } from "@/shared/ui/button";
 // next tools
 import Link from "next/link";
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 type Props = {
 	className?: string;

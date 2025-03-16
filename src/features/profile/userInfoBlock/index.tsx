@@ -7,7 +7,7 @@ import EditProfileModal from "./editProfileModal";
 import { useState } from "react";
 import { EditUserSchemaType } from "@/entities/profile/model/type/editProfileForm";
 import { Types } from "mongoose";
-import { useToast } from "@/shared/ui/use-toast";
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 type Props = {
 	id: Types.ObjectId;
@@ -36,7 +36,6 @@ const Index = ({
 }: Props) => {
 	const t = useTranslations();
 	const [isEditUserModalVisible, setIsEditUserModalVisible] = useState(false);
-	const { toast } = useToast();
 
 	const handleProfileEdit = () => {
 		setIsEditUserModalVisible(!isEditUserModalVisible);
@@ -70,23 +69,17 @@ const Index = ({
 			const data = await response.json();
 			const { success } = data;
 			if (success) {
-				toast({
-					title: "Success",
+				toast("Success", {
 					description: `Edited`,
-					variant: "default",
 				});
 			} else {
-				toast({
-					title: "Error",
+				toast.error("Error", {
 					description: `Something went wrong`,
-					variant: "destructive",
 				});
 			}
 		} else {
-			toast({
-				title: "Error",
+			toast.error("Error", {
 				description: `Something went wrong`,
-				variant: "destructive",
 			});
 		}
 	};

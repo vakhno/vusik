@@ -13,14 +13,14 @@ import Link from "next/link";
 // next-intl
 import { useTranslations } from "next-intl";
 // features
-import { SignUpSchemaType } from "@/features/auth/signUp/model/type/signUpFormSchema";
-import { SignUpSchema } from "@/features/auth/signUp/model/schema/signUpForm";
+import SignUpSchemaType from "@/features/auth/signUp/model/type/signUpFormSchema";
+import SignUpSchema from "@/features/auth/signUp/model/schema/signUpForm";
 
 type Props = {
 	onFormSubmit: (value: SignUpSchemaType) => void;
 };
 
-const index = ({ onFormSubmit }: Props) => {
+const Index = ({ onFormSubmit }: Props) => {
 	const t = useTranslations();
 	const signUpSchema = SignUpSchema(t);
 	const form = useForm<SignUpSchemaType>({
@@ -86,7 +86,7 @@ const index = ({ onFormSubmit }: Props) => {
 						},
 					})}
 				</div>
-				<Button className="w-full" type="submit">
+				<Button type="submit" className="w-full">
 					{t("page.auth.sign-up.submit")}
 				</Button>
 			</form>
@@ -94,4 +94,4 @@ const index = ({ onFormSubmit }: Props) => {
 	);
 };
 
-export default index;
+export default Index;

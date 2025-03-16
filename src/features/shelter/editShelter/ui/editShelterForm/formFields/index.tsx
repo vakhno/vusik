@@ -14,13 +14,13 @@ import FormTimePeriod from "@/shared/formUi/formTimePeriod";
 import { MapProvider } from "@/widget/googleMap/mapProvider";
 import { MapComponent, MarkerInfo } from "@/widget/googleMap/map";
 import FormInput from "@/shared/formUi/formInput";
-import { defaultMarkerCoordiates } from "@/constants/googleMap";
+import { defaultMarkerCoordiates } from "@/shared/constants/googleMap";
 import {
 	defaultWorkingDays,
 	defaultBeginTime,
 	defaultEndTime,
 	maxCountOfSpecificWeekends,
-} from "@/constants/workingDays";
+} from "@/shared/constants/workingDays";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { Card, CardContent } from "@/shared/ui/card";
 import FormSpecificDay from "@/shared/formUi/formSpecificDay";

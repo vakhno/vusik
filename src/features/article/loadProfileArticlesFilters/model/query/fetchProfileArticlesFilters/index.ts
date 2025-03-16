@@ -1,11 +1,11 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/utils/searchParams";
+import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/article/loadAllArticlesFilters/api/getAllArticlesFilters";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // mongoose
 import { Types } from "mongoose";
 

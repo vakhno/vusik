@@ -1,4 +1,4 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import { NextResponse } from "next/server";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import ShelterModel from "@/entities/shelter/model/model";

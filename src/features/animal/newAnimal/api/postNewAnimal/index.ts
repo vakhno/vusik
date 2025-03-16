@@ -1,4 +1,4 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import UserModel from "@/entities/profile/model/model";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -6,8 +6,8 @@ import { NextResponse } from "next/server";
 // import { getTranslations } from "next-intl/server";
 import NewAnimalSchema from "@/entities/animal/model/schema/newAnimalForm";
 import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
-import { AuthUserTokenDataType } from "@/types/token.type";
-import { animalMainPhotoKeyName, animalSecondaryPhotosKeyName } from "@/constants/s3";
+import { AuthUserTokenDataType } from "@/shared/types/token.type";
+import { animalMainPhotoKeyName, animalSecondaryPhotosKeyName } from "@/shared/constants/s3";
 import AnimalModel from "@/entities/animal/model/model";
 import ShelterModel from "@/entities/shelter/model/model";
 // import { getLocale } from "next-intl/server";
@@ -198,13 +198,13 @@ const Index = async ({ formData }: Props): Promise<NextResponse<SuccessResponse 
 
 				const animal = new AnimalModel(data);
 
-				delete animal.mainPhoto;
-				delete animal.secondaryPhotos;
+				animal.mainPhoto = null;
+				animal.secondaryPhotos = null;
 
 				// const mainPhoto = animal.mainPhoto;
 
 				if (mainPhoto) {
-					const result = await uploadMainPhoto(animal._id, mainPhoto);
+					const result = await uploadMainPhoto(String(animal._id), mainPhoto);
 					if (result) {
 						animal.mainPhoto = result;
 					}
@@ -220,17 +220,23 @@ const Index = async ({ formData }: Props): Promise<NextResponse<SuccessResponse 
 				}
 
 				const shelter = await ShelterModel.findById(data.shelterId);
-				shelter.activeMembers.push(animal._id);
+
+				if (shelter) {
+					shelter.activeMembers.push(animal._id);
+
+					await shelter.save();
+				}
 
 				const user = await UserModel.findById(tokenId);
-				user.animals.push(animal._id);
 
-				animal.userId = user._id;
+				if (user) {
+					user.animals.push(animal._id);
 
-				await shelter.save();
+					animal.userId = user._id;
 
-				await user.save();
-
+					await user.save();
+				}
+				
 				await animal.save();
 
 				return NextResponse.json({ success: true, animal: animal }, { status: 200 });

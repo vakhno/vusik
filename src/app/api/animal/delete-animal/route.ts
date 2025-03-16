@@ -6,7 +6,7 @@ import deleteAnimal, { SuccessResponse, ErrorResponse } from "@/features/animal/
 export type { SuccessResponse, ErrorResponse };
 
 export async function DELETE(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
-	const formData = await req.formData();
-	const result = await deleteAnimal({ formData });
+	const result = await deleteAnimal({ req });
+
 	return result;
 }

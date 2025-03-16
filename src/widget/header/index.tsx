@@ -3,7 +3,7 @@
 import LocaleSwitcher from "@/widget/localeSwitcher";
 import LikedAnimals from "@/widget/likedAnimalsModal";
 // zustand
-import useUserStore from "@/zustand/store/user.store";
+import useUserStore from "@/shared/zustand/store/user.store";
 // UI components
 import { Popover, PopoverTrigger, PopoverContent } from "@/shared/ui/popover";
 // next tools
@@ -19,9 +19,9 @@ import { buttonVariants } from "@/shared/ui/button";
 // next tools
 import Link from "next/link";
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 // routes
-import { PROFILE_ROUTE } from "@/routes";
+import { PROFILE_ROUTE } from "@/shared/constants/routes";
 import { SidebarTrigger } from "@/shared/ui/sidebar";
 import Sidebar from "@/widget/sidebar";
 // features

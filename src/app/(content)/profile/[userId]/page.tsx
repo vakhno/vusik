@@ -1,7 +1,7 @@
 "use server";
 
 // features
-import Profile from "@/views/profile";
+import Profile from "@/screens/profile";
 // tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // entities

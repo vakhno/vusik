@@ -1,12 +1,12 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import UserModel from "@/entities/profile/model/model";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NewArticleSchema } from "@/entities/article/model/schema/newArticleForm";
 import { NewArticleSchemaType } from "@/entities/article/model/type/newArticleForm";
-import { AuthUserTokenDataType } from "@/types/token.type";
-import { articleMainPhotoKeyName } from "@/constants/s3";
+import { AuthUserTokenDataType } from "@/shared/types/token.type";
+import { articleMainPhotoKeyName } from "@/shared/constants/s3";
 import ArticleModel from "@/entities/article/model/model";
 // import { getLocale } from "next-intl/server";
 
@@ -118,21 +118,24 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 
 				const article = new ArticleModel(data);
 
-				delete article.mainPhoto;
+				article.image = null;
 
 				if (mainPhoto) {
-					const result = await uploadMainPhoto(article._id, mainPhoto);
+					const result = await uploadMainPhoto(String(article._id), mainPhoto);
 					if (result) {
 						article.image = result;
 					}
 				}
 
 				const user = await UserModel.findById(tokenId);
-				user.articles.push(article._id);
+				
+				if (user) {
+					user.articles.push(article._id);
 
-				article.userId = user._id;
+					article.userId = user._id;
 
-				await user.save();
+					await user.save();
+				}
 
 				await article.save();
 

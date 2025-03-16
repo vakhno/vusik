@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 // UI components
 import { Separator } from "@/shared/ui/separator";
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 interface Props {
 	text: string | ReactNode;

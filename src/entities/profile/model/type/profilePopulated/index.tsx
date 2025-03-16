@@ -4,17 +4,13 @@ import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { AnimalType } from "@/entities/animal/model/type/animal";
 import { ArticleType } from "@/entities/article/model/type/article";
 
-// import { UserRole } from "@/constants/user";
-
-// export type UserRoleType = (typeof UserRole)[keyof typeof UserRole];
-
 // when we need to use user data how it contains in DB
-export type UserType = {
+export type PopulatedUserType = {
 	_id: Types.ObjectId;
 	role: string;
 	email: string;
 	password?: string;
-	avatar: string;
+	avatar: string | null;
 	name: string;
 	isSocial: boolean;
 	facebook?: string;

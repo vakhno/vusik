@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 				siteName: t("general.site-name"),
 				images: [
 					{
-						url: shelter.mainPhoto,
+						url: shelter.mainPhoto || "",
 						width: 1200,
 						height: 630,
 						alt: t("metadata.page.shelter.openGraph.image.alt"),
@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 				card: "summary_large_image",
 				title: t("metadata.page.shelter.twitter.title", { name: shelter.name }),
 				description: t("metadata.page.shelter.twitter.description", { name: shelter.name }),
-				images: shelter.mainPhoto,
+				images: shelter.mainPhoto || "",
 			},
 		};
 	} else {

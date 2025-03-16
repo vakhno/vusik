@@ -1,9 +1,9 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import ShelterModel from "@/entities/shelter/model/model";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { NextResponse } from "next/server";
-import { validateShelterFilterKeysAndValues } from "@/utils/filter";
-import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
+import { validateShelterFilterKeysAndValues } from "@/shared/utils/filter";
+import { gettingValuesFromURLSearchParams } from "@/shared/utils/URLSearchParams";
 
 export type SuccessResult = {
 	success: true;

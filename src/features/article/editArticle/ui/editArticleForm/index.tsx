@@ -2,9 +2,9 @@
 import { queryArticle } from "@/entities/article/model/query/queryById";
 
 import { NewArticleSchemaType } from "@/entities/article/model/type/newArticleForm";
-import { useToast } from "@/shared/ui/use-toast";
+import { toast } from "sonner";
 import NewArticleForm from "@/features/article/editArticle/ui/editArticleForm/formFields";
-import { categories } from "@/constants/categories";
+import { categories } from "@/shared/constants/categories";
 import { Types } from "mongoose";
 
 const buildFormDataForNewArticle = (fields: NewArticleSchemaType): FormData => {
@@ -58,23 +58,18 @@ const Index = ({ articleId }: Props) => {
 	// console.log("DATA", data);
 	if (article) {
 		// const { article } = data;
-		const { toast } = useToast();
 
 		const handleSuccessSubmitClick = async (fields: NewArticleSchemaType) => {
 			const preparedFormData = buildFormDataForNewArticle(fields);
 
 			const result = await createNewArticle(preparedFormData);
 			if (result) {
-				toast({
-					title: "Success",
+				toast("Success", {
 					description: `New article is created!`,
-					variant: "default",
 				});
 			} else {
-				toast({
-					title: "Error",
+				toast.error("Error", {
 					description: `Something went wrong while creating a new article!`,
-					variant: "destructive",
 				});
 			}
 		};

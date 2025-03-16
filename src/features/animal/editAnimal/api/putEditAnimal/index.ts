@@ -1,9 +1,9 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import AnimalModel from "@/entities/animal/model/model";
 import NewAnimalSchema from "@/entities/animal/model/schema/newAnimalForm";
 import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
 import { NextResponse } from "next/server";
-import { animalMainPhotoKeyName, animalSecondaryPhotosKeyName } from "@/constants/s3";
+import { animalMainPhotoKeyName, animalSecondaryPhotosKeyName } from "@/shared/constants/s3";
 // import { getLocale, getTranslations } from "next-intl/server";
 import { AnimalType } from "@/entities/animal/@x/shelter";
 
@@ -208,15 +208,14 @@ const deleteSecondaryPhotos = async (id: string): Promise<boolean> => {
 };
 
 type Props = {
-	formData: FormData;
+	req: Request;
 };
 
-const Index = async ({ formData }: Props) => {
-	// export async function PUT(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
+const Index = async ({ req }: Props) => {
 	try {
 		await mongoConnection();
 
-		// const formData = await req.formData();
+		const formData = await req.formData();
 		const data = getFormDataValue(formData) as NewAnimalSchemaType & { id: string };
 		// const locale = await getLocale();
 		// const t = await getTranslations({ locale });
@@ -235,7 +234,7 @@ const Index = async ({ formData }: Props) => {
 						updatedAnimal.mainPhoto = result;
 					}
 				} else {
-					updatedAnimal.mainPhoto = undefined;
+					updatedAnimal.mainPhoto = null;
 				}
 			}
 
@@ -248,7 +247,7 @@ const Index = async ({ formData }: Props) => {
 						updatedAnimal.secondaryPhotos = result;
 					}
 				} else {
-					updatedAnimal.secondaryPhotos = undefined;
+					updatedAnimal.secondaryPhotos = null;
 				}
 			}
 

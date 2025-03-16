@@ -13,7 +13,7 @@ import { Types } from "mongoose";
 // next tools
 import { useRouter } from "next/navigation";
 // shared
-import { useToast } from "@/shared/ui/use-toast";
+import { toast } from "sonner";
 
 type Props = {
 	animalId: Types.ObjectId;
@@ -22,33 +22,33 @@ type Props = {
 const NewAnimal = ({ animalId }: Props) => {
 	const t = useTranslations();
 	const router = useRouter();
-	const { toast } = useToast();
 	const { data: fetchedFilters } = queryGetEditAnimalFilter({ id: animalId });
-	const { mutateAsync: editAnimal } = queryEditAnimal();
+	const { mutateAsync: editAnimal } = queryEditAnimal({
+		onSuccess: (animal) => {
+			const { _id } = animal;
+
+			router.push(`/animal/${_id}`);
+		},
+		onError: (error) => {
+			toast.error(t("page.edit-animal.toast.title"), {
+				description: error,
+			});
+		},
+	});
 	const availableOptions = fetchedFilters?.availableOptions || { shelters: [] };
 	const selectedOptions = fetchedFilters?.selectedOptions || null;
 
-	const onHandleSubmit = async (fields: NewAnimalSchemaType) => {
-		const result = await editAnimal({ ...fields, id: String(animalId) });
-		if (result) {
-			const { animal } = result;
-			console.log("result", result);
-			const { _id } = animal;
-			router.push(`/animal/${_id}`);
-		} else {
-			toast({
-				title: t("page.edit-animal.toast.title"),
-				description: t("page.edit-animal.toast.description"),
-				variant: "destructive",
-			});
-		}
+	const onHandleFormSubmit = async (fields: NewAnimalSchemaType) => {
+		const updatedFiedls = { ...fields, id: String(animalId) };
+
+		editAnimal(updatedFiedls);
 	};
 
 	return (
 		<EditAnimalFields
 			availableOptions={availableOptions}
 			selectedOptions={selectedOptions}
-			handleSubmit={onHandleSubmit}
+			handleSubmit={onHandleFormSubmit}
 		/>
 	);
 };

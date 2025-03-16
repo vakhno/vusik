@@ -1,14 +1,14 @@
 // libs
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 // entities
 import ShelterModel from "@/entities/shelter/model/model";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 // next tools
 import { NextResponse } from "next/server";
 // utils
-import { validateToNaturalNumber } from "@/utils/number";
+import { validateToNaturalNumber } from "@/shared/utils/number";
 // constants
-import { sheltersPerPage } from "@/constants/counts";
+import { sheltersPerPage } from "@/shared/constants/counts";
 
 type parsedShelterSearchParamsType = {
 	state?: string[];

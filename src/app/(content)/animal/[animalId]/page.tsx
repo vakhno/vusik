@@ -1,7 +1,7 @@
 "use server";
 
 // entities
-import Animal from "@/entities/animal/ui/animalPage";
+import Animal from "@/entities/animal/ui/animalProfile";
 // next tools
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -82,7 +82,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 				siteName: t("general.site-name"),
 				images: [
 					{
-						url: animal.mainPhoto,
+						url: animal.mainPhoto || "",
 						width: 1200,
 						height: 630,
 						alt: t("metadata.page.animal.openGraph.image.alt"),
@@ -94,7 +94,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 				card: "summary_large_image",
 				title: t("metadata.page.animal.twitter.title", { name: animal.name }),
 				description: t("metadata.page.animal.twitter.description", { name: shelter.name }),
-				images: animal.mainPhoto,
+				images: animal.mainPhoto || "",
 			},
 		};
 	} else {

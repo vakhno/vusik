@@ -1,7 +1,7 @@
 // tanstack
 import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/utils/searchParams";
+import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
 // features
 import { SuccessResponse, ErrorResponse } from "@/features/animal/loadProfileAnimals/api/getProfileAnimals";
 // entities
@@ -9,9 +9,9 @@ import { AnimalType } from "@/entities/animal/model/type/animal";
 // mongoose
 import { Types } from "mongoose";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // routes
-import { API_GET_BY_USER_ID_ANIMALS_BY_PAGE } from "@/routes";
+import { API_GET_BY_USER_ID_ANIMALS_BY_PAGE } from "@/shared/constants/routes";
 
 const fetchData = async (id: string | Types.ObjectId, page: number, searchParams: SearchParamsType) => {
 	try {

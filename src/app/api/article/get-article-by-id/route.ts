@@ -1,7 +1,7 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import ArticleModel from "@/entities/article/model/model";
 import { ArticleType } from "@/entities/article/model/type/article";
-import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
+import { gettingValuesFromURLSearchParams } from "@/shared/utils/URLSearchParams";
 import { NextResponse } from "next/server";
 import UserModel from "@/entities/profile/model/model";
 
@@ -22,7 +22,11 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		const searchParams = gettingValuesFromURLSearchParams(URLSearchParams);
 		const { id } = searchParams;
 		const article = await ArticleModel.findById(id).populate({ path: "userId", model: UserModel });
-		return NextResponse.json({ success: true, article: article }, { status: 200 });
+		if (article) {
+			return NextResponse.json({ success: true, article: article }, { status: 200 });
+		} else {
+			return NextResponse.json({ success: false }, { status: 500 });
+		}
 	} catch (_) {
 		return NextResponse.json({ success: false }, { status: 500 });
 	}

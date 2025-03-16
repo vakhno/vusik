@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/animal/newAnimal/api/postNewAnimal";
 // routes
-import { API_NEW_ANIMAL } from "@/routes";
+import { API_NEW_ANIMAL } from "@/shared/constants/routes";
 
 import NewAnimalSchemaType from "@/features/animal/newAnimal/model/type/newAnimalSchemaType";
 

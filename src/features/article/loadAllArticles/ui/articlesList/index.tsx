@@ -4,9 +4,9 @@
 import { queryGetAllArticles } from "@/features/article/loadAllArticles/model/query/fetchAllArticles";
 import ArticlesList from "@/features/article/loadAllArticles/ui/articlesList/list";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // constants
-import { articlesPerPage } from "@/constants/counts";
+import { articlesPerPage } from "@/shared/constants/counts";
 
 type Props = { articleSearchParams: SearchParamsType };
 

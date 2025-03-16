@@ -4,11 +4,11 @@ import Image from "next/image";
 // components
 import { Button, buttonVariants } from "@/shared/ui/button";
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 // actions
 import { useTranslations } from "next-intl";
 // routes
-import { GOOGLE_AUTH_ROUTE } from "@/routes";
+import { GOOGLE_AUTH_ROUTE } from "@/shared/constants/routes";
 
 interface Props {
 	className?: string;

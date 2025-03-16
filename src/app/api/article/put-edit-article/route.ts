@@ -1,10 +1,10 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import ArticleModel from "@/entities/article/model/model";
 import { NewArticleSchema } from "@/entities/article/model/schema/newArticleForm";
 import { NewArticleSchemaType } from "@/entities/article/model/type/newArticleForm";
 // import { getLocale } from "next-intl/server";
 import { NextResponse } from "next/server";
-import { articleMainPhotoKeyName } from "@/constants/s3";
+import { articleMainPhotoKeyName } from "@/shared/constants/s3";
 
 export interface SuccessResponse {
 	success: true;
@@ -116,30 +116,30 @@ export async function PUT(req: Request): Promise<NextResponse<SuccessResponse | 
 
 		if (isValidationPassed) {
 			const { id, image, ...readyData } = data;
-			const updatedAnimal = new ArticleModel(readyData).toObject();
+			const updatedArticle = new ArticleModel(readyData).toObject();
 			const result1 = await deleteMainPhoto(id);
 
 			if (result1) {
 				if (image) {
 					const result = await uploadMainPhoto(id, image);
 					if (result) {
-						updatedAnimal.image = result;
+						updatedArticle.image = result;
 					}
 				} else {
-					updatedAnimal.image = undefined;
+					updatedArticle.image = null;
 				}
 			}
 
-			const { _id, ...updatedAnimalWithoutId } = updatedAnimal;
+			const { _id, ...updatedArticleWithoutId } = updatedArticle;
 			const updateQuery: {
-				$set: typeof updatedAnimalWithoutId;
+				$set: typeof updatedArticleWithoutId;
 				$unset: { [key: string]: unknown };
 			} = {
-				$set: updatedAnimalWithoutId,
+				$set: updatedArticleWithoutId,
 				$unset: {},
 			};
 
-			if (!updatedAnimal.image) {
+			if (!updatedArticle.image) {
 				updateQuery.$unset["image"] = "";
 			}
 

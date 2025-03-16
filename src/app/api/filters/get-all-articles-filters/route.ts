@@ -1,6 +1,6 @@
 import FilterModel from "@/entities/filter/model/model";
 import { FiltersPopulatedArticlesType } from "@/entities/filter/model/type/filtersPopulated";
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import { NextResponse } from "next/server";
 
 type SuccessResponse = {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { SUCCESS_SIGN_IN_REDIRECTION, FAILED_SIGN_IN_REDIRECTION } from "@/routes";
+import { SUCCESS_SIGN_IN_REDIRECTION, FAILED_SIGN_IN_REDIRECTION } from "@/shared/constants/routes";
 
 const Index = () => {
 	try {

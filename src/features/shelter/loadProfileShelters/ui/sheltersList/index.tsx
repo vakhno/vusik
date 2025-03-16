@@ -4,11 +4,11 @@
 import { queryGetProfileShelters } from "@/features/shelter/loadProfileShelters/model/query/fetchProfileShelters";
 import SheltersList from "@/features/shelter/loadProfileShelters/ui/sheltersList/list";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // mongoose
 import { Types } from "mongoose";
 // constants
-import { sheltersPerPage } from "@/constants/counts";
+import { sheltersPerPage } from "@/shared/constants/counts";
 
 type Props = { isEditable?: boolean; id: Types.ObjectId; shelterSearchParams: SearchParamsType };
 

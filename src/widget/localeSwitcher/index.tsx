@@ -5,11 +5,11 @@ import { Separator } from "@/shared/ui/separator";
 // next-intl
 import { useTranslations, useLocale } from "next-intl";
 // actions
-import { postNewLocale } from "@/actions/locale/postNewLocale";
+import { postNewLocale } from "@/shared/actions/locale/postNewLocale";
 // constants
-import { locales } from "@/constants/locale";
+import { locales } from "@/shared/constants/locale";
 // types
-import { Locale } from "@/types/locale.type";
+import { Locale } from "@/shared/types/locale.type";
 
 const LocaleSwitcher = () => {
 	const locale = useLocale();

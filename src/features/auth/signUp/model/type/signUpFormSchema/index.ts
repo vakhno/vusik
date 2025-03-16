@@ -1,4 +1,8 @@
+// zod
 import * as z from "zod";
-import { SignUpSchema } from "@/features/auth/signUp/model/schema/signUpForm";
+// features
+import SignUpSchema from "@/features/auth/signUp/model/schema/signUpForm";
 
-export type SignUpSchemaType = z.infer<ReturnType<typeof SignUpSchema>>;
+type SignUpSchemaType = z.infer<ReturnType<typeof SignUpSchema>>;
+
+export default SignUpSchemaType;

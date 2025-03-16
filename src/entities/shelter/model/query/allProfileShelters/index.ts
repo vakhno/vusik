@@ -1,13 +1,13 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/utils/searchParams";
+import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
 // api
 import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { Types } from "mongoose";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // routes
 // import { API_GET_BY_USER_ID_ANIMALS_BY_PAGE } from "@/routes";
 

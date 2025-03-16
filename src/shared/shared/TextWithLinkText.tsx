@@ -1,5 +1,5 @@
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 // next tools
 import Link from "next/link";
 

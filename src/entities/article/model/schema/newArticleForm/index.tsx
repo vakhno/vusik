@@ -1,7 +1,7 @@
 // zod
 import * as z from "zod";
 // constants
-import { imageFileTypesAsArray } from "@/constants/files";
+import { imageFileTypesAsArray } from "@/shared/constants/files";
 // next-intl
 // import { TranslationValues } from "next-intl";
 

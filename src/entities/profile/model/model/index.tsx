@@ -1,9 +1,9 @@
 // mongoose
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
 // types
 import { UserType } from "@/entities/profile/model/type/profile";
 //
-import { UserRole } from "@/constants/user";
+import { UserRole } from "@/shared/constants/user";
 
 const UserSchema = new Schema<UserType>(
 	{
@@ -37,6 +37,7 @@ const UserSchema = new Schema<UserType>(
 		},
 		avatar: {
 			type: String,
+			default: null,
 		},
 		facebook: {
 			type: String,
@@ -78,6 +79,6 @@ const UserSchema = new Schema<UserType>(
 	{ timestamps: true },
 );
 
-const UserModel = mongoose?.models?.User || mongoose.model("User", UserSchema);
+const UserModel: Model<UserType> = mongoose?.models?.User || mongoose.model("User", UserSchema);
 
 export default UserModel;

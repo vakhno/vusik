@@ -1,7 +1,7 @@
 // react
 import { useState } from "react";
 // zustand
-import useLikedAnimalsStore from "@/zustand/store/likedAnimals.store";
+import useLikedAnimalsStore from "@/shared/zustand/store/likedAnimals.store";
 // UI components
 import { Button } from "@/shared/ui/button";
 // next tools
@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui/di
 // features
 import LikedAnimalList from "@/features/likedAnimalList";
 // utils
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { useTranslations } from "next-intl";
 
 type Props = { className?: string };

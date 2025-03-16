@@ -13,7 +13,7 @@ import { Types } from "mongoose";
 // next tools
 import { useRouter } from "next/navigation";
 // shared
-import { useToast } from "@/shared/ui/use-toast";
+import { toast } from "sonner";
 
 type Props = {
 	userId: Types.ObjectId;
@@ -22,7 +22,6 @@ type Props = {
 const NewAnimal = ({ userId }: Props) => {
 	const t = useTranslations();
 	const router = useRouter();
-	const { toast } = useToast();
 	const { data: fetchedFilters } = queryGetNewAnimalFilter({ id: userId });
 	const { mutateAsync: addNewAnimal } = queryNewAnimal();
 	const availableOptions = fetchedFilters?.availableOptions || { shelters: [] };
@@ -36,10 +35,8 @@ const NewAnimal = ({ userId }: Props) => {
 
 			router.push(`/animal/${_id}`);
 		} else {
-			toast({
-				title: t("page.new-animal.toast.title"),
+			toast.error(t("page.new-animal.toast.title"), {
 				description: t("page.new-animal.toast.description"),
-				variant: "destructive",
 			});
 		}
 	};

@@ -1,9 +1,7 @@
-"use client";
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-/* eslint-disable react/prop-types */
-import * as AspectRatioPrimitive from "@radix-ui/react-aspect-ratio";
+"use client"
 
-const AspectRatio = AspectRatioPrimitive.Root;
+import * as AspectRatioPrimitive from "@radix-ui/react-aspect-ratio"
 
-export { AspectRatio };
+const AspectRatio = AspectRatioPrimitive.Root
+
+export { AspectRatio }

@@ -10,7 +10,7 @@ import {
 	ErrorResponse as AnimalErrorResponse,
 } from "@/app/api/animal/get-animal-by-id/route";
 // routes
-import { API_GET_ANIMAL_BY_ID } from "@/routes";
+import { API_GET_ANIMAL_BY_ID } from "@/shared/constants/routes";
 // mongoose
 import { Types } from "mongoose";
 

@@ -1,5 +1,5 @@
 // mongoose
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
 // types
 import { ArticleType } from "@/entities/article/model/type/article";
 
@@ -35,6 +35,6 @@ const ArticleSchema = new Schema<ArticleType>(
 	{ timestamps: true },
 );
 
-const ArticleModel = mongoose.models.Article || mongoose.model("Article", ArticleSchema);
+const ArticleModel: Model<ArticleType> = mongoose.models.Article || mongoose.model("Article", ArticleSchema);
 
 export default ArticleModel;

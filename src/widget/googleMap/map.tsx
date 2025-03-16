@@ -1,9 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
-import { defaultMarkerCoordiates } from "@/constants/googleMap";
+import { defaultMarkerCoordiates } from "@/shared/constants/googleMap";
 
 export type MarkerCoordinates = {
 	lat: number;

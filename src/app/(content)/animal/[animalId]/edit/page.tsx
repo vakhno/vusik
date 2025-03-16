@@ -1,5 +1,5 @@
 // features
-import EditAnimal from "@/views/editAnimal";
+import EditAnimal from "@/screens/editAnimal";
 // tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // mongoose

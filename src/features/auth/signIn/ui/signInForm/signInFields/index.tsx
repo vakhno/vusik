@@ -9,8 +9,8 @@ import { useForm } from "react-hook-form";
 // zod
 import { zodResolver } from "@hookform/resolvers/zod";
 // features
-import { SignInSchema } from "@/features/auth/signIn/model/schema/signInForm";
-import { SignInSchemaType } from "@/features/auth/signIn/model/type/signInFormSchema";
+import SignInSchema from "@/features/auth/signIn/model/schema/signInForm";
+import SignInSchemaType from "@/features/auth/signIn/model/type/signInFormSchema";
 // next tools
 import Link from "next/link";
 // next-intl

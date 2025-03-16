@@ -13,9 +13,12 @@ import {
 } from "@/shared/ui/alert-dialog";
 // next-intl
 import { useTranslations } from "next-intl";
+// mongoose
+import { Types } from "mongoose";
 
 type Props = {
 	className?: string;
+	animalId: Types.ObjectId;
 };
 
 const Index = ({ className = "" }: Props) => {

@@ -1,5 +1,5 @@
 // mongoose
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
 // types
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 
@@ -11,10 +11,11 @@ const ShelterSchema = new Schema<ShelterType>(
 		},
 		mainPhoto: {
 			type: String,
+			default: null,
 		},
 		secondaryPhotos: {
 			type: [String],
-			default: undefined,
+			default: null,
 		},
 		country: {
 			type: String,
@@ -169,6 +170,6 @@ const ShelterSchema = new Schema<ShelterType>(
 	{ timestamps: true },
 );
 
-const ShelterModel = mongoose.models.Shelter || mongoose.model("Shelter", ShelterSchema);
+const ShelterModel: Model<ShelterType> = mongoose.models.Shelter || mongoose.model("Shelter", ShelterSchema);
 
 export default ShelterModel;

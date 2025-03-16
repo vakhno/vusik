@@ -1,13 +1,13 @@
 // tanstack
 import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/utils/searchParams";
+import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/shelter/loadProfileShelters/api/getProfileShelters";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { Types } from "mongoose";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 
 const fetchData = async ({
 	id,

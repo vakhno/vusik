@@ -1,13 +1,13 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/utils/searchParams";
+import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/shelter/loadAllSheltersFilters/api/getAllSheltersFilters";
 // routes
-import { API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS } from "@/routes";
+import { API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS } from "@/shared/constants/routes";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 
 const fetchData = async (searchParams: SearchParamsType) => {
 	try {

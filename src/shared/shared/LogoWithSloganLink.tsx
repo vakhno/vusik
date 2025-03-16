@@ -3,7 +3,7 @@ import LogoLink from "@/shared/shared/LogoLink";
 // next-intl
 import { useTranslations } from "next-intl";
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 type Props = {
 	href: string;

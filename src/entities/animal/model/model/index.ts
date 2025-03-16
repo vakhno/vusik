@@ -1,5 +1,5 @@
 // mongoose
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
 // types
 import { AnimalType } from "@/entities/animal/model/type/animal";
 
@@ -67,6 +67,6 @@ const AnimalSchema = new Schema<AnimalType>(
 	{ timestamps: true },
 );
 
-const AnimalModel = mongoose?.models?.Animal || mongoose.model("Animal", AnimalSchema);
+const AnimalModel: Model<AnimalType> = mongoose?.models?.Animal || mongoose.model("Animal", AnimalSchema);
 
 export default AnimalModel;

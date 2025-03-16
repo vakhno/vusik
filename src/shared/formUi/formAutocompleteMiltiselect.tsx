@@ -13,7 +13,7 @@ import { Command as CommandPrimitive } from "cmdk";
 import { useState, useRef, useId, useEffect } from "react";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { ScrollArea } from "@/shared/ui/scroll-area";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { Card } from "@/shared/ui/card";
 import { Badge } from "@/shared/ui/badge";
 import { FormControl, FormField, FormItem, FormMessage } from "@/shared/ui/form";

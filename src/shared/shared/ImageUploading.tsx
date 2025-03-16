@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 // next tools
 import Image from "next/image";
 // constants
-import { imageFileTypesAsString } from "@/constants/files";
+import { imageFileTypesAsString } from "@/shared/constants/files";
 // libs
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 const mainPhotoUrlToFile = async (url: string): Promise<File | null> => {
 	try {

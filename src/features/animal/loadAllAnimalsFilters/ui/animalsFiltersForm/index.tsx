@@ -1,7 +1,7 @@
 "use client";
 
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // features
 import FiltersForm from "@/features/animal/loadAllAnimalsFilters/ui/animalsFiltersForm/fullForm";
 import selectedFiltersType from "@/features/animal/loadAllAnimalsFilters/model/type/selectedFiltersType";
@@ -10,12 +10,13 @@ import { queryGetAllAnimalsFilter } from "@/features/animal/loadAllAnimalsFilter
 import { SearchAllAnimalsFiltersFormSchemaType } from "@/features/animal/loadAllAnimalsFilters/model/type/filtersFormSchemaType";
 // widgets
 import { MarkerCoordinates } from "@/widget/googleMap/map";
-// hooks
-import { useWindowHistoryPush } from "@/hooks/use-window-history-push";
-// utils
-import { urlSearchParamsBuilder } from "@/utils/searchParams";
+// shared
+import { useWindowHistoryPush } from "@/shared/hooks/use-window-history-push";
+import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import { cn } from "@/shared/lib/utils";
 
 type Props = {
+	className?: string;
 	searchParams: SearchParamsType;
 };
 
@@ -64,7 +65,7 @@ const generateVisibleOptions = (
 	return filteredOptions;
 };
 
-const Index = ({ searchParams }: Props) => {
+const Index = ({ className = "", searchParams }: Props) => {
 	const handleWindowHistoryPush = useWindowHistoryPush();
 	const { data: fetchedFilters } = queryGetAllAnimalsFilter({
 		searchParams: searchParams,
@@ -92,12 +93,14 @@ const Index = ({ searchParams }: Props) => {
 	};
 
 	return (
-		<FiltersForm
-			availableOptions={availableOptions}
-			selectedValues={selectedOptions}
-			shelterMarkers={shelterMarkers}
-			handleFilterChange={filterChange}
-		/>
+		<div className={cn(className)}>
+			<FiltersForm
+				availableOptions={availableOptions}
+				selectedValues={selectedOptions}
+				shelterMarkers={shelterMarkers}
+				handleFilterChange={filterChange}
+			/>
+		</div>
 	);
 };
 

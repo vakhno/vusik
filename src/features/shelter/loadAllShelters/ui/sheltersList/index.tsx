@@ -4,9 +4,9 @@
 import { queryGetAllShelters } from "@/features/shelter/loadAllShelters/model/query/fetchAllShelters";
 import SheltersList from "@/features/shelter/loadAllShelters/ui/sheltersList/list";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // constants
-import { sheltersPerPage } from "@/constants/counts";
+import { sheltersPerPage } from "@/shared/constants/counts";
 
 type Props = { shelterSearchParams: SearchParamsType };
 

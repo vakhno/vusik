@@ -1,5 +1,5 @@
 // libs
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 // entities
 import AnimalModel from "@/entities/animal/model/model";
 import { AnimalType } from "@/entities/animal/model/type/animal";
@@ -8,9 +8,9 @@ import UserModel from "@/entities/profile/model/model";
 // next tools
 import { NextResponse } from "next/server";
 // utils
-import { validateToNaturalNumber } from "@/utils/number";
+import { validateToNaturalNumber } from "@/shared/utils/number";
 // constants
-import { animalsPerPage } from "@/constants/counts";
+import { animalsPerPage } from "@/shared/constants/counts";
 // mongoose
 import { Types } from "mongoose";
 

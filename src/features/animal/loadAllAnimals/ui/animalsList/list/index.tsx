@@ -1,7 +1,7 @@
 "use client";
 
 // shared
-import AnimalCardSkeleton from "@/shared/skeleton/animalCardSkeleton";
+import AnimalCardSkeleton from "@/entities/animal/ui/animalCardSkeleton";
 import { Button } from "@/shared/ui/button";
 // entities
 import AnimalCard from "@/entities/animal/ui/animalCard";

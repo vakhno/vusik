@@ -1,7 +1,7 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 import ShelterModel from "@/entities/shelter/model/model";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
-import { gettingValuesFromURLSearchParams } from "@/utils/URLSearchParams";
+import { gettingValuesFromURLSearchParams } from "@/shared/utils/URLSearchParams";
 import { NextResponse } from "next/server";
 
 export type SuccessResponse = {
@@ -22,7 +22,11 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		const { id } = searchParams;
 		const shelter = await ShelterModel.findById(id);
 
-		return NextResponse.json({ success: true, shelter: shelter }, { status: 200 });
+		if (shelter) {
+			return NextResponse.json({ success: true, shelter: shelter }, { status: 200 });
+		} else {
+			return NextResponse.json({ success: false }, { status: 500 });
+		}
 	} catch (_) {
 		return NextResponse.json({ success: false }, { status: 500 });
 	}

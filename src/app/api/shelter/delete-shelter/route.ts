@@ -1,4 +1,4 @@
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 // next tools
 import { NextResponse } from "next/server";
 // model

@@ -1,5 +1,5 @@
 // libs
-import { mongoConnection } from "@/lib/mongodb";
+import { mongoConnection } from "@/shared/lib/mongodb";
 // next tools
 import { NextResponse } from "next/server";
 // entities
@@ -7,37 +7,47 @@ import AnimalModel from "@/entities/animal/model/model";
 import ShelterModel from "@/entities/shelter/model/model";
 import UserModel from "@/entities/profile/model/model";
 
-export interface SuccessResponse {
+export type SuccessResponse = {
 	success: true;
-}
-
-export interface ErrorResponse {
-	success: false;
-}
-
-type Props = {
-	formData: FormData;
 };
 
-const Index = async ({ formData }: Props) => {
+export type ErrorResponse = {
+	success: false;
+};
+
+type Props = {
+	req: Request;
+};
+
+const Index = async ({ req }: Props) => {
 	try {
 		await mongoConnection();
 
-		const data = Object.fromEntries(formData.entries()) as { [key: string]: unknown };
-		const { animalId, shelterId, userId } = data;
+		const url = new URL(req.url);
+		const searchParams = url.searchParams;
+		const animalId = searchParams.get("animalId");
 
-		await AnimalModel.deleteOne({ _id: animalId });
+		if (animalId) {
+			const animal = await AnimalModel.findById(animalId);
 
-		await ShelterModel.findByIdAndUpdate(shelterId, {
-			$pull: {
-				activeMembers: animalId,
-				adoptedMembers: animalId,
-			},
-		});
+			if (!animal) {
+				return NextResponse.json({ success: false }, { status: 404 });
+			} else {
+				const { shelterId, userId } = animal;
 
-		await UserModel.findByIdAndUpdate(userId, { $pull: { animals: animalId } });
+				await AnimalModel.deleteOne({ _id: animalId });
 
-		return NextResponse.json({ success: true }, { status: 200 });
+				await ShelterModel.findByIdAndUpdate(shelterId, {
+					$pull: { activeMembers: animalId, adoptedMembers: animalId },
+				});
+
+				await UserModel.findByIdAndUpdate(userId, { $pull: { animals: animalId } });
+
+				return NextResponse.json({ success: true }, { status: 200 });
+			}
+		} else {
+			return NextResponse.json({ success: false }, { status: 404 });
+		}
 	} catch (_) {
 		return NextResponse.json({ success: false }, { status: 500 });
 	}

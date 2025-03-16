@@ -1,13 +1,13 @@
 "use server";
 
 // pages
-import ArticlesPage from "@/views/articles";
+import ArticlesPage from "@/screens/articles";
 // next tools
 import { Metadata } from "next";
 // next-intl
 import { getLocale, getTranslations } from "next-intl/server";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 
 type Props = {
 	searchParams: SearchParamsType;

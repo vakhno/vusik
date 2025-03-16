@@ -1,6 +1,6 @@
 "use server";
 // pages
-import HomePage from "@/views/home";
+import HomePage from "@/screens/home";
 // next tools
 import { Metadata } from "next";
 // next-intl

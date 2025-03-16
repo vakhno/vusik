@@ -1,5 +1,5 @@
 // features
-import EditShelter from "@/views/editShelter";
+import EditShelter from "@/screens/editShelter";
 // tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // mongoose

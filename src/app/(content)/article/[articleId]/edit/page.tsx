@@ -1,5 +1,5 @@
 // features
-import EditArticle from "@/views/editArticle";
+import EditArticle from "@/screens/editArticle";
 // tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // entities

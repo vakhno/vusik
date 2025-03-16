@@ -1,11 +1,11 @@
 // tanstack
 import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/utils/searchParams";
+import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
 //routes
-import { API_GET_ANIMALS_BY_PAGE } from "@/routes";
+import { API_GET_ANIMALS_BY_PAGE } from "@/shared/constants/routes";
 // types
-import { SearchParamsType } from "@/types/searchParams.type";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/animal/loadAllAnimals/api/getAllAnimals";
 

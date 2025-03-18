@@ -1,0 +1,285 @@
+{
+	"metadata": {
+		"page": {
+			"home": {
+				"title": "VUSIK - HOME",
+				"description": "Platform connects you with local animal shelters to find and adopt animal",
+				"openGraph": {
+					"title": "VUSIK - find your friend with us",
+					"image": {
+						"alt": "VUSIK - platform connects you with local animal shelters to find and adopt animal"
+					}
+				},
+				"twitter": {
+					"title": "VUSIK - find your friend with us",
+					"description": "Platform connects you with local animal shelters to find and adopt animal"
+				},
+				"keywords": "shelter, animal shelter, pet adoption, adopt a dog, rescue dogs, adopt a cat, rescue cats, find animal shelter, find animal shelter near me"
+			},
+			"animal": {
+				"title": "Adopt {name}",
+				"description": "Adopt animal from shelter {name}",
+				"openGraph": {
+					"title": "Adopt {name}",
+					"description": "Adopt animal from shelter {name}",
+					"image": {
+						"alt": "Animal from shelter"
+					}
+				},
+				"twitter": {
+					"title": "Adopt {name}",
+					"description": "Adopt animal from shelter {name}"
+				}
+			},
+			"shelter": {
+				"title": "{name}",
+				"description": "{name} - search for animals here",
+				"openGraph": {
+					"title": "{name}",
+					"description": "{name} - search for animals here",
+					"image": {
+						"alt": "Animal shelter"
+					}
+				},
+				"twitter": {
+					"title": "{name}",
+					"description": "{name} - search for animals here"
+				}
+			},
+			"sign-in": {
+				"title": "VUSIK - SIGN-IN",
+				"description": "SIGN-IN - to help animals",
+				"openGraph": {
+					"title": "VUSIK - find your friend with us",
+					"image": {
+						"alt": "VUSIK - platform connects you with local animal shelters to find and adopt animal"
+					}
+				},
+				"twitter": {
+					"title": "VUSIK - find your friend with us",
+					"description": "Platform connects you with local animal shelters to find and adopt animal"
+				}
+			},
+			"sign-up": {
+				"title": "VUSIK - SIGN-UP",
+				"description": "SIGN-UP - to help animals",
+				"openGraph": {
+					"title": "VUSIK - find your friend with us",
+					"image": {
+						"alt": "VUSIK - platform connects you with local animal shelters to find and adopt animal"
+					}
+				},
+				"twitter": {
+					"title": "VUSIK - find your friend with us",
+					"description": "Platform connects you with local animal shelters to find and adopt animal"
+				}
+			}
+		}
+	},
+	"page": {
+		"home": {
+			"main-card": {
+				"title": "Read articles",
+				"button-title": "Read"
+			},
+			"secondary-card-1": {
+				"title": "Find a shelter",
+				"button-title": "Find"
+			},
+			"secondary-card-2": {
+				"title": "Adopt an animal",
+				"button-title": "Adopt"
+			}
+		},
+		"auth": {
+			"sign-in": {
+				"email-input-placeholder": "Email...",
+				"email-input-label": "Email",
+				"password-input-placeholder": "Password...",
+				"password-input-label": "Password",
+				"dont-have-an-account": "I don`t have an account! <signUp>Sign up!</signUp>",
+				"sign-in-agreement": "By sign in, you agree to our <termsOfUse>Terms of Use</termsOfUse> and <privacyPolicy>Privacy Policy</privacyPolicy>.",
+				"schema": {
+					"email-min": "Email is required!",
+					"email-type": "Email is not valid!",
+					"password-min": "Password is required!"
+				},
+				"submit": "Sign In",
+				"error-toast-title": "Error",
+				"api": {
+					"400": "Invalid data: \"{error}\"!",
+					"401": "Password or email is not valid!",
+					"404": "User does not exist!",
+					"500": "Something went wrong!"
+				}
+			},
+			"sign-up": {
+				"name-input-placeholder": "Name...",
+				"name-input-label": "Name",
+				"name-input-description": "This is your public name",
+				"email-input-placeholder": "Email...",
+				"email-input-label": "Email",
+				"password-input-placeholder": "Password...",
+				"password-input-label": "Password",
+				"confirm-password-input-placeholder": "Confirm password...",
+				"confirm-password-input-label": "Confirm password",
+				"have-an-account": "Already have an account! <signIn>Sign in</signIn>!",
+				"sign-up-agreement": "By sign up, you agree to our <termsOfUse></termsOfUse> and <privacyPolicy></privacyPolicy>",
+				"sign-up-agreement-terms-of-use": "Terms of Use",
+				"sign-up-agreement-privacy-policy": "Privacy Policy",
+				"schema": {
+					"name-min": "Name is required!",
+					"name-short": "Name is too short!",
+					"email-min": "Email is required!",
+					"email-type": "Email is not valid!",
+					"password-min": "Password is required!",
+					"confirm-password-min": "Confirm Password is required!",
+					"passwords-match": "Passwords don`t match!"
+				},
+				"submit": "Sign Up",
+				"error-toast-title": "Error",
+				"api": {
+					"400": "Invalid data: \"{error}\"!",
+					"409": "Such profile already exist!",
+					"500": "Something went wrong!",
+					"503": "Something went wrong! Try later!"
+				}
+			}
+		},
+		"animals": {
+			"species-autocomplete-multiselect-placeholder": "Select species",
+			"species-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"breed-autocomplete-multiselect-placeholder": "Select breed",
+			"breed-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"age-autocomplete-multiselect-placeholder": "Select age",
+			"age-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"sex-autocomplete-multiselect-placeholder": "Select sex",
+			"sex-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"size-autocomplete-multiselect-placeholder": "Select size",
+			"size-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"state-autocomplete-multiselect-placeholder": "Select state",
+			"state-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"city-autocomplete-multiselect-placeholder": "Select city",
+			"city-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"shelter-autocomplete-multiselect-placeholder": "Select shelter",
+			"shelter-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"sterilization-checkbox-label": "Sterilization",
+			"injury-checkbox-label": "Injury",
+			"search": "Search",
+			"load-more": "Load more",
+			"no-animals": "No animals",
+			"select-species-for-more-filters": "Select species to use more filters",
+			"select-state-for-more-filters": "Select state to use more filters",
+			"filtering-accordion-tab": "Filtering",
+			"sorting-accordion-tab": "Sorting"
+		},
+		"edit-animal": {
+			"toast": {
+				"title": "Error",
+				"description": "Something went wrong while editing!"
+			}
+		},
+		"new-animal": {
+			"toast": {
+				"title": "Error",
+				"description": "Something went wrong while creating!"
+			}
+		},
+		"shelters": {
+			"city-autocomplete-multiselect-placeholder": "Select city",
+			"city-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"state-autocomplete-multiselect-placeholder": "Select state",
+			"state-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"search": "Search",
+			"load-more": "Load more",
+			"no-shelters": "No shelters"
+		},
+		"articles": {
+			"category-autocomplete-multiselect-placeholder": "Select category",
+			"category-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"search": "Search",
+			"load-more": "Load more",
+			"no-articles": "No articles"
+		},
+		"profile": {
+			"edit-profile": "Edit profile",
+			"animals": {
+				"tab-trigger": "Animals",
+				"new": "Add new animal"
+			},
+			"organizations": {
+				"tab-trigger": "Organizations",
+				"new": "Add new organization"
+			},
+			"articles": {
+				"tab-trigger": "Articles",
+				"new": "Add new article"
+			}
+		}
+	},
+	"symbols": {
+		"copyright": "©"
+	},
+	"general": {
+		"site-name": "VUSIK",
+		"creator": "Stanislav Vakhno"
+	},
+	"auth": {
+		"sign-in-label": "Sign in",
+		"sign-up-label": "Sign up",
+		"logout-label": "Log out",
+		"is-already-have-an-account": "I already have an account!",
+		"google": "Google",
+		"google-logo-alt": "Google logo"
+	},
+	"locales": {
+		"en": "EN",
+		"uk": "UA"
+	},
+	"avatar": {
+		"custom-avatar-alt-label": "custom profile avatar",
+		"default-avatar-alt-label": "default profile avatar"
+	},
+	"separator": {
+		"or": "OR"
+	},
+	"logo-link": {
+		"image-alt": "VUSIK logo",
+		"link-aria-label": "VUSIK logo"
+	},
+	"logo-with-slogan-link": {
+		"description": "Find your friend with us"
+	},
+	"delete": "Delete",
+	"submit": "Submit",
+	"search": "Search",
+	"loadMore": "Load more...",
+	"noAnimals": "No animals yet",
+	"animal-search": {
+		"no-results-found": "No results found",
+		"select-species": "Select species",
+		"select-breed": "Select breed",
+		"select-age": "Select age",
+		"select-sex": "Select sex",
+		"select-size": "Select size",
+		"select-state": "Select state",
+		"select-shelter": "Select shelter",
+		"sterilized": "Sterilization",
+		"injury": "Injury"
+	},
+	"adopt": {
+		"title": "Adopt",
+		"button": "Adopt"
+	},
+	"like": {
+		"toast": {
+			"added-title": "Added",
+			"added-description": "You liked animal!",
+			"removed-title": "Removed",
+			"removed-description": "You removed animal!"
+		},
+		"modal": {
+			"title": "Liked animals"
+		}
+	}
+}

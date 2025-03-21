@@ -4,7 +4,7 @@ import ShelterModel from "@/entities/shelter/model/model";
 // next tools
 import { NextResponse } from "next/server";
 // widgets
-import { MarkerCoordinates } from "@/widget/googleMap/map";
+import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 // features
 import SelectedFiltersType from "@/features/animal/loadProfileAnimalsFilters/model/type/selectedFiltersType";
 import AvailableFiltersType from "@/features/animal/loadProfileAnimalsFilters/model/type/availableFiltersType";

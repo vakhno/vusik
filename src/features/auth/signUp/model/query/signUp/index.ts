@@ -9,9 +9,9 @@ import {
 } from "@/app/api/auth/sign-up/route";
 // features
 import SignUpSchemaType from "@/features/auth/signUp/model/type/signUpFormSchema";
+import convertSignUpSchemaToFormData from "@/features/auth/signUp/model/utils/convertSignUpSchemaToFormData";
 // entities
 import { UserType } from "@/entities/profile/model/type/profile";
-import convertSignUpSchemaToFormData from "@/features/auth/signUp/model/utils/convertSignUpSchemaToFormData";
 
 const mutationFn = async (signUpFields: SignUpSchemaType) => {
 	try {

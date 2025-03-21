@@ -15,10 +15,10 @@ import FormInput from "@/shared/formUi/formInput";
 import { useTranslations } from "next-intl";
 
 type Props = {
-    onFormSubmit: (value: AdoptSchemaType) => void;
+	onFormSubmit: (value: AdoptSchemaType) => void;
 };
 
-const Index = ({onFormSubmit}: Props) => {
+const Index = ({ onFormSubmit }: Props) => {
 	const t = useTranslations();
 	const adoptSchema = AdoptSchema(t);
 
@@ -32,9 +32,9 @@ const Index = ({onFormSubmit}: Props) => {
 
 	const { control } = form;
 
-    const onHandleSubmit = (value: AdoptSchemaType) => {
-        onFormSubmit(value);
-    };
+	const onHandleSubmit = (value: AdoptSchemaType) => {
+		onFormSubmit(value);
+	};
 
 	return (
 		<Form {...form}>

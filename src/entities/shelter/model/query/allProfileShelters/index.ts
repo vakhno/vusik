@@ -1,7 +1,7 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 // api
 import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
@@ -18,7 +18,7 @@ type Props = {
 
 const fetchShelterssByProfileId = async (id: string | Types.ObjectId, searchParams: SearchParamsType) => {
 	try {
-		const urlSearchParams = urlSearchParamsBuilder(searchParams);
+		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 
 		urlSearchParams.set("id", String(id));
 

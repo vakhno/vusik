@@ -1,7 +1,7 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/shelter/loadAllSheltersFilters/api/getAllSheltersFilters";
 // types
@@ -12,7 +12,7 @@ const fetchData = async (id: string | Types.ObjectId, searchParams: SearchParams
 	try {
 		searchParams.id = String(id);
 
-		const urlSearchParams = urlSearchParamsBuilder(searchParams);
+		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-profile-animals-filters/?${urlSearchParams}`,

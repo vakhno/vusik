@@ -1,17 +1,17 @@
 // widgets
-import { MapProvider } from "@/widget/googleMap/mapProvider";
-import { MapComponent, MarkerCoordinates } from "@/widget/googleMap/map";
+import GoogleMapProvider from "@/shared/providers/GoogleMapProvider";
+import MapComponent from "@/shared/shared/GoogleMap";
 
-type Props = {
-	shelterMarkers: MarkerCoordinates[];
-};
+// type Props = {
+// 	shelterMarkers: MarkerCoordinates[];
+// };
 
-const Index = ({ shelterMarkers }: Props) => {
+const Index = () => {
 	return (
 		<div className="mb-4 flex h-60 flex-col px-10">
-			<MapProvider>
-				<MapComponent markerCoordinates={shelterMarkers} />
-			</MapProvider>
+			<GoogleMapProvider>
+				<MapComponent />
+			</GoogleMapProvider>
 		</div>
 	);
 };

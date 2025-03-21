@@ -1,3 +1,3 @@
-import { MarkerCoordinates } from "@/widget/googleMap/map";
+import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 
 export type availableShelterListType = Record<string, { name: string; coordinates: MarkerCoordinates }>;

@@ -1,7 +1,7 @@
 import { mongoConnection } from "@/shared/lib/mongodb";
 import ShelterModel from "@/entities/shelter/model/model";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
-import { gettingValuesFromURLSearchParams } from "@/shared/utils/URLSearchParams";
+import convertURLSearchParamsToObject from "@/shared/utils/convertURLSearchParamsToObject";
 import { NextResponse } from "next/server";
 
 export type SuccessResponse = {
@@ -18,7 +18,7 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		await mongoConnection();
 
 		const { searchParams: URLSearchParams } = new URL(req.url);
-		const searchParams = gettingValuesFromURLSearchParams(URLSearchParams);
+		const searchParams = convertURLSearchParamsToObject(URLSearchParams);
 		const { id } = searchParams;
 		const shelter = await ShelterModel.findById(id);
 

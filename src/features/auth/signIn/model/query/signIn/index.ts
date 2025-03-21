@@ -9,18 +9,9 @@ import {
 } from "@/app/api/auth/sign-in/route";
 // features
 import SignInSchemaType from "@/features/auth/signIn/model/type/signInFormSchema";
+import convertSignInSchemaToFormData from "@/features/auth/signIn/model/utils/convertSignInSchemaToFormData";
 // entities
 import { UserType } from "@/entities/profile/model/type/profile";
-
-const convertSignInSchemaToFormData = (signInFields: SignInSchemaType): FormData => {
-	const { email, password } = signInFields;
-	const formData = new FormData();
-
-	formData.append("email", email);
-	formData.append("password", password);
-
-	return formData;
-};
 
 const mutationFn = async (signInFields: SignInSchemaType) => {
 	try {

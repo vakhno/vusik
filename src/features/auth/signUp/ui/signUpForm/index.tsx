@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import useUserStore from "@/shared/zustand/store/user.store";
 import { cn } from "@/shared/lib/utils";
 // features
-import SignUpFields from "@/features/auth/signUp/ui/signUpForm/signUpFields";
+import SignUpFields from "@/features/auth/signUp/ui/signUpForm/fields";
 import SignUpSchemaType from "@/features/auth/signUp/model/type/signUpFormSchema";
 import { querySignUp } from "@/features/auth/signUp/model/query/signUp";
 

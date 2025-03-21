@@ -1,7 +1,7 @@
 // tanstack
 import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 // types
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 // features
@@ -11,7 +11,7 @@ import { Types } from "mongoose";
 
 const fetchData = async (id: string | Types.ObjectId, page: number, searchParams: SearchParamsType) => {
 	try {
-		const urlSearchParams = urlSearchParamsBuilder(searchParams);
+		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 
 		urlSearchParams.set("page", String(page));
 		urlSearchParams.set("id", String(id));

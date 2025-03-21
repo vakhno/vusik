@@ -236,7 +236,7 @@ const Index = async ({ formData }: Props): Promise<NextResponse<SuccessResponse 
 
 					await user.save();
 				}
-				
+
 				await animal.save();
 
 				return NextResponse.json({ success: true, animal: animal }, { status: 200 });

@@ -1,6 +1,6 @@
 import { mongoConnection } from "@/shared/lib/mongodb";
 import UserModel from "@/entities/profile/model/model";
-import { gettingValuesFromURLSearchParams } from "@/shared/utils/URLSearchParams";
+import convertURLSearchParamsToObject from "@/shared/utils/convertURLSearchParamsToObject";
 import ArticleModel from "@/entities/article/model/model";
 import { NextResponse } from "next/server";
 import { PopulatedUserType } from "@/entities/profile/model/type/profilePopulated";
@@ -21,7 +21,7 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		await mongoConnection();
 
 		const { searchParams: URLSearchParams } = new URL(req.url);
-		const searchParams = gettingValuesFromURLSearchParams(URLSearchParams);
+		const searchParams = convertURLSearchParamsToObject(URLSearchParams);
 		const { id } = searchParams;
 		const user = (await UserModel.findById(id)
 			.populate({ path: "animals", model: AnimalModel })

@@ -1,7 +1,7 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 // features
 import {
 	SuccessResponse,
@@ -14,7 +14,7 @@ import { SearchParamsType } from "@/shared/types/searchParams.type";
 
 const fetchData = async (id: string | Types.ObjectId, searchParams: SearchParamsType) => {
 	try {
-		const urlSearchParams = urlSearchParamsBuilder(searchParams);
+		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 
 		urlSearchParams.set("id", String(id));
 

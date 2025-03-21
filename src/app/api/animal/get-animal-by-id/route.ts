@@ -1,7 +1,7 @@
 import { mongoConnection } from "@/shared/lib/mongodb";
 import AnimalModel from "@/entities/animal/model/model";
 import { AnimalType } from "@/entities/animal/model/type/animal";
-import { gettingValuesFromURLSearchParams } from "@/shared/utils/URLSearchParams";
+import convertURLSearchParamsToObject from "@/shared/utils/convertURLSearchParamsToObject";
 import { NextResponse } from "next/server";
 
 export type SuccessResponse = {
@@ -18,7 +18,7 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		await mongoConnection();
 
 		const { searchParams: URLSearchParams } = new URL(req.url);
-		const searchParams = gettingValuesFromURLSearchParams(URLSearchParams);
+		const searchParams = convertURLSearchParamsToObject(URLSearchParams);
 		const { id } = searchParams;
 		const animal = await AnimalModel.findById(id).lean();
 

@@ -128,7 +128,7 @@ export async function POST(req: Request): Promise<NextResponse<SuccessResponse |
 				}
 
 				const user = await UserModel.findById(tokenId);
-				
+
 				if (user) {
 					user.articles.push(article._id);
 

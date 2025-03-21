@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import getAllAnimalsFilters, {
 	ErrorResponse,
 	SuccessResponse,
-} from "@/features/animal/loadAllAnimalsFilters/api/getAllAnimalsFilters";
+} from "@/features/animal/filterAllAnimals/api/getAllAnimalsFilters";
 
 export type { ErrorResponse, SuccessResponse };
 

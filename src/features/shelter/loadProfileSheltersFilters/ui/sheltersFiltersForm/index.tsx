@@ -9,13 +9,13 @@ import availableFiltersType from "@/features/shelter/loadProfileSheltersFilters/
 import { queryGetProfileSheltersFilter } from "@/features/shelter/loadProfileSheltersFilters/model/query/fetchProfileSheltersFilters";
 import { SearchAllAnimalsFiltersFormSchemaType } from "@/features/shelter/loadProfileSheltersFilters/model/type/filtersFormSchemaType";
 // widgets
-import { MarkerCoordinates } from "@/widget/googleMap/map";
+import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 // hooks
 import { useWindowHistoryPush } from "@/shared/hooks/use-window-history-push";
 // mongoose
 import { Types } from "mongoose";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 
 type Props = {
 	searchParams: SearchParamsType;
@@ -67,7 +67,7 @@ const Index = ({ searchParams, id }: Props) => {
 		[];
 
 	const filterChange = (data: SearchAllAnimalsFiltersFormSchemaType) => {
-		const urlSearchParams = urlSearchParamsBuilder(data);
+		const urlSearchParams = convertObjectToURLSearchParams(data);
 		handleWindowHistoryPush(urlSearchParams);
 	};
 

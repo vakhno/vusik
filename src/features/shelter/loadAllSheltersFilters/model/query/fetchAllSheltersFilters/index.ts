@@ -1,7 +1,7 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/shelter/loadAllSheltersFilters/api/getAllSheltersFilters";
 // routes
@@ -11,7 +11,7 @@ import { SearchParamsType } from "@/shared/types/searchParams.type";
 
 const fetchData = async (searchParams: SearchParamsType) => {
 	try {
-		const urlSearchParams = urlSearchParamsBuilder(searchParams);
+		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS}/?${urlSearchParams}`,
 			{

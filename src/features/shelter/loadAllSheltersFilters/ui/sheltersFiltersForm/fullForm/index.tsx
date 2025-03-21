@@ -18,11 +18,11 @@ import { useTranslations } from "next-intl";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shared/ui/accordion";
 import { Form } from "@/shared/ui/form";
 // widgets
-import { MarkerCoordinates } from "@/widget/googleMap/map";
+import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 
 type Props = {
 	className?: string;
-	shelterMarkers: MarkerCoordinates[];
+	shelterMarkers?: MarkerCoordinates[];
 	availableOptions: Omit<availableFiltersType, "sheltersList">;
 	selectedValues: SelectedAllAnimalsFiltersFormValuesType;
 	handleFilterChange: (value: SearchAllAnimalsFiltersFormSchemaType) => void;
@@ -35,7 +35,7 @@ const generateFormDefaultValue = (
 	city: value?.city || [],
 });
 
-const Index = ({ className = "", shelterMarkers, availableOptions, selectedValues, handleFilterChange }: Props) => {
+const Index = ({ className = "", availableOptions, selectedValues, handleFilterChange }: Props) => {
 	const t = useTranslations();
 	const form = useForm<SearchAllAnimalsFiltersFormSchemaType>({
 		defaultValues: generateFormDefaultValue(selectedValues),
@@ -63,7 +63,7 @@ const Index = ({ className = "", shelterMarkers, availableOptions, selectedValue
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>
-				<Map shelterMarkers={shelterMarkers} />
+				<Map />
 			</form>
 		</Form>
 	);

@@ -1,7 +1,7 @@
 // tanstack
 import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/shelter/loadProfileShelters/api/getProfileShelters";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
@@ -19,7 +19,7 @@ const fetchData = async ({
 	page: number;
 }) => {
 	try {
-		const urlSearchParams = urlSearchParamsBuilder(searchParams);
+		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 
 		urlSearchParams.set("page", String(page));
 		urlSearchParams.set("id", String(id));

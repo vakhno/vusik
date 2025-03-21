@@ -10,7 +10,7 @@ import { SearchAllArticlesFiltersFormSchemaType } from "@/features/article/loadA
 // hooks
 import { useWindowHistoryPush } from "@/shared/hooks/use-window-history-push";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 
 type Props = {
 	searchParams: SearchParamsType;
@@ -44,7 +44,7 @@ const Index = ({ searchParams }: Props) => {
 	const selectedOptions = fetchedFilters?.selectedOptions || {};
 
 	const filterChange = (data: SearchAllArticlesFiltersFormSchemaType) => {
-		const urlSearchParams = urlSearchParamsBuilder(data);
+		const urlSearchParams = convertObjectToURLSearchParams(data);
 		handleWindowHistoryPush(urlSearchParams);
 	};
 

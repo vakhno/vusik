@@ -1,4 +1,4 @@
-import { MarkerCoordinates } from "@/widget/googleMap/map";
+import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 
 type availableAnimalOptionsType = {
 	state: string[];

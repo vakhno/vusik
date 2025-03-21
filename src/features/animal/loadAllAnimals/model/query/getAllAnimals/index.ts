@@ -1,7 +1,7 @@
 // tanstack
 import { useInfiniteQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 //routes
 import { API_GET_ANIMALS_BY_PAGE } from "@/shared/constants/routes";
 // types
@@ -11,7 +11,7 @@ import { SuccessResponse, ErrorResponse } from "@/features/animal/loadAllAnimals
 
 const fetchData = async (page: number, searchParams: SearchParamsType) => {
 	try {
-		const urlSearchParams = urlSearchParamsBuilder(searchParams);
+		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 
 		urlSearchParams.set("page", String(page));
 

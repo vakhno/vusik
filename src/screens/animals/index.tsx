@@ -4,12 +4,12 @@
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 // features
 import AnimalsList from "@/features/animal/loadAllAnimals/ui/animalsList";
-import AnimalsFiltersForm from "@/features/animal/loadAllAnimalsFilters/ui/animalsFiltersForm";
+import AnimalsFiltersForm from "@/features/animal/filterAllAnimals/ui/animalsFiltersForm";
 //tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // queries
 import { queryPrefetchGetAllAnimals } from "@/features/animal/loadAllAnimals/model/query/getAllAnimals";
-import { queryPrefetchGetAllAnimalsFilter } from "@/features/animal/loadAllAnimalsFilters/model/query/fetchAllAnimalsFilters";
+import { queryPrefetchGetAllAnimalsFilter } from "@/features/animal/filterAllAnimals/model/query/fetchAllAnimalsFilters";
 
 type Props = {
 	searchParams: SearchParamsType;

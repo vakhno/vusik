@@ -11,8 +11,8 @@ import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { Label } from "@/shared/ui/label";
 import FormTimePeriod from "@/shared/formUi/formTimePeriod";
-import { MapProvider } from "@/widget/googleMap/mapProvider";
-import { MapComponent, MarkerInfo } from "@/widget/googleMap/map";
+import GoogleMapProvider from "@/shared/providers/GoogleMapProvider";
+import MapComponent, { MarkerInfo } from "@/shared/shared/GoogleMap";
 import FormInput from "@/shared/formUi/formInput";
 import { defaultMarkerCoordiates } from "@/shared/constants/googleMap";
 import {
@@ -224,14 +224,14 @@ const AddNewShelterModal = ({
 						<div className="flex h-60 flex-col">
 							<Label className="mb-2">Location</Label>
 							<div className="mb-2 grow">
-								<MapProvider>
+								<GoogleMapProvider>
 									<MapComponent
 										isMarkerDraggable
 										centerCoordinates={newShelterForm.getValues("coordinates")}
-										markerCoordinates={[newShelterForm.getValues("coordinates")]}
+										// markers={[newShelterForm.getValues("coordinates")]}
 										markerPositionChange={handleMarkerDragEnd}
 									/>
-								</MapProvider>
+								</GoogleMapProvider>
 							</div>
 							<div className="flex items-center space-x-2">
 								<Checkbox

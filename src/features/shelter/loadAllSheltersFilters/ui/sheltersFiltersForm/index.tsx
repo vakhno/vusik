@@ -9,11 +9,11 @@ import availableFiltersType from "@/features/shelter/loadAllSheltersFilters/mode
 import { queryGetAllSheltersFilter } from "@/features/shelter/loadAllSheltersFilters/model/query/fetchAllSheltersFilters";
 import { SearchAllAnimalsFiltersFormSchemaType } from "@/features/shelter/loadAllSheltersFilters/model/type/filtersFormSchemaType";
 // widgets
-import { MarkerCoordinates } from "@/widget/googleMap/map";
+import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 // hooks
 import { useWindowHistoryPush } from "@/shared/hooks/use-window-history-push";
 // utils
-import { urlSearchParamsBuilder } from "@/shared/utils/searchParams";
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 
 type Props = {
 	searchParams: SearchParamsType;
@@ -62,7 +62,7 @@ const Index = ({ searchParams }: Props) => {
 		[];
 
 	const filterChange = (data: SearchAllAnimalsFiltersFormSchemaType) => {
-		const urlSearchParams = urlSearchParamsBuilder(data);
+		const urlSearchParams = convertObjectToURLSearchParams(data);
 		handleWindowHistoryPush(urlSearchParams);
 	};
 

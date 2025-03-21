@@ -13,8 +13,8 @@ import { AspectRatio } from "@/shared/ui/aspect-ratio";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Badge } from "@/shared/ui/badge";
 // widgets
-import { MapProvider } from "@/widget/googleMap/mapProvider";
-import { MapComponent } from "@/widget/googleMap/map";
+// import GoogleMapProvider from "@/shared/providers/GoogleMapProvider";
+// import MapComponent from "@/shared/shared/GoogleMap";
 import AdoptAnimalModal from "@/widget/adoptAnimalModal";
 // mongoose
 import { Types } from "mongoose";
@@ -140,12 +140,12 @@ const Index = ({ animalId }: Props) => {
 							</div>
 							<AdoptAnimalModal />
 							<div className="flex h-60 flex-col px-10">
-								<MapProvider>
+								{/* <GoogleMapProvider>
 									<MapComponent
 										centerCoordinates={shelter.coordinates}
-										markerCoordinates={[shelter.coordinates]}
+										markers={[shelter]}
 									/>
-								</MapProvider>
+								</GoogleMapProvider> */}
 							</div>
 						</CardContent>
 					</Card>

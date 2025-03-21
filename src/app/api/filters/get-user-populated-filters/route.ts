@@ -1,7 +1,7 @@
 import { mongoConnection } from "@/shared/lib/mongodb";
 import FilterModel from "@/entities/filter/model/model";
 import { FiltersPopulatedUserType } from "@/entities/filter/model/type/filtersPopulated";
-import { gettingValuesFromURLSearchParams } from "@/shared/utils/URLSearchParams";
+import convertURLSearchParamsToObject from "@/shared/utils/convertURLSearchParamsToObject";
 import { NextResponse } from "next/server";
 
 type SuccessResponse = {
@@ -18,7 +18,7 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		await mongoConnection();
 
 		const { searchParams: URLSearchParams } = new URL(req.url);
-		const searchParams = gettingValuesFromURLSearchParams(URLSearchParams);
+		const searchParams = convertURLSearchParamsToObject(URLSearchParams);
 		const { id } = searchParams;
 		const filters = await FilterModel.findOne().select(`users.${id}`).populate({
 			path: "shelters.shelter",

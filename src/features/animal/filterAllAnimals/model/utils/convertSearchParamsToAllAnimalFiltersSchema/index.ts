@@ -14,7 +14,10 @@ const Index = (urlSearchParams: URLSearchParams): FiltersFormSchemaType => {
 			key === "sex" ||
 			key === "size"
 		) {
-			query[key] = Array.from(new Set(value.split(",")));
+			if (!query[key]) {
+				query[key] = [];
+			}
+			query[key].push(value);
 		}
 	});
 	return query;

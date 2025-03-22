@@ -15,14 +15,9 @@ import selectedFiltersType from "@/features/animal/filterAllAnimals/model/type/s
 import availableFiltersType from "@/features/animal/filterAllAnimals/model/type/availableFiltersType";
 import SearchAllAnimalsFiltersFormSchemaType from "@/features/animal/filterAllAnimals/model/type/filtersFormSchemaType";
 import FiltersFields from "@/features/animal/filterAllAnimals/ui/animalsFiltersForm/filtersFields";
-import {
-	queryGetAllAnimalsFilter,
-	queryGetAllAnimalsFilterInvalidate,
-} from "@/features/animal/filterAllAnimals/model/query/fetchAllAnimalsFilters";
+import { queryGetAllAnimalsFilter } from "@/features/animal/filterAllAnimals/model/query/fetchAllAnimalsFilters";
 // entities
 import generateShelterMarkers from "@/entities/shelter/model/utils/generateGoogleMapShelterMarkers";
-// tanstack
-import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
 	className?: string;
@@ -67,7 +62,6 @@ const generateVisibleOptions = (availableOptions: availableFiltersType, selected
 };
 
 const Index = ({ className = "", searchParams }: Props) => {
-	const queryClient = useQueryClient();
 	const handleWindowHistoryPush = useWindowHistoryPush();
 	const [filters, setFilters] = useState(searchParams);
 	const { data: fetchedData } = queryGetAllAnimalsFilter({
@@ -101,7 +95,6 @@ const Index = ({ className = "", searchParams }: Props) => {
 
 	const filterChange = (data: SearchAllAnimalsFiltersFormSchemaType) => {
 		const convertedData = convertObjectToSearchParams(data);
-		queryGetAllAnimalsFilterInvalidate({ queryClient, searchParams: convertedData });
 		setFilters(convertedData);
 	};
 

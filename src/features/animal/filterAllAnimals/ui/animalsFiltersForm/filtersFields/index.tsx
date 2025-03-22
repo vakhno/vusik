@@ -130,9 +130,9 @@ const Index = ({ availableOptions, selectedValues, onFilterChange, onFilterSubmi
 	});
 
 	const { watch, control, reset, getValues, handleSubmit, formState } = form;
+	const { isDirty } = formState;
 	const formWatchSpecies = watch("species");
 	const formWatchState = watch("state");
-	const formWatch = watch();
 	const formValues = getValues();
 
 	// to reset form values (useForm doesnt updating after re-render)
@@ -140,22 +140,19 @@ const Index = ({ availableOptions, selectedValues, onFilterChange, onFilterSubmi
 		reset(selectedValues);
 	}, [selectedValues]);
 
-	useEffect(() => {
-		// onFilterChange && onFilterChange(formValues);
-	}, [formWatch]);
-
 	const onHandleSubmit = (values: SearchAllAnimalsFiltersFormSchemaType) => {
 		onFilterSubmit && onFilterSubmit(values);
 	};
 
+	// whenever a field is changed, it mean an edit, so field its triggering a change
 	useEffect(() => {
 		onFilterChange && onFilterChange(formValues);
 		reset(formValues);
-	}, [formState.isDirty]);
+	}, [isDirty]);
 
 	return (
 		<Form {...form}>
-			<form className="space-y-8" onSubmit={handleSubmit(onHandleSubmit)}>
+			<form className="mb-4 space-y-4" onSubmit={handleSubmit(onHandleSubmit)}>
 				<div className="space-y-4">
 					<FormAutocompleteMultiselect
 						className="mb-4"
@@ -247,7 +244,9 @@ const Index = ({ availableOptions, selectedValues, onFilterChange, onFilterSubmi
 						</div>
 					)}
 				</div>
-				<Button type="submit">{t("page.animals.search")}</Button>
+				<Button className="w-full" type="submit">
+					{t("page.animals.search")}
+				</Button>
 			</form>
 		</Form>
 	);

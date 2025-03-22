@@ -65,6 +65,8 @@ export const queryPrefetchGetAllAnimalsFilter = async ({ searchParams }: FetchPr
 
 	await queryClient.prefetchQuery({
 		queryKey: ["all-animals-filter", searchParams],
+		staleTime: 1000 * 60 * 5,
+		gcTime: 1000 * 60 * 10,
 		queryFn: async (): Promise<FetchResult> => {
 			return fetchData(searchParams);
 		},
@@ -73,6 +75,6 @@ export const queryPrefetchGetAllAnimalsFilter = async ({ searchParams }: FetchPr
 	return queryClient;
 };
 
-export const queryGetAllAnimalsFilterInvalidate = ({ queryClient, searchParams }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["all-animals-filter", searchParams] });
+export const queryGetAllAnimalsFilterInvalidate = ({ queryClient }: InvalidationProps) => {
+	queryClient.invalidateQueries({ queryKey: ["all-animals-filter"], exact: false });
 };

@@ -25,7 +25,7 @@ const Index = async ({ searchParams }: Props) => {
 		<HydrationBoundary state={dehydrate(queryAnimals)}>
 			<HydrationBoundary state={dehydrate(queryFilters)}>
 				<AnimalsFiltersForm searchParams={searchParams} />
-				<AnimalsList animalSearchParams={searchParams} />
+				<AnimalsList searchParams={searchParams} />
 			</HydrationBoundary>
 		</HydrationBoundary>
 	);

@@ -3,14 +3,17 @@
 // features
 import { queryGetAllAnimals } from "@/features/animal/loadAllAnimals/model/query/getAllAnimals";
 import List from "@/features/animal/loadAllAnimals/ui/animalsList/list";
-// types
+// shared
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-// constants
 import { animalsPerPage } from "@/shared/constants/counts";
+import { cn } from "@/shared/lib/utils";
 
-type Props = { animalSearchParams: SearchParamsType };
+type Props = {
+	className?: string;
+	searchParams: SearchParamsType;
+};
 
-const Index = ({ animalSearchParams }: Props) => {
+const Index = ({ className = "", searchParams }: Props) => {
 	const {
 		fetchNextPage,
 		data: fetchedAnimals,
@@ -18,7 +21,7 @@ const Index = ({ animalSearchParams }: Props) => {
 		isPending,
 		hasNextPage,
 		isFetchingNextPage,
-	} = queryGetAllAnimals({ searchParams: animalSearchParams });
+	} = queryGetAllAnimals({ searchParams: searchParams });
 
 	const animals = fetchedAnimals?.pages.flatMap((page) => page?.animals || []) || [];
 
@@ -27,15 +30,17 @@ const Index = ({ animalSearchParams }: Props) => {
 	};
 
 	return (
-		<List
-			animals={animals}
-			isLoading={isLoading}
-			isPending={isPending}
-			isFetchingNextPage={isFetchingNextPage}
-			isHasNextPage={hasNextPage}
-			countPerPage={animalsPerPage}
-			onNewPageUpload={handleNewPageUpload}
-		/>
+		<div className={cn(className)}>
+			<List
+				animals={animals}
+				isLoading={isLoading}
+				isPending={isPending}
+				isFetchingNextPage={isFetchingNextPage}
+				isHasNextPage={hasNextPage}
+				countPerPage={animalsPerPage}
+				onNewPageUpload={handleNewPageUpload}
+			/>
+		</div>
 	);
 };
 

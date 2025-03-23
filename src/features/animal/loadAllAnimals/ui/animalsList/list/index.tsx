@@ -1,11 +1,11 @@
 "use client";
 
 // shared
-import AnimalCardSkeleton from "@/entities/animal/ui/animalCardSkeleton";
 import { Button } from "@/shared/ui/button";
 // entities
 import AnimalCard from "@/entities/animal/ui/animalCard";
 import { AnimalType } from "@/entities/animal/model/type/animal";
+import AnimalCardSkeleton from "@/entities/animal/ui/animalCardSkeleton";
 // next-intl
 import { useTranslations } from "next-intl";
 // features

@@ -45,7 +45,6 @@ type FetchProps = {
 };
 
 type InvalidationProps = {
-	searchParams: SearchParamsType;
 	queryClient: QueryClient;
 };
 

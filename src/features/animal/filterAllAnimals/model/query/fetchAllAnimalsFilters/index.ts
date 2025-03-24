@@ -44,14 +44,14 @@ type FetchProps = {
 	searchParams: SearchParamsType;
 };
 
-type InvalidationProps = {
+type PrefetchProps = {
 	searchParams: SearchParamsType;
 	queryClient: QueryClient;
 };
 
 export const queryGetAllAnimalsFilter = ({ searchParams }: FetchProps) => {
 	return useQuery({
-		queryKey: ["all-animals-filter", searchParams],
+		queryKey: ["all-animals-filter", JSON.stringify(searchParams)],
 		staleTime: 1000 * 60 * 5,
 		gcTime: 1000 * 60 * 10,
 		queryFn: async (): Promise<FetchResult> => {
@@ -60,11 +60,9 @@ export const queryGetAllAnimalsFilter = ({ searchParams }: FetchProps) => {
 	});
 };
 
-export const queryPrefetchGetAllAnimalsFilter = async ({ searchParams }: FetchProps) => {
-	const queryClient = new QueryClient();
-
+export const queryPrefetchGetAllAnimalsFilter = async ({ searchParams, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
-		queryKey: ["all-animals-filter", searchParams],
+		queryKey: ["all-animals-filter", JSON.stringify(searchParams)],
 		staleTime: 1000 * 60 * 5,
 		gcTime: 1000 * 60 * 10,
 		queryFn: async (): Promise<FetchResult> => {
@@ -73,8 +71,4 @@ export const queryPrefetchGetAllAnimalsFilter = async ({ searchParams }: FetchPr
 	});
 
 	return queryClient;
-};
-
-export const queryGetAllAnimalsFilterInvalidate = ({ queryClient }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["all-animals-filter"], exact: false });
 };

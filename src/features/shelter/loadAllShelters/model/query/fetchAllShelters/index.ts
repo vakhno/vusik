@@ -44,7 +44,7 @@ type FetchProps = {
 	searchParams: SearchParamsType;
 };
 
-type InvalidationProps = {
+type PrefetchProps = {
 	searchParams: SearchParamsType;
 	queryClient: QueryClient;
 };
@@ -64,9 +64,7 @@ export const queryGetAllShelters = ({ searchParams }: FetchProps) => {
 	});
 };
 
-export const queryPrefetchGetAllShelters = async ({ searchParams }: FetchProps) => {
-	const queryClient = new QueryClient();
-
+export const queryPrefetchGetAllShelters = async ({ searchParams, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchInfiniteQuery({
 		queryKey: ["all-shelters", searchParams],
 		gcTime: 5 * 60 * 1000,
@@ -78,8 +76,4 @@ export const queryPrefetchGetAllShelters = async ({ searchParams }: FetchProps) 
 	});
 
 	return queryClient;
-};
-
-export const queryGetAllSheltersInvalidate = ({ queryClient, searchParams }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["all-shelters", searchParams] });
 };

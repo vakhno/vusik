@@ -18,6 +18,9 @@ import FiltersFields from "@/features/animal/filterAllAnimals/ui/animalsFiltersF
 import { queryGetAllAnimalsFilter } from "@/features/animal/filterAllAnimals/model/query/fetchAllAnimalsFilters";
 // entities
 import generateShelterMarkers from "@/entities/shelter/model/utils/generateGoogleMapShelterMarkers";
+import { queryGetAllAnimalsInvalidate } from "@/entities/animal/model/query/loadAllAnimals/getAllAnimals";
+// tanstack
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
 	className?: string;
@@ -62,6 +65,7 @@ const generateVisibleOptions = (availableOptions: availableFiltersType, selected
 };
 
 const Index = ({ className = "", searchParams }: Props) => {
+	const queryClient = useQueryClient();
 	const handleWindowHistoryPush = useWindowHistoryPush();
 	const [filters, setFilters] = useState(searchParams);
 	const { data: fetchedData } = queryGetAllAnimalsFilter({
@@ -101,6 +105,8 @@ const Index = ({ className = "", searchParams }: Props) => {
 	const filterSubmit = (data: SearchAllAnimalsFiltersFormSchemaType) => {
 		const urlSearchParams = convertObjectToURLSearchParams(data);
 		handleWindowHistoryPush(urlSearchParams);
+
+		queryGetAllAnimalsInvalidate({ queryClient, searchParams });
 	};
 
 	return (

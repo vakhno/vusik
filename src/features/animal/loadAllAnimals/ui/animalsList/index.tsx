@@ -21,6 +21,7 @@ const Index = ({ className = "", searchParams }: Props) => {
 		isPending,
 		hasNextPage,
 		isFetchingNextPage,
+		isRefetching,
 	} = queryGetAllAnimals({ searchParams: searchParams });
 
 	const animals = fetchedAnimals?.pages.flatMap((page) => page?.animals || []) || [];
@@ -33,7 +34,7 @@ const Index = ({ className = "", searchParams }: Props) => {
 		<div className={cn(className)}>
 			<List
 				animals={animals}
-				isLoading={isLoading}
+				isLoading={isLoading || isRefetching}
 				isPending={isPending}
 				isFetchingNextPage={isFetchingNextPage}
 				isHasNextPage={hasNextPage}

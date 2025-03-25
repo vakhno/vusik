@@ -6,7 +6,7 @@ import { SearchParamsType } from "@/shared/types/searchParams.type";
 import ShelterList from "@/features/shelter/loadAllShelters/ui/sheltersList";
 import Filters from "@/features/shelter/loadAllSheltersFilters/ui/sheltersFiltersForm";
 //tanstack
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 // queries
 import { queryPrefetchGetAllShelters } from "@/features/shelter/loadAllShelters/model/query/fetchAllShelters";
 import { queryPrefetchGetAllSheltersFilter } from "@/features/shelter/loadAllSheltersFilters/model/query/fetchAllSheltersFilters";
@@ -16,17 +16,17 @@ type Props = {
 };
 
 const Index = async ({ searchParams }: Props) => {
-	const [queryShelters, queryFilters] = await Promise.all([
-		queryPrefetchGetAllShelters({ searchParams: searchParams }),
-		queryPrefetchGetAllSheltersFilter({ searchParams: searchParams }),
+	const queryClient = new QueryClient();
+
+	await Promise.all([
+		queryPrefetchGetAllShelters({ searchParams, queryClient }),
+		queryPrefetchGetAllSheltersFilter({ searchParams, queryClient }),
 	]);
 
 	return (
-		<HydrationBoundary state={dehydrate(queryShelters)}>
-			<HydrationBoundary state={dehydrate(queryFilters)}>
-				<Filters searchParams={searchParams} />
-				<ShelterList shelterSearchParams={searchParams} />
-			</HydrationBoundary>
+		<HydrationBoundary state={dehydrate(queryClient)}>
+			<Filters searchParams={searchParams} />
+			<ShelterList searchParams={searchParams} />
 		</HydrationBoundary>
 	);
 };

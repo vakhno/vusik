@@ -2,15 +2,15 @@
 
 // features
 import { queryGetAllShelters } from "@/features/shelter/loadAllShelters/model/query/fetchAllShelters";
-import SheltersList from "@/features/shelter/loadAllShelters/ui/sheltersList/list";
-// types
+import List from "@/features/shelter/loadAllShelters/ui/sheltersList/list";
+// shared
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-// constants
 import { sheltersPerPage } from "@/shared/constants/counts";
+import { cn } from "@/shared/lib/utils";
 
-type Props = { shelterSearchParams: SearchParamsType };
+type Props = { className?: string; searchParams: SearchParamsType };
 
-const Index = ({ shelterSearchParams }: Props) => {
+const Index = ({ className = "", searchParams }: Props) => {
 	const {
 		fetchNextPage,
 		data: fetchedShelters,
@@ -18,7 +18,8 @@ const Index = ({ shelterSearchParams }: Props) => {
 		isPending,
 		hasNextPage,
 		isFetchingNextPage,
-	} = queryGetAllShelters({ searchParams: shelterSearchParams });
+		isRefetching,
+	} = queryGetAllShelters({ searchParams: searchParams });
 
 	const shelters = fetchedShelters?.pages.flatMap((page) => page?.shelters || []) || [];
 
@@ -27,15 +28,17 @@ const Index = ({ shelterSearchParams }: Props) => {
 	};
 
 	return (
-		<SheltersList
-			shelters={shelters}
-			isLoading={isLoading}
-			isPending={isPending}
-			isFetchingNextPage={isFetchingNextPage}
-			isHasNextPage={hasNextPage}
-			countPerPage={sheltersPerPage}
-			onNewPageUpload={handleNewPageUpload}
-		/>
+		<div className={cn(className)}>
+			<List
+				shelters={shelters}
+				isLoading={isLoading || isRefetching}
+				isPending={isPending}
+				isFetchingNextPage={isFetchingNextPage}
+				isHasNextPage={hasNextPage}
+				countPerPage={sheltersPerPage}
+				onNewPageUpload={handleNewPageUpload}
+			/>
+		</div>
 	);
 };
 

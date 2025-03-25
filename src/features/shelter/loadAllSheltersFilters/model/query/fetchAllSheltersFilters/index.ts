@@ -42,7 +42,7 @@ type FetchProps = {
 	searchParams: SearchParamsType;
 };
 
-type InvalidationProps = {
+type PrefetchProps = {
 	searchParams: SearchParamsType;
 	queryClient: QueryClient;
 };
@@ -56,9 +56,7 @@ export const queryGetAllSheltersFilter = ({ searchParams }: FetchProps) => {
 	});
 };
 
-export const queryPrefetchGetAllSheltersFilter = async ({ searchParams }: FetchProps) => {
-	const queryClient = new QueryClient();
-
+export const queryPrefetchGetAllSheltersFilter = async ({ searchParams, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
 		queryKey: ["all-shelters-filter", searchParams],
 		queryFn: async () => {
@@ -67,8 +65,4 @@ export const queryPrefetchGetAllSheltersFilter = async ({ searchParams }: FetchP
 	});
 
 	return queryClient;
-};
-
-export const queryGetAllSheltersFilterInvalidate = ({ queryClient, searchParams }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["all-shelters-filter", searchParams] });
 };

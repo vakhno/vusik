@@ -3,7 +3,7 @@
 // entities
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import ShelterCard from "@/entities/shelter/ui/shelterCard";
-import ShelterCardSkeleton from "@/entities/shelter/ui/shelterCard/shelterCardSkeleton";
+import ShelterCardSkeleton from "@/entities/shelter/ui/shelterCardSkeleton";
 // next-intl
 import { useTranslations } from "next-intl";
 // shared
@@ -34,7 +34,7 @@ const Index = ({
 	};
 
 	return (
-		<div>
+		<div className="m-8">
 			{!isLoading ? (
 				<div className="flex justify-center">
 					{shelters && shelters.length ? (

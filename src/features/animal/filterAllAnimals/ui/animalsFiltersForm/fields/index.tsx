@@ -140,15 +140,15 @@ const Index = ({ availableOptions, selectedValues, onFilterChange, onFilterSubmi
 		reset(selectedValues);
 	}, [selectedValues]);
 
-	const onHandleSubmit = (values: SearchAllAnimalsFiltersFormSchemaType) => {
-		onFilterSubmit && onFilterSubmit(values);
-	};
-
 	// whenever a field is changed, it mean an edit, so field its triggering a change
 	useEffect(() => {
 		onFilterChange && onFilterChange(formValues);
 		reset(formValues);
 	}, [isDirty]);
+
+	const onHandleSubmit = (values: SearchAllAnimalsFiltersFormSchemaType) => {
+		onFilterSubmit && onFilterSubmit(values);
+	};
 
 	return (
 		<Form {...form}>

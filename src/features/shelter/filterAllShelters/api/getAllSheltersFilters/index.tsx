@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 // widgets
 import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 // features
-import SelectedFiltersType from "@/features/shelter/loadAllSheltersFilters/model/type/selectedFiltersType";
-import AvailableFiltersType from "@/features/shelter/loadAllSheltersFilters/model/type/availableFiltersType";
+import SelectedFiltersType from "@/features/shelter/filterAllShelters/model/type/selectedFiltersType";
+import AvailableFiltersType from "@/features/shelter/filterAllShelters/model/type/availableFiltersType";
 
 async function getAvailableShelterOptions(filters: SelectedFiltersType = {}): Promise<AvailableFiltersType> {
 	const allStates = await ShelterModel.distinct("state");

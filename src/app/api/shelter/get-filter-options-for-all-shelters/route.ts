@@ -63,7 +63,7 @@ import { NextResponse } from "next/server";
 import getAllSheltersFilters, {
 	ErrorResponse,
 	SuccessResponse,
-} from "@/features/shelter/loadAllSheltersFilters/api/getAllSheltersFilters";
+} from "@/features/shelter/filterAllShelters/api/getAllSheltersFilters";
 
 export type { ErrorResponse, SuccessResponse };
 

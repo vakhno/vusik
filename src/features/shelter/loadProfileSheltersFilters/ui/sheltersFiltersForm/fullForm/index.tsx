@@ -5,13 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // react-hook-form
 import { useForm } from "react-hook-form";
 // features
-import { SearchAllAnimalsFiltersFormSchemaType } from "@/features/shelter/loadAllSheltersFilters/model/type/filtersFormSchemaType";
-import SelectedAllAnimalsFiltersFormValuesType from "@/features/shelter/loadAllSheltersFilters/model/type/selectedFiltersType";
-import { SearchAllAnimalsFiltersFormSchema } from "@/features/shelter/loadAllSheltersFilters/model/schema/filtersFormSchema";
-import FilterForm from "@/features/shelter/loadAllSheltersFilters/ui/sheltersFiltersForm/filtersFields";
-import OrderForm from "@/features/shelter/loadAllSheltersFilters/ui/sheltersFiltersForm/sortFields";
-import Map from "@/features/shelter/loadAllSheltersFilters/ui/sheltersFiltersForm/sheltersMap";
-import availableFiltersType from "@/features/shelter/loadAllSheltersFilters/model/type/availableFiltersType";
+import SearchAllAnimalsFiltersFormSchemaType from "@/features/shelter/filterAllShelters/model/type/filtersFormSchemaType";
+import SelectedAllAnimalsFiltersFormValuesType from "@/features/shelter/filterAllShelters/model/type/selectedFiltersType";
+import { SearchAllAnimalsFiltersFormSchema } from "@/features/shelter/filterAllShelters/model/schema/filtersFormSchema";
+import FilterForm from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm/filtersFields";
+import OrderForm from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm/sortFields";
+import Map from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm/sheltersMap";
+import availableFiltersType from "@/features/shelter/filterAllShelters/model/type/availableFiltersType";
 // next-intl
 import { useTranslations } from "next-intl";
 // shared

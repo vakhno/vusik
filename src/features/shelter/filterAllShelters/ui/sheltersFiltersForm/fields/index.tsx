@@ -4,9 +4,9 @@
 import { useEffect } from "react";
 // shared
 import { FormAutocompleteMultiselect } from "@/shared/formUi/formAutocompleteMiltiselect";
-import { Form } from "@/shared/ui/form";
 import { Separator } from "@/shared/ui/separator";
 import { Option } from "@/shared/formUi/formAutocompleteMiltiselect";
+import { Form } from "@/shared/ui/form";
 // zod
 import { zodResolver } from "@hookform/resolvers/zod";
 // react-hook-form
@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 // next-intl
 import { useTranslations } from "next-intl";
 // features
-import SearchAllAnimalsFiltersFormSchemaType from "@/features/shelter/filterAllShelters/model/type/filtersFormSchemaType";
+import SearchAllSheltersFiltersFormSchemaType from "@/features/shelter/filterAllShelters/model/type/filtersFormSchemaType";
 import SelectedAllAnimalsFiltersFormValuesType from "@/features/shelter/filterAllShelters/model/type/selectedFiltersType";
 import { SearchAllAnimalsFiltersFormSchema } from "@/features/shelter/filterAllShelters/model/schema/filtersFormSchema";
 import availableFiltersType from "@/features/shelter/filterAllShelters/model/type/availableFiltersType";
@@ -27,15 +27,9 @@ type availableOptionsListType = {
 type Props = {
 	availableOptions?: Omit<availableFiltersType, "sheltersList">;
 	selectedValues?: SelectedAllAnimalsFiltersFormValuesType;
-	onFilterChange: (value: SearchAllAnimalsFiltersFormSchemaType) => void;
+	onFilterChange?: (value: SearchAllSheltersFiltersFormSchemaType) => void;
+	onFilterSubmit?: (value: SearchAllSheltersFiltersFormSchemaType) => void;
 };
-
-const generateFormDefaultValue = (
-	value?: SelectedAllAnimalsFiltersFormValuesType,
-): SearchAllAnimalsFiltersFormSchemaType => ({
-	state: value?.state || [],
-	city: value?.city || [],
-});
 
 const generateFilterOptions = (optionsList: Omit<availableFiltersType, "sheltersList">) => {
 	const availableOptionsList = {
@@ -67,7 +61,7 @@ const generateFilterOptions = (optionsList: Omit<availableFiltersType, "shelters
 	return availableOptionsList;
 };
 
-const FilterForm = ({ availableOptions, selectedValues, onFilterChange }: Props) => {
+const FilterForm = ({ availableOptions, selectedValues, onFilterChange, onFilterSubmit }: Props) => {
 	const formattedOptions = availableOptions
 		? generateFilterOptions(availableOptions)
 		: {
@@ -75,14 +69,17 @@ const FilterForm = ({ availableOptions, selectedValues, onFilterChange }: Props)
 				city: [],
 			};
 	const t = useTranslations();
-	const form = useForm<SearchAllAnimalsFiltersFormSchemaType>({
-		defaultValues: generateFormDefaultValue(selectedValues),
+	const form = useForm<SearchAllSheltersFiltersFormSchemaType>({
+		defaultValues: {
+			state: selectedValues?.state || [],
+			city: selectedValues?.city || [],
+		},
 		resolver: zodResolver(SearchAllAnimalsFiltersFormSchema()),
 	});
 
-	const { watch, control, reset, getValues } = form;
+	const { watch, control, reset, getValues, handleSubmit, formState } = form;
+	const { isDirty } = formState;
 	const formWatchState = watch("state");
-	const formWatch = watch();
 	const formValues = getValues();
 
 	// to reset form valeus (useForm doesnt updating after re-render)
@@ -90,40 +87,48 @@ const FilterForm = ({ availableOptions, selectedValues, onFilterChange }: Props)
 		reset(selectedValues);
 	}, [selectedValues]);
 
+	// whenever a field is changed, it mean an edit, so field its triggering a change
 	useEffect(() => {
-		onFilterChange(formValues);
-	}, [formWatch]);
+		onFilterChange && onFilterChange(formValues);
+		reset(formValues);
+	}, [isDirty]);
+
+	const onHandleSubmit = (values: SearchAllSheltersFiltersFormSchemaType) => {
+		onFilterSubmit && onFilterSubmit(values);
+	};
 
 	return (
 		<Form {...form}>
-			<div className="space-y-4">
-				<FormAutocompleteMultiselect
-					className="z-[100] mb-4"
-					control={control}
-					name="state"
-					options={formattedOptions?.state || []}
-					emptyMessage={t("page.animals.state-autocomplete-multiselect-empty-dropdown-message")}
-					placeholder={t("page.animals.state-autocomplete-multiselect-placeholder")}
-				/>
-
-				{formWatchState?.length ? (
+			<form className="mb-4 space-y-4" onSubmit={handleSubmit(onHandleSubmit)}>
+				<div className="space-y-4">
 					<FormAutocompleteMultiselect
-						className="mb-4"
+						className="z-[100] mb-4"
 						control={control}
-						name="city"
-						disabled={!formWatchState?.length}
-						options={formattedOptions?.city || []}
-						emptyMessage={t("page.animals.city-autocomplete-multiselect-empty-dropdown-message")}
-						placeholder={t("page.animals.city-autocomplete-multiselect-placeholder")}
+						name="state"
+						options={formattedOptions?.state || []}
+						emptyMessage={t("page.animals.state-autocomplete-multiselect-empty-dropdown-message")}
+						placeholder={t("page.animals.state-autocomplete-multiselect-placeholder")}
 					/>
-				) : (
-					<div className="mb-4 flex w-full items-center">
-						<Separator className="flex-1" />
-						<span className="px-4 text-center">{t("page.animals.select-state-for-more-filters")}</span>
-						<Separator className="flex-1" />
-					</div>
-				)}
-			</div>
+
+					{formWatchState?.length ? (
+						<FormAutocompleteMultiselect
+							className="mb-4"
+							control={control}
+							name="city"
+							disabled={!formWatchState?.length}
+							options={formattedOptions?.city || []}
+							emptyMessage={t("page.animals.city-autocomplete-multiselect-empty-dropdown-message")}
+							placeholder={t("page.animals.city-autocomplete-multiselect-placeholder")}
+						/>
+					) : (
+						<div className="mb-4 flex w-full items-center">
+							<Separator className="flex-1" />
+							<span className="px-4 text-center">{t("page.animals.select-state-for-more-filters")}</span>
+							<Separator className="flex-1" />
+						</div>
+					)}
+				</div>
+			</form>
 		</Form>
 	);
 };

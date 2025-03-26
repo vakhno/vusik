@@ -14,7 +14,7 @@ import convertObjectToSearchParams from "@/shared/utils/convertObjectToSearchPar
 import selectedFiltersType from "@/features/animal/filterAllAnimals/model/type/selectedFiltersType";
 import availableFiltersType from "@/features/animal/filterAllAnimals/model/type/availableFiltersType";
 import SearchAllAnimalsFiltersFormSchemaType from "@/features/animal/filterAllAnimals/model/type/filtersFormSchemaType";
-import FiltersFields from "@/features/animal/filterAllAnimals/ui/animalsFiltersForm/filtersFields";
+import FiltersFields from "@/features/animal/filterAllAnimals/ui/animalsFiltersForm/fields";
 import { queryGetAllAnimalsFilter } from "@/features/animal/filterAllAnimals/model/query/fetchAllAnimalsFilters";
 // entities
 import generateShelterMarkers from "@/entities/shelter/model/utils/generateGoogleMapShelterMarkers";
@@ -68,6 +68,7 @@ const Index = ({ className = "", searchParams }: Props) => {
 	const queryClient = useQueryClient();
 	const handleWindowHistoryPush = useWindowHistoryPush();
 	const [filters, setFilters] = useState(searchParams);
+	
 	const { data: fetchedData } = queryGetAllAnimalsFilter({
 		searchParams: filters,
 	});

@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 // widgets
 import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 // features
-import SelectedFiltersType from "@/features/shelter/loadAllSheltersFilters/model/type/selectedFiltersType";
-import AvailableFiltersType from "@/features/shelter/loadAllSheltersFilters/model/type/availableFiltersType";
+import SelectedFiltersType from "@/features/shelter/filterAllShelters/model/type/selectedFiltersType";
+import AvailableFiltersType from "@/features/shelter/filterAllShelters/model/type/availableFiltersType";
 import ParsedSearchParamsType from "@/features/shelter/loadProfileSheltersFilters/model/type/parsedSearchParamsType";
 // mongoose
 import { Types } from "mongoose";

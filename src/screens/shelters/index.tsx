@@ -4,12 +4,12 @@
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 // features
 import ShelterList from "@/features/shelter/loadAllShelters/ui/sheltersList";
-import Filters from "@/features/shelter/loadAllSheltersFilters/ui/sheltersFiltersForm";
+import Filters from "@/features/shelter/filterAllShelters/ui/sheltersFiltersForm";
 //tanstack
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 // queries
 import { queryPrefetchGetAllShelters } from "@/features/shelter/loadAllShelters/model/query/fetchAllShelters";
-import { queryPrefetchGetAllSheltersFilter } from "@/features/shelter/loadAllSheltersFilters/model/query/fetchAllSheltersFilters";
+import { queryPrefetchGetAllSheltersFilter } from "@/features/shelter/filterAllShelters/model/query/fetchAllSheltersFilters";
 
 type Props = {
 	searchParams: SearchParamsType;

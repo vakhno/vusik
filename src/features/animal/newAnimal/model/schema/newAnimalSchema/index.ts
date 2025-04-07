@@ -24,24 +24,13 @@ const NewAnimalSchema = () => {
 			sterilized: z.boolean(),
 			injury: z.boolean().optional(),
 			injuryDescription: z.string().optional(),
-			age: z
-				.string()
-				.refine((date) => !isNaN(Date.parse(date)), {
-					message: "",
-				})
-				.refine((date) => new Date(date) <= new Date(), {
-					message: "",
-				}),
+			birthday: z.date(),
 		})
 		.refine(
 			(data) => {
 				// if injury selected then injuryDescription is required
 				if (data.injury) {
-					return (
-						data.injuryDescription &&
-						data.injuryDescription.length >= 5 &&
-						data.injuryDescription.length <= 250
-					);
+					return data.injuryDescription && data.injuryDescription.length >= 5 && data.injuryDescription.length <= 250;
 				}
 				return true;
 			},

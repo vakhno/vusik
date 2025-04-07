@@ -1,9 +1,9 @@
 "use server";
 
 //tanstack
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 // queries
-import { queryPrefetchAnimal } from "@/entities/animal/model/query/animalById";
+import { prefetchQuery_getAnimalById } from "@/entities/animal/model/query/animalById";
 import Animal from "@/entities/animal/ui/animalProfile";
 // mongoose
 import { Types } from "mongoose";
@@ -13,10 +13,12 @@ type Props = {
 };
 
 const Index = async ({ animalId }: Props) => {
-	const queryAnimal = await queryPrefetchAnimal({ animalId: animalId });
+	const queryClient = new QueryClient();
+
+	await prefetchQuery_getAnimalById({ animalId, queryClient });
 
 	return (
-		<HydrationBoundary state={dehydrate(queryAnimal)}>
+		<HydrationBoundary state={dehydrate(queryClient)}>
 			<Animal animalId={animalId} />
 		</HydrationBoundary>
 	);

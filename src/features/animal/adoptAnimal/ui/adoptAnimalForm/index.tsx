@@ -2,30 +2,43 @@
 
 // features
 import AdoptSchemaType from "@/features/animal/adoptAnimal/model/type/adoptFormSchema";
-import AdopAnimalFields from "@/features/animal/adoptAnimal/ui/adoptAnimalForm/adoptAnimalsFields";
+import AdopAnimalFields from "@/features/animal/adoptAnimal/ui/adoptAnimalForm/fields";
+// entities
+import { AnimalType, PopulatedAnimalType } from "@/entities/animal/model/type/animal";
+import { queryMutation_sendUserAdoptionRequestEmail } from "@/features/animal/adoptAnimal/model/query/userAdoptionRequest";
+// shared
+import { toast } from "sonner";
+// next-intl
+import { useTranslations } from "next-intl";
 
-const Index = () => {
-	const onHandleSubmit = async (value: AdoptSchemaType) => {
+type Props = {
+	onError: () => void;
+	onSuccess: () => void;
+	animal: AnimalType | PopulatedAnimalType;
+};
+
+const Index = ({ onSuccess, onError, animal }: Props) => {
+	const t = useTranslations();
+
+	const { mutateAsync: sendAdoptionRequest } = queryMutation_sendUserAdoptionRequestEmail({
+		onSuccess: () => {
+			onSuccess();
+		},
+		onError: (data) => {
+			const { error } = data;
+			const { message } = error;
+
+			toast.error(t("page.auth.sign-up.error-toast-title"), {
+				description: message,
+			});
+			onError();
+		},
+	});
+
+	const onHandleSubmit = (value: AdoptSchemaType) => {
 		const { name, email } = value;
-		const formData = new FormData();
 
-		formData.set("name", name);
-		formData.set("email", email);
-
-		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/ses/post-adoption-message`, {
-			method: "POST",
-			body: formData,
-		});
-
-		const { ok } = response;
-		if (ok) {
-			const result = await response.json();
-			const { success } = result;
-
-			if (success) {
-				// console.log("success");
-			}
-		}
+		sendAdoptionRequest({ animal, userName: name, userEmail: email });
 	};
 
 	return <AdopAnimalFields onFormSubmit={onHandleSubmit} />;

@@ -1,15 +1,14 @@
 "use server";
 
-// types
+// shared
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-// features
-import AnimalsList from "@/features/animal/loadAllAnimals/ui/animalsList";
-import AnimalsFiltersForm from "@/features/animal/filterAllAnimals/ui/animalsFiltersForm";
 //tanstack
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-// queries
-import { queryPrefetchGetAllAnimals } from "@/features/animal/loadAllAnimals/model/query/getAllAnimals";
-import { queryPrefetchGetAllAnimalsFilter } from "@/features/animal/filterAllAnimals/model/query/fetchAllAnimalsFilters";
+// features
+import { prefetchInfiniteQuery_getAllAnimals } from "@/features/animal/loadAllAnimals/model/query/getAllAnimals";
+import { prefetchQuery_getAllAnimalsFilter } from "@/features/animal/filterAllAnimals/model/query/fetchAllAnimalsFilters";
+import AnimalsList from "@/features/animal/loadAllAnimals/ui/animalsList";
+import AnimalsFiltersForm from "@/features/animal/filterAllAnimals/ui/animalsFiltersForm";
 
 type Props = {
 	searchParams: SearchParamsType;
@@ -18,10 +17,7 @@ type Props = {
 const Index = async ({ searchParams }: Props) => {
 	const queryClient = new QueryClient();
 
-	await Promise.all([
-		queryPrefetchGetAllAnimals({ searchParams, queryClient }),
-		queryPrefetchGetAllAnimalsFilter({ searchParams, queryClient }),
-	]);
+	await Promise.all([prefetchInfiniteQuery_getAllAnimals({ searchParams, queryClient }), prefetchQuery_getAllAnimalsFilter({ searchParams, queryClient })]);
 
 	return (
 		<HydrationBoundary state={dehydrate(queryClient)}>

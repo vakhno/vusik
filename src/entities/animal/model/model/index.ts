@@ -28,7 +28,7 @@ const AnimalSchema = new Schema<AnimalType>(
 		},
 		mainPhoto: {
 			type: String,
-			default: null,
+			required: true,
 		},
 		secondaryPhotos: [
 			{
@@ -40,8 +40,8 @@ const AnimalSchema = new Schema<AnimalType>(
 			type: String,
 			required: true,
 		},
-		age: {
-			type: String,
+		birthday: {
+			type: Date,
 			required: true,
 		},
 		sex: {
@@ -52,9 +52,24 @@ const AnimalSchema = new Schema<AnimalType>(
 			type: Boolean,
 			default: false,
 		},
+		vaccinated: {
+			type: Boolean,
+			default: false,
+		},
+		dewormed: {
+			type: Boolean,
+			default: false,
+		},
+		passported: {
+			type: Boolean,
+			default: false,
+		},
+		microchiped: {
+			type: Boolean,
+			default: false,
+		},
 		injury: {
 			type: Boolean,
-			required: true,
 			default: false,
 		},
 		injuryDescription: {

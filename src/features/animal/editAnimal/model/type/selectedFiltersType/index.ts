@@ -1,5 +1,5 @@
-import { AnimalType } from "@/entities/animal/@x/shelter";
+import { AnimalType, PopulatedAnimalType } from "@/entities/animal/model/type/animal";
 
-type selectedEditAnimalOptionsType = AnimalType;
+type selectedEditAnimalOptionsType = AnimalType | PopulatedAnimalType;
 
 export default selectedEditAnimalOptionsType;

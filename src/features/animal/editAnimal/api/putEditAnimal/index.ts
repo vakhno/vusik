@@ -52,7 +52,7 @@ const getFormDataValue = (formData: FormData): NewAnimalSchemaType => {
 	}
 
 	if (formData.has("age") && formData.get("age")) {
-		data.age = formData.get("age") as string;
+		data.birthday = new Date(formData.get("age") as string) as Date;
 	}
 
 	if (formData.has("injury") && formData.get("injury")) {
@@ -234,7 +234,7 @@ const Index = async ({ req }: Props) => {
 						updatedAnimal.mainPhoto = result;
 					}
 				} else {
-					updatedAnimal.mainPhoto = null;
+					updatedAnimal.mainPhoto = "";
 				}
 			}
 
@@ -247,7 +247,7 @@ const Index = async ({ req }: Props) => {
 						updatedAnimal.secondaryPhotos = result;
 					}
 				} else {
-					updatedAnimal.secondaryPhotos = null;
+					updatedAnimal.secondaryPhotos = [];
 				}
 			}
 

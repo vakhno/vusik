@@ -15,9 +15,7 @@ async function getAvailableShelterOptions(filters: ParsedSearchParamsType = {}):
 	const userId = filters.id ? new Types.ObjectId(filters.id) : null;
 	const allStates = await ShelterModel.distinct("state", userId ? { userId } : {});
 	const allShelters = await ShelterModel.find(userId ? { userId } : {}).select("state city name coordinates");
-	const shelterQuery: { state?: { $in: string[] }; city?: { $in: string[] }; userId?: Types.ObjectId } = userId
-		? { userId }
-		: {};
+	const shelterQuery: { state?: { $in: string[] }; city?: { $in: string[] }; userId?: Types.ObjectId } = userId ? { userId } : {};
 
 	if (filters.state?.length) shelterQuery.state = { $in: filters.state };
 	if (filters.city?.length) shelterQuery.city = { $in: filters.city };
@@ -47,7 +45,6 @@ async function getAvailableShelterOptions(filters: ParsedSearchParamsType = {}):
 	return {
 		state,
 		city,
-		sheltersList,
 	};
 }
 
@@ -63,10 +60,7 @@ const parseAnimalUrlSearchParams = (urlSearchParams: URLSearchParams): ParsedSea
 	return query;
 };
 
-function validateAnimalSearchParams(
-	searchParams: SelectedFiltersType,
-	availableOptions: AvailableFiltersType,
-): SelectedFiltersType {
+function validateAnimalSearchParams(searchParams: SelectedFiltersType, availableOptions: AvailableFiltersType): SelectedFiltersType {
 	const validatedParams = {
 		state: [],
 		city: [],

@@ -77,9 +77,9 @@ export const API_NEW_GET_USER_SHELTERS_BY_ID: string = "/api/shelter/get-user-sh
 // EDIT SHELTER API ROUTE
 export const API_PUT_EDIT_SHELTER: string = "/api/shelter/put-edit-shelter";
 // GET SHELTERS BY PAGE API ROUTE
-export const API_GET_SHELTERS_BY_PAGE: string = "/api/shelter/get-shelters-by-page";
+export const API_GET_SHELTERS_BY_PAGE: string = "/api/shelter/get-all-shelters-by-page";
 // GET ALL SHELTER FILTER OPTIONS API ROUTE
-export const API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS: string = "/api/shelter/get-filter-options-for-all-shelters";
+export const API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS: string = "/api/shelter/get-all-shelters-filters";
 
 // STATISTIC API ROUTES
 // GET BIGGEST SHELTER IN EVERY STATE
@@ -99,27 +99,17 @@ export const API_AUTH_SIGN_UP: string = "/api/auth/sign-up";
 // GOOGLE AUTH ROUTE
 export const GOOGLE_AUTH_ROUTE: string = "/api/auth/sign-google";
 
-// S3 API ROUTES
+// AWSS3 API ROUTES
 // UPLOAD AVATAR API ROUTE
 export const API_S3_UPLOAD_AVATAR: string = "/api/s3/upload-avatar";
 
+// AWS SES
+// SEND EMAIL MESSAGE
+export const API_S3_SES_SEND_EMAIL: string = "/api/ses/send-email";
+
 // LIST OF ROUTES
 // PAGE ROUTES LIST
-export const PAGE_ROUTES: string[] = [
-	HOME_ROUTE,
-	TERM_OF_USE_ROUTE,
-	PRIVACY_POLICY_ROUTE,
-	SIGN_IN_ROUTE,
-	SIGN_UP_ROUTE,
-	PROFILE_ROUTE,
-	MY_PROFILE_ROUTE,
-	ANIMAL_ROUTE,
-	EDIT_ANIMAL_ROUTE,
-	NEW_ANIMAL_ROUTE,
-	ANIMALS_ROUTE,
-	SHELTER_ROUTE,
-	SHELTERS_ROUTE,
-];
+export const PAGE_ROUTES: string[] = [HOME_ROUTE, TERM_OF_USE_ROUTE, PRIVACY_POLICY_ROUTE, SIGN_IN_ROUTE, SIGN_UP_ROUTE, PROFILE_ROUTE, MY_PROFILE_ROUTE, ANIMAL_ROUTE, EDIT_ANIMAL_ROUTE, NEW_ANIMAL_ROUTE, ANIMALS_ROUTE, SHELTER_ROUTE, SHELTERS_ROUTE];
 // API ROUTES LIST
 export const API_ROUTES: string[] = [
 	// ANIMAL API ROUTES

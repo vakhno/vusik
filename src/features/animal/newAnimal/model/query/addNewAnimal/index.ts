@@ -1,7 +1,7 @@
 // tanstack
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 // api
-import { SuccessResponse, ErrorResponse } from "@/features/animal/newAnimal/api/postNewAnimal";
+import { SuccessResponse, ErrorResponse } from "@/app/api/animal/new-animal/route";
 // routes
 import { API_NEW_ANIMAL } from "@/shared/constants/routes";
 
@@ -9,20 +9,7 @@ import NewAnimalSchemaType from "@/features/animal/newAnimal/model/type/newAnima
 
 const fetchData = async (animal: NewAnimalSchemaType) => {
 	try {
-		const {
-			mainPhoto,
-			secondaryPhotos,
-			name,
-			species,
-			breed,
-			shelterId,
-			size,
-			sex,
-			sterilized,
-			injury,
-			injuryDescription,
-			age,
-		} = animal;
+		const { mainPhoto, secondaryPhotos, name, species, breed, shelterId, size, sex, sterilized, injury, injuryDescription, birthday } = animal;
 
 		const formData = new FormData();
 
@@ -32,7 +19,7 @@ const fetchData = async (animal: NewAnimalSchemaType) => {
 		formData.append("shelterId", shelterId);
 		formData.append("size", size);
 		formData.append("sex", sex);
-		formData.append("age", String(age));
+		formData.append("age", String(birthday));
 		formData.append("sterilized", JSON.stringify(sterilized));
 		formData.append("injury", JSON.stringify(injury));
 		formData.append("injuryDescription", String(injuryDescription));

@@ -8,13 +8,13 @@ import FormInput from "@/shared/formUi/formInput";
 import { useForm } from "react-hook-form";
 // zod
 import { zodResolver } from "@hookform/resolvers/zod";
+// features
+import SignUpSchemaType from "@/features/auth/signUp/model/type/signUpFormSchema";
+import SignUpSchema from "@/features/auth/signUp/model/schema/signUpForm";
 // next tools
 import Link from "next/link";
 // next-intl
 import { useTranslations } from "next-intl";
-// features
-import SignUpSchemaType from "@/features/auth/signUp/model/type/signUpFormSchema";
-import SignUpSchema from "@/features/auth/signUp/model/schema/signUpForm";
 
 type Props = {
 	onFormSubmit: (value: SignUpSchemaType) => void;
@@ -40,34 +40,10 @@ const Index = ({ onFormSubmit }: Props) => {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onHandleSubmit)} className="space-y-8">
-				<FormInput
-					control={form.control}
-					label={t("page.auth.sign-up.name-input-label")}
-					name="name"
-					placeholder={t("page.auth.sign-up.name-input-placeholder")}
-					description={t("page.auth.sign-up.name-input-description")}
-				/>
-				<FormInput
-					type="email"
-					control={form.control}
-					label={t("page.auth.sign-up.email-input-label")}
-					name="email"
-					placeholder={t("page.auth.sign-up.email-input-placeholder")}
-				/>
-				<FormInput
-					type="password"
-					control={form.control}
-					label={t("page.auth.sign-up.password-input-label")}
-					name="password"
-					placeholder={t("page.auth.sign-up.password-input-placeholder")}
-				/>
-				<FormInput
-					type="password"
-					control={form.control}
-					label={t("page.auth.sign-up.confirm-password-input-label")}
-					name="confirmPassword"
-					placeholder={t("page.auth.sign-up.confirm-password-input-placeholder")}
-				/>
+				<FormInput control={form.control} label={t("page.auth.sign-up.name-input-label")} name="name" placeholder={t("page.auth.sign-up.name-input-placeholder")} description={t("page.auth.sign-up.name-input-description")} />
+				<FormInput type="email" control={form.control} label={t("page.auth.sign-up.email-input-label")} name="email" placeholder={t("page.auth.sign-up.email-input-placeholder")} />
+				<FormInput type="password" control={form.control} label={t("page.auth.sign-up.password-input-label")} name="password" placeholder={t("page.auth.sign-up.password-input-placeholder")} />
+				<FormInput type="password" control={form.control} label={t("page.auth.sign-up.confirm-password-input-label")} name="confirmPassword" placeholder={t("page.auth.sign-up.confirm-password-input-placeholder")} />
 				<div className="mx-auto text-center">
 					{t.rich("page.auth.sign-up.sign-up-agreement", {
 						termsOfUse: () => {

@@ -1,7 +1,5 @@
 "use client";
 
-// shared
-import { toast } from "sonner";
 // next tools
 import { useRouter } from "next/navigation";
 // next-intl
@@ -9,10 +7,13 @@ import { useTranslations } from "next-intl";
 // shared
 import useUserStore from "@/shared/zustand/store/user.store";
 import { cn } from "@/shared/lib/utils";
+import { HOME_ROUTE } from "@/shared/constants/routes";
+// sonner
+import { toast } from "sonner";
 // features
 import SignUpFields from "@/features/auth/signUp/ui/signUpForm/fields";
 import SignUpSchemaType from "@/features/auth/signUp/model/type/signUpFormSchema";
-import { querySignUp } from "@/features/auth/signUp/model/query/signUp";
+import { mutation_signUp } from "@/features/auth/signUp/model/query/signUp";
 
 type Props = {
 	className?: string;
@@ -22,10 +23,11 @@ const Index = ({ className = "" }: Props) => {
 	const t = useTranslations();
 	const setUser = useUserStore((state) => state.setUser);
 	const router = useRouter();
-	const { mutateAsync: signUp } = querySignUp({
+	const { mutateAsync: signUp } = mutation_signUp({
 		onSuccess: (user) => {
 			setUser(user);
-			router.push("/");
+
+			router.push(HOME_ROUTE);
 		},
 		onError: (error) => {
 			toast.error(t("page.auth.sign-up.error-toast-title"), {

@@ -14,6 +14,7 @@ import { Form } from "@/shared/ui/form";
 // form UI components
 import FormSingleSelect from "@/shared/formUi/formSingleSelect";
 import FormInput from "@/shared/formUi/formInput";
+import FormCalendar from "@/shared/formUi/formCalendar";
 import FormCheckbox from "@/shared/formUi/formCheckbox";
 import { useTranslations } from "next-intl";
 import { Separator } from "@/shared/ui/separator";
@@ -23,41 +24,6 @@ import AvailableNewAnimalOptionsType from "@/features/animal/newAnimal/model/typ
 type Props = {
 	availableOptions: AvailableNewAnimalOptionsType;
 	handleSubmit?: (value: NewAnimalSchemaType) => void;
-};
-
-const calculateAnimalAge = (birthDay: string) => {
-	const dob = new Date(birthDay);
-	const currentDate = new Date();
-
-	if (dob > currentDate) {
-		return { years: 0, months: 0 };
-	}
-
-	let years = currentDate.getFullYear() - dob.getFullYear();
-	let months = currentDate.getMonth() - dob.getMonth();
-	let days = currentDate.getDate() - dob.getDate();
-
-	if (months < 0) {
-		years--;
-		months += 12;
-	}
-
-	if (days < 0) {
-		months--;
-
-		const previousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
-		days += previousMonth.getDate();
-	}
-
-	if (dob.toDateString() === currentDate.toDateString()) {
-		months = 1;
-	}
-
-	if (years === 0 && months === 0 && days > 0) {
-		months = 1;
-	}
-
-	return { years, months };
 };
 
 const NewAnimal = ({ availableOptions, handleSubmit }: Props) => {
@@ -90,9 +56,13 @@ const NewAnimal = ({ availableOptions, handleSubmit }: Props) => {
 			size: "",
 			sex: "",
 			sterilized: false,
+			vaccinated: false,
+			dewormed: false,
+			passported: false,
+			microchiped: false,
 			injury: false,
 			injuryDescription: "",
-			age: "",
+			birthday: undefined,
 		},
 		resolver: zodResolver(newAnimalSchema),
 	});
@@ -137,7 +107,8 @@ const NewAnimal = ({ availableOptions, handleSubmit }: Props) => {
 	}, [speciesWatch]);
 
 	const mainPhotoChange = (file: File | undefined) => {
-		form.setValue("mainPhoto", file);
+		// as unknown as File - to avoid TS error with assigning 'undefined' value to required File field
+		form.setValue("mainPhoto", file as unknown as File);
 	};
 
 	const secondaryPhotosChange = (files: File[]) => {
@@ -151,17 +122,6 @@ const NewAnimal = ({ availableOptions, handleSubmit }: Props) => {
 		form.setValue("breed", "");
 	};
 
-	const birthDate = form.watch("age");
-
-	const calculateAgeDescription = (date: string) => {
-		if (!date) {
-			return "";
-		} else {
-			const { years, months } = calculateAnimalAge(date);
-			return `Years: ${years} Months: ${months}`;
-		}
-	};
-
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onNewAnimalSubmit)} className="h-full w-full space-y-8 px-2">
@@ -171,58 +131,19 @@ const NewAnimal = ({ availableOptions, handleSubmit }: Props) => {
 
 				<FormInput control={form.control} label="Name" name="name" placeholder="Name" />
 
-				<FormInput
-					control={form.control}
-					name="age"
-					label="Birth"
-					type="date"
-					max={new Date().toISOString().split("T")[0]}
-					description={calculateAgeDescription(birthDate)}
-					placeholder="Birth"
-				/>
+				<FormCalendar control={form.control} name="birthday" label="Birthday" placeholder="Birthday" />
 
-				<FormSingleSelect
-					control={form.control}
-					name={"shelterId"}
-					optionList={shelterList}
-					placeholder={"Select shelter"}
-					formLabel={"Shelter"}
-				/>
+				<FormSingleSelect control={form.control} name={"shelterId"} optionList={shelterList} placeholder={"Select shelter"} formLabel={"Shelter"} />
 
-				<FormSingleSelect
-					control={form.control}
-					name={"species"}
-					optionList={speciesList}
-					placeholder={"Select an animal species"}
-					formLabel={"Species"}
-					handleChange={handleSpeciesChange}
-				/>
+				<FormSingleSelect control={form.control} name={"species"} optionList={speciesList} placeholder={"Select an animal species"} formLabel={"Species"} handleChange={handleSpeciesChange} />
 
 				{form.getValues("species") ? (
 					<>
-						<FormSingleSelect
-							control={form.control}
-							name={"breed"}
-							optionList={breedList}
-							placeholder={"Select an animal breed"}
-							formLabel={"Breed"}
-						/>
+						<FormSingleSelect control={form.control} name={"breed"} optionList={breedList} placeholder={"Select an animal breed"} formLabel={"Breed"} />
 
-						<FormSingleSelect
-							control={form.control}
-							name={"sex"}
-							optionList={sexList}
-							placeholder={"Select an animal sex"}
-							formLabel={"Sex"}
-						/>
+						<FormSingleSelect control={form.control} name={"sex"} optionList={sexList} placeholder={"Select an animal sex"} formLabel={"Sex"} />
 
-						<FormSingleSelect
-							control={form.control}
-							name={"size"}
-							optionList={sizeList}
-							placeholder={"Select an animal size"}
-							formLabel={"Size"}
-						/>
+						<FormSingleSelect control={form.control} name={"size"} optionList={sizeList} placeholder={"Select an animal size"} formLabel={"Size"} />
 					</>
 				) : (
 					<div className="flex w-full items-center">
@@ -231,28 +152,19 @@ const NewAnimal = ({ availableOptions, handleSubmit }: Props) => {
 						<Separator className="flex-1" />
 					</div>
 				)}
-				<FormCheckbox
-					control={form.control}
-					name="sterilized"
-					label="Sterilization"
-					description="Select if animal already sterilized"
-				/>
+				<FormCheckbox control={form.control} name="sterilized" label="Sterilization" description="Select if animal already sterilized" />
 
-				<FormCheckbox
-					control={form.control}
-					name="injury"
-					label="Injury"
-					description="Select if animal have any injuries"
-				/>
+				<FormCheckbox control={form.control} name="vaccinated" label="Vaccinated" description="Select if animal already vaccinated" />
 
-				{form.getValues("injury") ? (
-					<FormInput
-						control={form.control}
-						label="Injury description"
-						name="injuryDescription"
-						placeholder="Injury description"
-					/>
-				) : null}
+				<FormCheckbox control={form.control} name="dewormed" label="Dewormed" description="Select if animal already dewormed" />
+
+				<FormCheckbox control={form.control} name="passported" label="Passported" description="Select if animal already has passport" />
+
+				<FormCheckbox control={form.control} name="microchiped" label="Microchiped" description="Select if animal already microchiped" />
+
+				<FormCheckbox control={form.control} name="injury" label="Injury" description="Select if animal have any injuries" />
+
+				{form.getValues("injury") ? <FormInput control={form.control} label="Injury description" name="injuryDescription" placeholder="Injury description" /> : null}
 
 				<div className="flex justify-between">
 					<Button type="submit">Submit</Button>

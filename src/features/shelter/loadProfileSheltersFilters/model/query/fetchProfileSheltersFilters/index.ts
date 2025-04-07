@@ -3,7 +3,7 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
 import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 // api
-import { SuccessResponse, ErrorResponse } from "@/features/shelter/filterAllShelters/api/getAllSheltersFilters";
+import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-all-shelters-filters/route";
 // types
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 import { Types } from "mongoose";

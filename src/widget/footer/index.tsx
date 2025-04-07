@@ -1,6 +1,8 @@
-// libs
+// shared
 import TextBetweenSeparators from "@/shared/shared/TextBetweenSeparators";
 import { cn } from "@/shared/lib/utils";
+import { getCurrentYear } from "@/shared/utils/getCurrentYear";
+// next tools
 import Link from "next/link";
 
 interface Props {
@@ -8,6 +10,8 @@ interface Props {
 }
 
 const Header = ({ className }: Props) => {
+	const currentYear = getCurrentYear();
+
 	return (
 		<footer className={cn(className, "sticky top-[100%] z-50 m-auto h-20 w-full backdrop-blur-md")}>
 			<div className="flex h-full w-full items-center justify-between px-4">
@@ -20,7 +24,7 @@ const Header = ({ className }: Props) => {
 								Vakhno
 							</Link>
 							<span> © </span>
-							{new Date().getFullYear()}
+							{currentYear}
 						</>
 					}
 				/>

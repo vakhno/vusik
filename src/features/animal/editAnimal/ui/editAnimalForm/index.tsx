@@ -1,13 +1,12 @@
 "use client";
 
-// entities
-import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
 // next-intl
 import { useTranslations } from "next-intl";
 // features
 import EditAnimalFields from "@/features/animal/editAnimal/ui/editAnimalForm/formFields";
 import { queryGetEditAnimalFilter } from "@/features/animal/editAnimal/model/query/fetchEditAnimalFilters";
 import { queryEditAnimal } from "@/features/animal/editAnimal/model/query/editAnimal";
+import EditAnimalSchemaType from "@/features/animal/editAnimal/model/type/editAnimalSchemaType";
 // mongoose
 import { Types } from "mongoose";
 // next tools
@@ -38,19 +37,13 @@ const NewAnimal = ({ animalId }: Props) => {
 	const availableOptions = fetchedFilters?.availableOptions || { shelters: [] };
 	const selectedOptions = fetchedFilters?.selectedOptions || null;
 
-	const onHandleFormSubmit = async (fields: NewAnimalSchemaType) => {
+	const onHandleFormSubmit = async (fields: EditAnimalSchemaType) => {
 		const updatedFiedls = { ...fields, id: String(animalId) };
 
 		editAnimal(updatedFiedls);
 	};
 
-	return (
-		<EditAnimalFields
-			availableOptions={availableOptions}
-			selectedOptions={selectedOptions}
-			handleSubmit={onHandleFormSubmit}
-		/>
-	);
+	return <EditAnimalFields availableOptions={availableOptions} selectedOptions={selectedOptions} handleSubmit={onHandleFormSubmit} />;
 };
 
 export default NewAnimal;

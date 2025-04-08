@@ -10,7 +10,7 @@ const FilterSchema = new Schema<FiltersType>({
 			of: new Schema({
 				breeds: { type: Map, of: Number, default: {} },
 				size: { type: Map, of: Number, default: {} },
-				age: { type: Map, of: Number, default: {} },
+				birthday: { type: Map, of: Number, default: {} },
 				sex: { type: Map, of: Number, default: {} },
 			}),
 			default: {},
@@ -46,7 +46,7 @@ const FilterSchema = new Schema<FiltersType>({
 					of: new Schema({
 						breeds: { type: Map, of: Number, default: {} },
 						size: { type: Map, of: Number, default: {} },
-						age: { type: Map, of: Number, default: {} },
+						birthday: { type: Map, of: Number, default: {} },
 						sex: { type: Map, of: Number, default: {} },
 					}),
 					default: {},

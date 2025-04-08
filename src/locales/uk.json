@@ -190,6 +190,7 @@
 			"city-autocomplete-multiselect-empty-dropdown-message": "пусто",
 			"state-autocomplete-multiselect-placeholder": "Вибрати область",
 			"state-autocomplete-multiselect-empty-dropdown-message": "пусто",
+			"select-state-for-more-filters": "Оберіть область, щоб використати більше фільтрів",
 			"search": "Пошук",
 			"load-more": "Завантажити більше",
 			"no-shelters": "Немає тваринок"
@@ -266,7 +267,17 @@
 	},
 	"adopt": {
 		"title": "Прихистити",
-		"button": "Прихистити"
+		"button": "Прихистити",
+		"name-input-placeholder": "Ім'я...",
+		"name-input-label": "Ім'я",
+		"email-input-placeholder": "Електронна пошта...",
+		"email-input-label": "Електронна пошта",
+		"schema": {
+			"name-min": "Ім'я обов'язкове!",
+			"name-short": "Ім'я надто коротке!",
+			"email-min": "Електрона пошта обов'язкова!",
+			"email-type": "Електрона пошта має не валідний тип!"
+		}
 	},
 	"like": {
 		"toast": {
@@ -279,5 +290,9 @@
 		"modal": {
 			"title": "Лайкнуті тваринки"
 		}
+	},
+	"age": {
+		"months": "{count} {count, plural, one {місяць} few {місяці} many {місяців} other {місяця}}",
+		"years": "{count} {count, plural, one {рік} few {роки} many {років} other {року}}"
 	}
 }

@@ -7,6 +7,7 @@ import { FormAutocompleteMultiselect } from "@/shared/formUi/formAutocompleteMil
 import { Separator } from "@/shared/ui/separator";
 import { Option } from "@/shared/formUi/formAutocompleteMiltiselect";
 import { Form } from "@/shared/ui/form";
+import { Button } from "@/shared/ui/button";
 // zod
 import { zodResolver } from "@hookform/resolvers/zod";
 // react-hook-form
@@ -46,15 +47,13 @@ const generateFilterOptions = (optionsList: Omit<availableFiltersType, "shelters
 			}
 		} else if (key === "city") {
 			if (value) {
-				availableOptionsList.city = Object.entries(value as Record<string, string[]>).map(
-					([cityKey, cityValue]) => ({
-						heading: { label: cityKey, value: cityKey },
-						values: cityValue.map((city) => ({
-							label: city,
-							value: city,
-						})),
-					}),
-				);
+				availableOptionsList.city = Object.entries(value as Record<string, string[]>).map(([cityKey, cityValue]) => ({
+					heading: { label: cityKey, value: cityKey },
+					values: cityValue.map((city) => ({
+						label: city,
+						value: city,
+					})),
+				}));
 			}
 		}
 	});
@@ -101,33 +100,21 @@ const FilterForm = ({ availableOptions, selectedValues, onFilterChange, onFilter
 		<Form {...form}>
 			<form className="mb-4 space-y-4" onSubmit={handleSubmit(onHandleSubmit)}>
 				<div className="space-y-4">
-					<FormAutocompleteMultiselect
-						className="z-[100] mb-4"
-						control={control}
-						name="state"
-						options={formattedOptions?.state || []}
-						emptyMessage={t("page.animals.state-autocomplete-multiselect-empty-dropdown-message")}
-						placeholder={t("page.animals.state-autocomplete-multiselect-placeholder")}
-					/>
+					<FormAutocompleteMultiselect className="z-[100] mb-4" control={control} name="state" options={formattedOptions?.state || []} emptyMessage={t("page.shelters.state-autocomplete-multiselect-empty-dropdown-message")} placeholder={t("page.shelters.state-autocomplete-multiselect-placeholder")} />
 
 					{formWatchState?.length ? (
-						<FormAutocompleteMultiselect
-							className="mb-4"
-							control={control}
-							name="city"
-							disabled={!formWatchState?.length}
-							options={formattedOptions?.city || []}
-							emptyMessage={t("page.animals.city-autocomplete-multiselect-empty-dropdown-message")}
-							placeholder={t("page.animals.city-autocomplete-multiselect-placeholder")}
-						/>
+						<FormAutocompleteMultiselect className="mb-4" control={control} name="city" disabled={!formWatchState?.length} options={formattedOptions?.city || []} emptyMessage={t("page.shelters.city-autocomplete-multiselect-empty-dropdown-message")} placeholder={t("page.shelters.city-autocomplete-multiselect-placeholder")} />
 					) : (
 						<div className="mb-4 flex w-full items-center">
 							<Separator className="flex-1" />
-							<span className="px-4 text-center">{t("page.animals.select-state-for-more-filters")}</span>
+							<span className="px-4 text-center">{t("page.shelters.select-state-for-more-filters")}</span>
 							<Separator className="flex-1" />
 						</div>
 					)}
 				</div>
+				<Button className="w-full" type="submit">
+					{t("page.shelters.search")}
+				</Button>
 			</form>
 		</Form>
 	);

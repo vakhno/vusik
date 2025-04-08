@@ -1,41 +1,15 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // utils
-import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
-// api
-import { SuccessResponse, ErrorResponse } from "@/features/shelter/filterAllShelters/api/getAllSheltersFilters";
-// routes
+import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-all-shelters-filters/route";
+// shared
 import { API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS } from "@/shared/constants/routes";
-// types
+import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 import { SearchParamsType } from "@/shared/types/searchParams.type";
+import { NEXT_PUBLIC_ACTIVE_DOMEN } from "@/shared/constants/env";
 
-const fetchData = async (searchParams: SearchParamsType) => {
-	try {
-		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS}/?${urlSearchParams}`,
-			{
-				method: "GET",
-			},
-		);
-
-		const { ok } = response;
-
-		if (ok) {
-			const data = await response.json();
-			const { success } = data as SuccessResponse | ErrorResponse;
-
-			if (success) {
-				const { availableOptions, selectedOptions } = data;
-
-				return { availableOptions: availableOptions, selectedOptions: selectedOptions };
-			}
-		}
-
-		return null;
-	} catch (_) {
-		return null;
-	}
+type QueryFnProps = {
+	searchParams: SearchParamsType;
 };
 
 type FetchProps = {
@@ -47,21 +21,40 @@ type PrefetchProps = {
 	queryClient: QueryClient;
 };
 
-export const queryGetAllSheltersFilter = ({ searchParams }: FetchProps) => {
+const queryFn = async ({ searchParams }: QueryFnProps) => {
+	const urlSearchParams = convertObjectToURLSearchParams(searchParams);
+	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS}/?${urlSearchParams}`, {
+		method: "GET",
+	});
+	const result = (await response.json()) as SuccessResponse | ErrorResponse;
+	const { success } = result;
+
+	if (!success) {
+		return null;
+	}
+
+	const {
+		data: { availableOptions, shelters, selectedOptions },
+	} = result;
+
+	return { availableOptions, shelters, selectedOptions };
+};
+
+export const query_getAllSheltersFilter = ({ searchParams }: FetchProps) => {
 	return useQuery({
-		queryKey: ["all-shelters-filter", searchParams],
-		queryFn: async () => {
-			return fetchData(searchParams);
-		},
+		queryKey: ["all-shelters-filter", JSON.stringify(searchParams)],
+		staleTime: 1000 * 60 * 5,
+		gcTime: 1000 * 60 * 10,
+		queryFn: async () => queryFn({ searchParams }),
 	});
 };
 
-export const queryPrefetchGetAllSheltersFilter = async ({ searchParams, queryClient }: PrefetchProps) => {
+export const prefetchQuery_getAllSheltersFilter = async ({ searchParams, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
-		queryKey: ["all-shelters-filter", searchParams],
-		queryFn: async () => {
-			return fetchData(searchParams);
-		},
+		queryKey: ["all-shelters-filter", JSON.stringify(searchParams)],
+		staleTime: 1000 * 60 * 5,
+		gcTime: 1000 * 60 * 10,
+		queryFn: async () => queryFn({ searchParams }),
 	});
 
 	return queryClient;

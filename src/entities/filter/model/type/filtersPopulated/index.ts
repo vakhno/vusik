@@ -7,7 +7,7 @@ export type FiltersPopulatedAnimalsType = {
 		{
 			breeds: Record<string, number>;
 			size: Record<string, number>;
-			age: Record<string, number>;
+			birthday: Record<string, number>;
 			sex: Record<string, number>;
 		}
 	>;

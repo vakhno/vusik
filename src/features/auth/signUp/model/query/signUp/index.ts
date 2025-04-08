@@ -2,54 +2,43 @@
 import { useMutation } from "@tanstack/react-query";
 // shared
 import { API_AUTH_SIGN_UP } from "@/shared/constants/routes";
-// api
-import {
-	SuccessResponse as AuthSignUpSuccessResponse,
-	ErrorResponse as AuthSignUpErrorResponse,
-} from "@/app/api/auth/sign-up/route";
+import { NEXT_PUBLIC_ACTIVE_DOMEN } from "@/shared/constants/env";
+import convertObjectToFormData from "@/shared/utils/convertObjectToFormData";
 // features
 import SignUpSchemaType from "@/features/auth/signUp/model/type/signUpFormSchema";
-import convertSignUpSchemaToFormData from "@/features/auth/signUp/model/utils/convertSignUpSchemaToFormData";
-// entities
-import { UserType } from "@/entities/profile/model/type/profile";
-
-const mutationFn = async (signUpFields: SignUpSchemaType) => {
-	try {
-		const formData = convertSignUpSchemaToFormData(signUpFields);
-
-		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_AUTH_SIGN_UP}`, {
-			method: "POST",
-			body: formData,
-		});
-		const responseData = (await response.json()) as AuthSignUpSuccessResponse | AuthSignUpErrorResponse;
-		const { success } = responseData;
-
-		if (success) {
-			const { data } = responseData;
-			const { user } = data;
-
-			return user;
-		} else {
-			const { error } = responseData;
-			const { message } = error;
-
-			throw new Error(message);
-		}
-	} catch (error) {
-		if (error instanceof Error) {
-			throw new Error(error.message);
-		} else {
-			throw new Error(String(error));
-		}
-	}
-};
+// api
+import { SuccessResponse, ErrorResponse } from "@/app/api/auth/sign-up/route";
 
 type mutateProps = {
-	onSuccess?: (user: UserType) => void;
-	onError?: (error: string) => void;
+	onSuccess: (user: SuccessResponse["data"]["user"]) => void;
+	onError: (error: ErrorResponse["error"]["message"]) => void;
 };
 
-export const querySignUp = ({ onSuccess, onError }: mutateProps) => {
+const mutationFn = async (signUpFields: SignUpSchemaType) => {
+	const formData = convertObjectToFormData(signUpFields);
+	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_AUTH_SIGN_UP}`, {
+		method: "POST",
+		body: formData,
+	});
+	const result = (await response.json()) as SuccessResponse | ErrorResponse;
+	const { success } = result;
+
+	if (!success) {
+		const {
+			error: { message },
+		} = result;
+
+		throw new Error(message);
+	}
+
+	const {
+		data: { user },
+	} = result;
+
+	return user;
+};
+
+export const mutation_signUp = ({ onSuccess, onError }: mutateProps) => {
 	return useMutation({
 		mutationFn,
 		onSuccess,

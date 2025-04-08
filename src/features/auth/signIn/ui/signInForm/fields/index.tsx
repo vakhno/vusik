@@ -4,6 +4,7 @@
 import { Form } from "@/shared/ui/form";
 import FormInput from "@/shared/formUi/formInput";
 import { Button } from "@/shared/ui/button";
+import { TERM_OF_USE_ROUTE, PRIVACY_POLICY_ROUTE } from "@/shared/constants/routes";
 // react-hook-form
 import { useForm } from "react-hook-form";
 // zod
@@ -38,32 +39,20 @@ const index = ({ onFormSubmit }: Props) => {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onHandleSubmit)} className="space-y-8">
-				<FormInput
-					control={form.control}
-					label={t("page.auth.sign-in.email-input-label")}
-					name="email"
-					placeholder={t("page.auth.sign-in.email-input-placeholder")}
-					type="email"
-				/>
-				<FormInput
-					control={form.control}
-					label={t("page.auth.sign-in.password-input-label")}
-					name="password"
-					placeholder={t("page.auth.sign-in.password-input-placeholder")}
-					type="password"
-				/>
+				<FormInput control={form.control} label={t("page.auth.sign-in.email-input-label")} name="email" placeholder={t("page.auth.sign-in.email-input-placeholder")} type="email" />
+				<FormInput control={form.control} label={t("page.auth.sign-in.password-input-label")} name="password" placeholder={t("page.auth.sign-in.password-input-placeholder")} type="password" />
 				<div className="mx-auto text-center">
 					{t.rich("page.auth.sign-in.sign-in-agreement", {
 						termsOfUse: (chunks) => {
 							return (
-								<Link href="/terms-of-use" className="font-bold">
+								<Link href={TERM_OF_USE_ROUTE} className="font-bold">
 									{chunks}
 								</Link>
 							);
 						},
 						privacyPolicy: (chunks) => {
 							return (
-								<Link href="/privacy-policy" className="font-bold">
+								<Link href={PRIVACY_POLICY_ROUTE} className="font-bold">
 									{chunks}
 								</Link>
 							);

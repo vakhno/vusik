@@ -8,14 +8,8 @@ import { getLocale, getTranslations } from "next-intl/server";
 // mongoose
 import { Types } from "mongoose";
 // api
-import {
-	SuccessResponse as AnimalSuccessResponse,
-	ErrorResponse as AnimalErrorResponse,
-} from "@/app/api/animal/get-animal-by-id/route";
-import {
-	SuccessResponse as ShelterSuccessResponse,
-	ErrorResponse as ShelterErrorResponse,
-} from "@/app/api/shelter/get-shelter-by-id/route";
+import { SuccessResponse as AnimalSuccessResponse, ErrorResponse as AnimalErrorResponse } from "@/app/api/animal/get-animal-by-id/route";
+import { SuccessResponse as ShelterSuccessResponse, ErrorResponse as ShelterErrorResponse } from "@/app/api/shelter/get-shelter-by-id/route";
 
 type Props = {
 	params: { animalId: Types.ObjectId };
@@ -26,77 +20,74 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const locale = await getLocale();
 	const t = await getTranslations({ locale });
 
-	let animal = null;
 	let shelter = null;
 
 	const animalUrlSearchParams = new URLSearchParams();
 	animalUrlSearchParams.set("id", String(animalId));
-	const animalResponse = await fetch(
-		`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/animal/get-animal-by-id/?${animalUrlSearchParams}`,
-		{
-			method: "GET",
-		},
-	);
-	const { ok: isAnimalResponseOk } = animalResponse;
-	if (isAnimalResponseOk) {
-		const data = (await animalResponse.json()) as AnimalSuccessResponse | AnimalErrorResponse;
-		const { success } = data;
+	const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/animal/get-animal-by-id/?${animalUrlSearchParams}`, {
+		method: "GET",
+	});
 
-		if (success) {
-			const { animal: animalData } = data;
+	const result = (await response.json()) as AnimalSuccessResponse | AnimalErrorResponse;
+	const { success } = result;
 
-			animal = animalData;
-		}
-	}
-	if (animal) {
-		const shelterUrlSearchParams = new URLSearchParams();
-		shelterUrlSearchParams.set("id", String(animal.shelterId));
-		const shelterResponse = await fetch(
-			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-shelter-by-id/?${shelterUrlSearchParams}`,
-			{
+	if (success) {
+		const {
+			data: { animal },
+		} = result;
+
+		if (animal) {
+			const shelterUrlSearchParams = new URLSearchParams();
+			shelterUrlSearchParams.set("id", String(animal.shelterId));
+			const shelterResponse = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-shelter-by-id/?${shelterUrlSearchParams}`, {
 				method: "GET",
-			},
-		);
+			});
 
-		const { ok: isShelterResponseOk } = shelterResponse;
+			const { ok: isShelterResponseOk } = shelterResponse;
 
-		if (isShelterResponseOk) {
-			const data = (await shelterResponse.json()) as ShelterSuccessResponse | ShelterErrorResponse;
-			const { success } = data;
+			if (isShelterResponseOk) {
+				const data = (await shelterResponse.json()) as ShelterSuccessResponse | ShelterErrorResponse;
+				const { success } = data;
 
-			if (success) {
-				const { shelter: shelterData } = data;
+				if (success) {
+					const { shelter: shelterData } = data;
 
-				shelter = shelterData;
+					shelter = shelterData;
+				}
 			}
 		}
-	}
-	if (animal && shelter) {
-		return {
-			title: t("metadata.page.animal.title", { name: animal.name }),
-			description: t("metadata.page.animal.description", { name: shelter.name }),
-			openGraph: {
-				title: t("metadata.page.animal.openGraph.title", { name: animal.name }),
-				description: t("metadata.page.animal.openGraph.description", { name: shelter.name }),
-				url: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/animal/${animalId}`,
-				siteName: t("general.site-name"),
-				images: [
-					{
-						url: animal.mainPhoto || "",
-						width: 1200,
-						height: 630,
-						alt: t("metadata.page.animal.openGraph.image.alt"),
-						type: "image/jpeg",
-					},
-				],
-			},
-			twitter: {
-				card: "summary_large_image",
-				title: t("metadata.page.animal.twitter.title", { name: animal.name }),
-				description: t("metadata.page.animal.twitter.description", { name: shelter.name }),
-				images: animal.mainPhoto || "",
-			},
-		};
+		if (animal && shelter) {
+			return {
+				title: t("metadata.page.animal.title", { name: animal.name }),
+				description: t("metadata.page.animal.description", { name: shelter.name }),
+				openGraph: {
+					title: t("metadata.page.animal.openGraph.title", { name: animal.name }),
+					description: t("metadata.page.animal.openGraph.description", { name: shelter.name }),
+					url: `${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/animal/${animalId}`,
+					siteName: t("general.site-name"),
+					images: [
+						{
+							url: animal.mainPhoto || "",
+							width: 1200,
+							height: 630,
+							alt: t("metadata.page.animal.openGraph.image.alt"),
+							type: "image/jpeg",
+						},
+					],
+				},
+				twitter: {
+					card: "summary_large_image",
+					title: t("metadata.page.animal.twitter.title", { name: animal.name }),
+					description: t("metadata.page.animal.twitter.description", { name: shelter.name }),
+					images: animal.mainPhoto || "",
+				},
+			};
+		} else {
+			return {
+				title: "",
+				description: "",
+			};
+		}
 	} else {
 		return {
 			title: "",

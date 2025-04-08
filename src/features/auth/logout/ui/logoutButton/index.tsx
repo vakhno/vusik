@@ -17,7 +17,7 @@ const Index = ({ className = "" }: Props) => {
 	const t = useTranslations();
 	const setUser = useUserStore((state) => state.setUser);
 
-	const handleLogOut = () => {
+	const handleLogOut = async () => {
 		logout();
 		setUser(null);
 	};

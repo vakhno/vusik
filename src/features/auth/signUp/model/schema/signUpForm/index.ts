@@ -1,9 +1,7 @@
 // zod
 import * as z from "zod";
-// next-intl
-import { TranslationValues } from "next-intl";
-
-type TFunction = (key: string, values?: TranslationValues) => string;
+// shared
+import { TFunction } from "@/shared/types/nextIntl.type";
 
 const SignUpSchema = (t: TFunction) => {
 	return z

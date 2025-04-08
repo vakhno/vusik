@@ -190,6 +190,7 @@
 			"city-autocomplete-multiselect-empty-dropdown-message": "empty",
 			"state-autocomplete-multiselect-placeholder": "Select state",
 			"state-autocomplete-multiselect-empty-dropdown-message": "empty",
+			"select-state-for-more-filters": "Select state to use more filters",
 			"search": "Search",
 			"load-more": "Load more",
 			"no-shelters": "No shelters"
@@ -269,7 +270,40 @@
 	},
 	"adopt": {
 		"title": "Adopt",
-		"button": "Adopt"
+		"button": "Adopt",
+		"name-input-placeholder": "Name...",
+		"name-input-label": "Name",
+		"email-input-placeholder": "Email...",
+		"email-input-label": "Email",
+		"schema": {
+			"name-min": "Name is required!",
+			"name-short": "Name is too short!",
+			"email-min": "Email is required!",
+			"email-type": "Email is not valid!"
+		},
+		"email": {
+			"subject": "VUSIK - adopt animal message",
+			"head": {
+				"title": "VUSIK - adopt animal message"
+			},
+			"body": {
+				"header": {
+					"logo": {
+						"alt": "VUSIK logo"
+					}
+				},
+				"main": {
+					"greeting": "Hello {userName}!",
+					"welcome": "We are excited that you interested in {animalName}!",
+					"message": "{animalName} is already waiting for you! The shelter will contact you with details as soon as possible.",
+					"closing": "With best wishes!",
+					"animal-image": {
+						"alt": "animal image"
+					}
+				},
+				"footer": "© {year} VUSIK. All rights reserved."
+			}
+		}
 	},
 	"like": {
 		"toast": {
@@ -281,5 +315,20 @@
 		"modal": {
 			"title": "Liked animals"
 		}
+	},
+	"aws": {
+		"ses": {
+			"api": {
+				"400": "Invalid data: \"{error}\"!",
+				"500": {
+					"default": "Something went wrong! Try again later!",
+					"env_missing": "Required 'process.env' variables missed!"
+				}
+			}
+		}
+	},
+	"age": {
+		"months": "{count} month{count, plural, one {} other {s}}",
+		"years": "{count} year{count, plural, one {} other {s}}"
 	}
 }

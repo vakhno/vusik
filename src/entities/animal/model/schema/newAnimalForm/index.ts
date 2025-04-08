@@ -1,15 +1,12 @@
 // zod
 import * as z from "zod";
-// constants
+// shared
 import { imageFileTypesAsArray } from "@/shared/constants/files";
 
 const NewAnimalSchema = () => {
 	return z
 		.object({
-			mainPhoto: z
-				.instanceof(File)
-				.refine((file) => imageFileTypesAsArray.includes(file.type))
-				.optional(),
+			mainPhoto: z.instanceof(File).refine((file) => imageFileTypesAsArray.includes(file.type)),
 			secondaryPhotos: z
 				.array(z.instanceof(File))
 				.default([])
@@ -22,26 +19,19 @@ const NewAnimalSchema = () => {
 			sex: z.string().min(1),
 			species: z.string().min(1),
 			sterilized: z.boolean(),
+			vaccinated: z.boolean(),
+			dewormed: z.boolean(),
+			passported: z.boolean(),
+			microchiped: z.boolean(),
 			injury: z.boolean().optional(),
 			injuryDescription: z.string().optional(),
-			age: z
-				.string()
-				.refine((date) => !isNaN(Date.parse(date)), {
-					message: "",
-				})
-				.refine((date) => new Date(date) <= new Date(), {
-					message: "",
-				}),
+			birthday: z.date(),
 		})
 		.refine(
 			(data) => {
 				// if injury selected then injuryDescription is required
 				if (data.injury) {
-					return (
-						data.injuryDescription &&
-						data.injuryDescription.length >= 5 &&
-						data.injuryDescription.length <= 250
-					);
+					return data.injuryDescription && data.injuryDescription.length >= 5 && data.injuryDescription.length <= 250;
 				}
 				return true;
 			},

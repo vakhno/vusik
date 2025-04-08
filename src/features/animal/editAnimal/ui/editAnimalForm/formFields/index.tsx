@@ -20,53 +20,12 @@ import SelectedEditAnimalOptionsType from "@/features/animal/editAnimal/model/ty
 import EditAnimalSchemaType from "@/features/animal/editAnimal/model/type/editAnimalSchemaType";
 import EditAnimalSchema from "@/features/animal/editAnimal/model/schema/editAnimalSchema";
 import { species } from "@/shared/constants/species";
+import FormCalendar from "@/shared/formUi/formCalendar";
 
 type Props = {
 	availableOptions: AvailableEditAnimalOptionsType;
 	selectedOptions: SelectedEditAnimalOptionsType | null;
 	handleSubmit?: (value: EditAnimalSchemaType) => void;
-};
-
-const calculateAnimalAge = (birthDay: string) => {
-	const dob = new Date(birthDay);
-	const currentDate = new Date();
-
-	// Ensure birth date is not in the future
-	if (dob > currentDate) {
-		return { years: 0, months: 0 }; // Prevent negative age
-	}
-
-	// Calculate difference in years, months, and days
-	let years = currentDate.getFullYear() - dob.getFullYear();
-	let months = currentDate.getMonth() - dob.getMonth();
-	let days = currentDate.getDate() - dob.getDate();
-
-	// Adjust if the current month is before the birth month
-	if (months < 0) {
-		years--;
-		months += 12;
-	}
-
-	// If days are negative, adjust months
-	if (days < 0) {
-		months--;
-
-		// Get the number of days in the previous month
-		const previousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
-		days += previousMonth.getDate();
-	}
-
-	// If the birth date is today, set months to 1
-	if (dob.toDateString() === currentDate.toDateString()) {
-		months = 1;
-	}
-
-	// If the age is less than a month but more than 0 days, set months to 1
-	if (years === 0 && months === 0 && days > 0) {
-		months = 1;
-	}
-
-	return { years, months };
 };
 
 const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) => {
@@ -128,9 +87,13 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 			size: animal?.size || "",
 			sex: animal?.sex || "",
 			sterilized: animal?.sterilized || false,
+			dewormed: animal?.dewormed || false,
+			passported: animal?.passported || false,
+			microchiped: animal?.microchiped || false,
+			vaccinated: animal?.vaccinated || false,
 			injury: animal?.injury || false,
 			injuryDescription: animal?.injuryDescription || "",
-			age: animal?.age || "",
+			birthday: animal?.birthday,
 		},
 		resolver: zodResolver(newAnimalSchema),
 	});
@@ -216,18 +179,6 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 		form.setValue("breed", "");
 	};
 
-	const birthDate = form.watch("age");
-
-	// Function to calculate age dynamically
-	const calculateAgeDescription = (date: string) => {
-		if (!date) {
-			return "";
-		} else {
-			const { years, months } = calculateAnimalAge(date);
-			return `Years: ${years} Months: ${months}`;
-		}
-	};
-
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onNewAnimalSubmit)} className="h-full w-full space-y-8 px-2">
@@ -238,66 +189,23 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 					className="m-auto h-96 max-h-full w-80 max-w-full"
 				/>
 
-				<MultipleImageUploading
-					defaultFiles={defaultSecondaryImages}
-					onChange={secondaryPhotosChange}
-					imagesCount={4}
-				/>
+				<MultipleImageUploading defaultFiles={defaultSecondaryImages} onChange={secondaryPhotosChange} imagesCount={4} />
 
 				<FormInput control={form.control} label="Name" name="name" placeholder="Name" />
 
-				<FormInput
-					control={form.control}
-					name="age"
-					label="Birth"
-					type="date"
-					max={new Date().toISOString().split("T")[0]}
-					description={calculateAgeDescription(birthDate)}
-					placeholder="Birth"
-				/>
+				<FormCalendar control={form.control} name="birthday" label="Birthday" placeholder="Birthday" />
 
-				<FormSingleSelect
-					control={form.control}
-					name={"shelterId"}
-					optionList={shelterList}
-					placeholder={"Select shelter"}
-					formLabel={"Shelter"}
-				/>
+				<FormSingleSelect control={form.control} name={"shelterId"} optionList={shelterList} placeholder={"Select shelter"} formLabel={"Shelter"} />
 
-				<FormSingleSelect
-					control={form.control}
-					name={"species"}
-					optionList={speciesList}
-					placeholder={"Select an animal species"}
-					formLabel={"Species"}
-					handleChange={handleSpeciesChange}
-				/>
+				<FormSingleSelect control={form.control} name={"species"} optionList={speciesList} placeholder={"Select an animal species"} formLabel={"Species"} handleChange={handleSpeciesChange} />
 
 				{form.getValues("species") ? (
 					<>
-						<FormSingleSelect
-							control={form.control}
-							name={"breed"}
-							optionList={breedList}
-							placeholder={"Select an animal breed"}
-							formLabel={"Breed"}
-						/>
+						<FormSingleSelect control={form.control} name={"breed"} optionList={breedList} placeholder={"Select an animal breed"} formLabel={"Breed"} />
 
-						<FormSingleSelect
-							control={form.control}
-							name={"sex"}
-							optionList={sexList}
-							placeholder={"Select an animal sex"}
-							formLabel={"Sex"}
-						/>
+						<FormSingleSelect control={form.control} name={"sex"} optionList={sexList} placeholder={"Select an animal sex"} formLabel={"Sex"} />
 
-						<FormSingleSelect
-							control={form.control}
-							name={"size"}
-							optionList={sizeList}
-							placeholder={"Select an animal size"}
-							formLabel={"Size"}
-						/>
+						<FormSingleSelect control={form.control} name={"size"} optionList={sizeList} placeholder={"Select an animal size"} formLabel={"Size"} />
 					</>
 				) : (
 					<div className="flex w-full items-center">
@@ -306,28 +214,19 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 						<Separator className="flex-1" />
 					</div>
 				)}
-				<FormCheckbox
-					control={form.control}
-					name="sterilized"
-					label="Sterilization"
-					description="Select if animal already sterilized"
-				/>
+				<FormCheckbox control={form.control} name="sterilized" label="Sterilization" description="Select if animal already sterilized" />
 
-				<FormCheckbox
-					control={form.control}
-					name="injury"
-					label="Injury"
-					description="Select if animal have any injuries"
-				/>
+				<FormCheckbox control={form.control} name="vaccinated" label="Vaccinated" description="Select if animal already vaccinated" />
 
-				{form.getValues("injury") ? (
-					<FormInput
-						control={form.control}
-						label="Injury description"
-						name="injuryDescription"
-						placeholder="Injury description"
-					/>
-				) : null}
+				<FormCheckbox control={form.control} name="dewormed" label="Dewormed" description="Select if animal already dewormed" />
+
+				<FormCheckbox control={form.control} name="passported" label="Passported" description="Select if animal already has passport" />
+
+				<FormCheckbox control={form.control} name="microchiped" label="Microchiped" description="Select if animal already microchiped" />
+
+				<FormCheckbox control={form.control} name="injury" label="Injury" description="Select if animal have any injuries" />
+
+				{form.getValues("injury") ? <FormInput control={form.control} label="Injury description" name="injuryDescription" placeholder="Injury description" /> : null}
 
 				<div className="flex justify-between">
 					<Button type="submit">Submit</Button>

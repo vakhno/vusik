@@ -1,11 +1,8 @@
 // zod
 import * as z from "zod";
-// constants
+// shared
 import { imageFileTypesAsArray } from "@/shared/constants/files";
-// next-intl
-import { TranslationValues } from "next-intl";
-
-type TFunction = (key: string, values?: TranslationValues) => string;
+import { TFunction } from "@/shared/types/nextIntl.type";
 
 export const EditUserSchema = (t: TFunction) => {
 	return z.object({

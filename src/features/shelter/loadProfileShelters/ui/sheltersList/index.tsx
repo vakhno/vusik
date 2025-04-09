@@ -5,12 +5,10 @@ import { queryGetProfileShelters } from "@/features/shelter/loadProfileShelters/
 import SheltersList from "@/features/shelter/loadProfileShelters/ui/sheltersList/list";
 // types
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-// mongoose
-import { Types } from "mongoose";
 // constants
 import { sheltersPerPage } from "@/shared/constants/counts";
 
-type Props = { isEditable?: boolean; id: Types.ObjectId; shelterSearchParams: SearchParamsType };
+type Props = { isEditable?: boolean; id: string; shelterSearchParams: SearchParamsType };
 
 const Index = ({ isEditable = false, id, shelterSearchParams }: Props) => {
 	const {
@@ -20,7 +18,7 @@ const Index = ({ isEditable = false, id, shelterSearchParams }: Props) => {
 		isPending,
 		hasNextPage,
 		isFetchingNextPage,
-	} = queryGetProfileShelters({ id, searchParams: shelterSearchParams });
+	} = queryGetProfileShelters({ userId: id, searchParams: shelterSearchParams });
 
 	const shelters = fetchedShelters?.pages.flatMap((page) => page?.shelters || []) || [];
 

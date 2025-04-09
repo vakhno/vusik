@@ -37,11 +37,11 @@ const fetchData = async (id: string | Types.ObjectId) => {
 };
 
 type FetchProps = {
-	id: Types.ObjectId;
+	id: string;
 };
 
 type InvalidationProps = {
-	id: Types.ObjectId;
+	id: string;
 	queryClient: QueryClient;
 };
 

@@ -6,11 +6,9 @@ import NewAnimalForm from "@/features/animal/newAnimal/ui/newAnimalForm/index";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // queries
 import { queryPrefetchGetNewAnimalFilter } from "@/features/animal/newAnimal/model/query/fetchNewAnimalFilters";
-// mongoose
-import { Types } from "mongoose";
 
 type Props = {
-	userId: Types.ObjectId;
+	userId: string;
 };
 
 const Index = async ({ userId }: Props) => {

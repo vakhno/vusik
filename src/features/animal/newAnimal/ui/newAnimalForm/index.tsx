@@ -8,15 +8,13 @@ import { useTranslations } from "next-intl";
 import NewAnimalFields from "@/features/animal/newAnimal/ui/newAnimalForm/newAnimalFields";
 import { queryGetNewAnimalFilter } from "@/features/animal/newAnimal/model/query/fetchNewAnimalFilters";
 import { queryNewAnimal } from "@/features/animal/newAnimal/model/query/addNewAnimal";
-// mongoose
-import { Types } from "mongoose";
 // next tools
 import { useRouter } from "next/navigation";
 // shared
 import { toast } from "sonner";
 
 type Props = {
-	userId: Types.ObjectId;
+	userId: string;
 };
 
 const NewAnimal = ({ userId }: Props) => {

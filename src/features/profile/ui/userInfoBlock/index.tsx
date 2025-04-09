@@ -6,12 +6,12 @@ import { Button } from "@/shared/ui/button";
 import EditProfileModal from "./editProfileModal";
 import { useState } from "react";
 import { EditUserSchemaType } from "@/entities/profile/model/type/editProfileForm";
-import { Types } from "mongoose";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+
 type Props = {
-	id: Types.ObjectId;
-	avatar: string;
+	id: string;
+	avatar?: string;
 	name: string;
 	email: string;
 	isEditable?: boolean;
@@ -22,18 +22,7 @@ type Props = {
 	youtube?: string;
 };
 
-const Index = ({
-	id,
-	avatar,
-	name,
-	email,
-	isEditable = false,
-	facebook,
-	instagram,
-	twitter,
-	telegram,
-	youtube,
-}: Props) => {
+const Index = ({ id, avatar, name, email, isEditable = false, facebook, instagram, twitter, telegram, youtube }: Props) => {
 	const t = useTranslations();
 	const [isEditUserModalVisible, setIsEditUserModalVisible] = useState(false);
 
@@ -86,42 +75,10 @@ const Index = ({
 
 	return (
 		<>
-			{isEditable ? (
-				isEditUserModalVisible ? (
-					<EditProfileModal
-						modalTitle="Edit profile"
-						submitButtonTitle="Submit"
-						isOpen={isEditUserModalVisible}
-						closeButtonTitle="Close"
-						deleteButtonTitle="Delete"
-						mainPhotoValue={avatar}
-						setIsOpen={setIsEditUserModalVisible}
-						handleSuccessSubmitClick={handleSubmitClick}
-						nameValue={name}
-						facebookValue={facebook}
-						instagramValue={instagram}
-						twitterValue={twitter}
-						telegramValue={telegram}
-						youtubeValue={youtube}
-					/>
-				) : null
-			) : null}
-			<Avatar className="group relative m-auto h-60 w-60">
-				{avatar ? (
-					<AvatarImage src={avatar} referrerPolicy="no-referrer" />
-				) : (
-					<AvatarImage src="/icons/default-profile-icon.svg" />
-				)}
-			</Avatar>
+			{isEditable ? isEditUserModalVisible ? <EditProfileModal modalTitle="Edit profile" submitButtonTitle="Submit" isOpen={isEditUserModalVisible} closeButtonTitle="Close" deleteButtonTitle="Delete" mainPhotoValue={avatar} setIsOpen={setIsEditUserModalVisible} handleSuccessSubmitClick={handleSubmitClick} nameValue={name} facebookValue={facebook} instagramValue={instagram} twitterValue={twitter} telegramValue={telegram} youtubeValue={youtube} /> : null : null}
+			<Avatar className="group relative m-auto h-60 w-60">{avatar ? <AvatarImage src={avatar} referrerPolicy="no-referrer" /> : <AvatarImage src="/icons/default-profile-icon.svg" />}</Avatar>
 			<span className="font-roboto text-2xl font-medium">{name}</span>
-			<TextWithClipboardCopy
-				className="font-concert_one text-xl"
-				text={email}
-				copyText={email}
-				isToastShow
-				toastTitle="Coppied"
-				toastDescription="Email coppied to clipboard"
-			/>
+			<TextWithClipboardCopy className="font-concert_one text-xl" text={email} copyText={email} isToastShow toastTitle="Coppied" toastDescription="Email coppied to clipboard" />
 			<div className="mb-4 flex gap-2">
 				{facebook ? (
 					<Link href={facebook}>

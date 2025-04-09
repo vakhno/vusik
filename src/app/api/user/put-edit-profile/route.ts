@@ -58,10 +58,7 @@ const checkIsTokenValid = async (): Promise<false | string> => {
 		const cookie = cookies();
 		const token = cookie.get("token")?.value;
 		if (token) {
-			const jwtData = jwt.verify(
-				String(token),
-				process.env.NEXT_PUBLIC_JWT_SECRET || "",
-			) as AuthUserTokenDataType;
+			const jwtData = jwt.verify(String(token), process.env.NEXT_PUBLIC_JWT_SECRET || "") as AuthUserTokenDataType;
 			const { id } = jwtData;
 			const user = await UserModel.findById(id);
 			if (user) {
@@ -158,8 +155,6 @@ export async function PUT(req: Request): Promise<NextResponse<SuccessResponse | 
 					if (result) {
 						updatedUser.avatar = result;
 					}
-				} else {
-					updatedUser.avatar = null;
 				}
 			}
 

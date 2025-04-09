@@ -1,18 +1,16 @@
 "use server";
 
-// entities
-import Animal from "@/entities/animal/ui/animalProfile";
+// screen
+import Animal from "@/screens/animal";
 // next tools
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
-// mongoose
-import { Types } from "mongoose";
 // api
 import { SuccessResponse as AnimalSuccessResponse, ErrorResponse as AnimalErrorResponse } from "@/app/api/animal/get-animal-by-id/route";
 import { SuccessResponse as ShelterSuccessResponse, ErrorResponse as ShelterErrorResponse } from "@/app/api/shelter/get-shelter-by-id/route";
 
 type Props = {
-	params: { animalId: Types.ObjectId };
+	params: { animalId: string };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

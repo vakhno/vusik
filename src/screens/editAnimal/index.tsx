@@ -6,11 +6,9 @@ import EditAnimalForm from "@/features/animal/editAnimal/ui/editAnimalForm";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // queries
 import { queryPrefetchGetEditAnimalFilter } from "@/features/animal/editAnimal/model/query/fetchEditAnimalFilters";
-// mongoose
-import { Types } from "mongoose";
 
 type Props = {
-	animalId: Types.ObjectId;
+	animalId: string;
 };
 
 const Index = async ({ animalId }: Props) => {

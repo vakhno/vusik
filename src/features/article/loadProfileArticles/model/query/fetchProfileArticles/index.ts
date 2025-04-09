@@ -6,22 +6,17 @@ import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSea
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 // features
 import { SuccessResponse, ErrorResponse } from "@/features/article/loadAllArticles/api/getAllArticles";
-// mongoose
-import { Types } from "mongoose";
 
-const fetchData = async (id: string | Types.ObjectId, page: number, searchParams: SearchParamsType) => {
+const fetchData = async (userId: string, page: number, searchParams: SearchParamsType) => {
 	try {
 		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 
 		urlSearchParams.set("page", String(page));
-		urlSearchParams.set("id", String(id));
+		urlSearchParams.set("id", userId);
 
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/article/get-by-user-id-articles-by-page/?${urlSearchParams}`,
-			{
-				method: "GET",
-			},
-		);
+		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/article/get-by-user-id-articles-by-page/?${urlSearchParams}`, {
+			method: "GET",
+		});
 
 		const { ok } = response;
 
@@ -43,22 +38,22 @@ const fetchData = async (id: string | Types.ObjectId, page: number, searchParams
 
 type FetchProps = {
 	searchParams: SearchParamsType;
-	id: Types.ObjectId;
+	userId: string;
 };
 
 type InvalidationProps = {
 	searchParams: SearchParamsType;
 	queryClient: QueryClient;
-	id: Types.ObjectId;
+	userId: string;
 };
 
-export const queryGetProfileArticles = ({ searchParams, id }: FetchProps) => {
+export const queryGetProfileArticles = ({ searchParams, userId }: FetchProps) => {
 	return useInfiniteQuery({
-		queryKey: ["profile-articles", searchParams, id],
+		queryKey: ["profile-articles", searchParams, userId],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
 		queryFn: async ({ pageParam = 1 }) => {
-			return fetchData(id, pageParam, searchParams);
+			return fetchData(userId, pageParam, searchParams);
 		},
 		initialPageParam: 1,
 		getNextPageParam: (lastPage, _, lastPageParam, __) => {
@@ -67,14 +62,14 @@ export const queryGetProfileArticles = ({ searchParams, id }: FetchProps) => {
 	});
 };
 
-export const queryPrefetchGetProfileArticles = async ({ searchParams, id }: FetchProps) => {
+export const queryPrefetchGetProfileArticles = async ({ searchParams, userId }: FetchProps) => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchInfiniteQuery({
-		queryKey: ["profile-articles", searchParams, id],
+		queryKey: ["profile-articles", searchParams, userId],
 		gcTime: 0,
 		queryFn: async ({ pageParam }) => {
-			return fetchData(id, pageParam, searchParams);
+			return fetchData(userId, pageParam, searchParams);
 		},
 		initialPageParam: 1,
 	});
@@ -82,6 +77,6 @@ export const queryPrefetchGetProfileArticles = async ({ searchParams, id }: Fetc
 	return queryClient;
 };
 
-export const queryGetProfileArticlesInvalidate = ({ queryClient, searchParams, id }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["profile-articles", searchParams, id] });
+export const queryGetProfileArticlesInvalidate = ({ queryClient, searchParams, userId }: InvalidationProps) => {
+	queryClient.invalidateQueries({ queryKey: ["profile-articles", searchParams, userId] });
 };

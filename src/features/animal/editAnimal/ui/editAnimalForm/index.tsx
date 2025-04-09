@@ -7,15 +7,13 @@ import EditAnimalFields from "@/features/animal/editAnimal/ui/editAnimalForm/for
 import { queryGetEditAnimalFilter } from "@/features/animal/editAnimal/model/query/fetchEditAnimalFilters";
 import { queryEditAnimal } from "@/features/animal/editAnimal/model/query/editAnimal";
 import EditAnimalSchemaType from "@/features/animal/editAnimal/model/type/editAnimalSchemaType";
-// mongoose
-import { Types } from "mongoose";
 // next tools
 import { useRouter } from "next/navigation";
 // shared
 import { toast } from "sonner";
 
 type Props = {
-	animalId: Types.ObjectId;
+	animalId: string;
 };
 
 const NewAnimal = ({ animalId }: Props) => {

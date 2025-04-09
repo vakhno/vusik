@@ -12,14 +12,12 @@ import { SearchAllAnimalsFiltersFormSchemaType } from "@/features/shelter/loadPr
 import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 // hooks
 import { useWindowHistoryPush } from "@/shared/hooks/use-window-history-push";
-// mongoose
-import { Types } from "mongoose";
 // utils
 import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
 
 type Props = {
 	searchParams: SearchParamsType;
-	id: Types.ObjectId;
+	id: string;
 };
 
 const generatehelterMarkers = (sheltersList: Record<string, { name: string; coordinates: MarkerCoordinates }>) => {
@@ -51,7 +49,7 @@ const Index = ({ searchParams, id }: Props) => {
 	const handleWindowHistoryPush = useWindowHistoryPush();
 	const { data: fetchedFilters } = queryGetProfileSheltersFilter({
 		searchParams: searchParams,
-		id: id,
+		userId: id,
 	});
 	const availableOptions = (fetchedFilters?.availableOptions &&
 		fetchedFilters?.selectedOptions &&

@@ -1,89 +1,34 @@
-"use client";
+"use server";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
-import { queryProfile } from "@/entities/profile/model/query/profileByProfileId";
-import UserInfoBlock from "@/features/profile/userInfoBlock";
-import { Types } from "mongoose";
+// shared
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-import { useTranslations } from "next-intl";
+//tanstack
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 // features
-import ProfileAnimalsFilters from "@/features/animal/loadProfileAnimalsFilters/ui/animalsFiltersForm";
-import ProfileAnimalsList from "@/features/animal/loadProfileAnimals/ui/animalsList";
-import ProfileSheltersFilters from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm";
-import ProfileSheltersList from "@/features/shelter/loadProfileShelters/ui/sheltersList";
-import ProfileArticlesFilters from "@/features/article/loadProfileArticlesFilters/ui/articlesFiltersForm";
-import ProfileArticlesList from "@/features/article/loadProfileArticles/ui/articlesList";
-import Link from "next/link";
-import { buttonVariants } from "@/shared/ui/button";
+import { prefetchQuery_getProfile } from "@/entities/profile/model/query/profileByProfileId";
+import { queryPrefetchGetProfileAnimals } from "@/features/animal/loadProfileAnimals/model/query/fetchProfileAnimals";
+import { queryPrefetchGetProfileAnimalsFilter } from "@/features/animal/loadProfileAnimalsFilters/model/query/fetchProfileAnimalsFilters";
+import { queryPrefetchGetProfileShelters } from "@/features/shelter/loadProfileShelters/model/query/fetchProfileShelters";
+import { queryPrefetchGetProfileSheltersFilter } from "@/features/shelter/loadProfileSheltersFilters/model/query/fetchProfileSheltersFilters";
+// widgets
+import Profile from "@/widget/fullProfile";
 
 type Props = {
-	userId: Types.ObjectId;
-	searchParams?: SearchParamsType;
+	userId: string;
+	searchParams: SearchParamsType;
 	isEditable?: boolean;
 };
 
-const Profile = ({ userId, isEditable, searchParams = {} }: Props) => {
-	const t = useTranslations();
-	const { data } = queryProfile({ userId: userId });
-	if (data) {
-		const { avatar, email, name, facebook, instagram, twitter, telegram, youtube } = data;
-		return (
-			<div className="flex flex-col items-center">
-				<UserInfoBlock
-					isEditable={isEditable}
-					id={userId}
-					name={name}
-					avatar={avatar}
-					email={email}
-					facebook={facebook}
-					instagram={instagram}
-					twitter={twitter}
-					telegram={telegram}
-					youtube={youtube}
-				/>
-				<Tabs defaultValue="pets" className="w-full p-4">
-					<TabsList className="m-auto flex">
-						<TabsTrigger value="pets" className="w-full">
-							{t("page.profile.animals.tab-trigger")}
-						</TabsTrigger>
-						<TabsTrigger value="shelters" className="w-full">
-							{t("page.profile.organizations.tab-trigger")}
-						</TabsTrigger>
-						<TabsTrigger value="articles" className="w-full">
-							{t("page.profile.articles.tab-trigger")}
-						</TabsTrigger>
-					</TabsList>
-					<TabsContent value="pets">
-						{isEditable ? (
-							<Link href="/profile/myprofile/new-animal" className={`${buttonVariants()} my-8 w-full`}>
-								{t("page.profile.animals.new")}
-							</Link>
-						) : null}
-						<ProfileAnimalsFilters id={userId} searchParams={searchParams} />
-						<ProfileAnimalsList isEditable={isEditable} userId={userId} animalSearchParams={searchParams} />
-					</TabsContent>
-					<TabsContent value="shelters">
-						{isEditable ? (
-							<Link href="/profile/myprofile/new-shelter" className={`${buttonVariants()} my-8 w-full`}>
-								{t("page.profile.organizations.new")}
-							</Link>
-						) : null}
-						<ProfileSheltersFilters id={userId} searchParams={searchParams} />
-						<ProfileSheltersList isEditable={isEditable} id={userId} shelterSearchParams={searchParams} />
-					</TabsContent>
-					<TabsContent value="articles">
-						{isEditable ? (
-							<Link href="/profile/myprofile/new-article" className={`${buttonVariants()} my-8 w-full`}>
-								{t("page.profile.articles.new")}
-							</Link>
-						) : null}
-						<ProfileArticlesFilters id={userId} searchParams={searchParams} />
-						<ProfileArticlesList isEditable={isEditable} id={userId} articleSearchParams={searchParams} />
-					</TabsContent>
-				</Tabs>
-			</div>
-		);
-	}
+const Index = async ({ userId, searchParams, isEditable = false }: Props) => {
+	const queryClient = new QueryClient();
+
+	await Promise.all([prefetchQuery_getProfile({ userId, queryClient }), queryPrefetchGetProfileAnimals({ searchParams, userId, queryClient }), queryPrefetchGetProfileAnimalsFilter({ searchParams, userId, queryClient }), queryPrefetchGetProfileShelters({ searchParams, userId, queryClient }), queryPrefetchGetProfileSheltersFilter({ searchParams, userId, queryClient })]);
+
+	return (
+		<HydrationBoundary state={dehydrate(queryClient)}>
+			<Profile userId={userId} isEditable={isEditable} searchParams={searchParams} />
+		</HydrationBoundary>
+	);
 };
 
-export default Profile;
+export default Index;

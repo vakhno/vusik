@@ -1,79 +1,68 @@
 // tanstack
 import { useQuery, QueryClient, useQueryClient, useMutation } from "@tanstack/react-query";
-import { Types } from "mongoose";
+// shared
+import { NEXT_PUBLIC_ACTIVE_DOMEN } from "@/shared/constants/env";
+import { API_USER_GET_USER_BY_ID } from "@/shared/constants/routes";
+// api
+import { SuccessResponse, ErrorResponse } from "@/app/api/user/get-user-by-id/route";
 
-type Props = {
-	userId: Types.ObjectId;
+type QueryFnProps = {
+	userId: string;
 };
 
-const fetchUserById = async (userId: string | Types.ObjectId) => {
-	try {
-		const id = String(userId);
-		const urlSearchParams = new URLSearchParams();
-		urlSearchParams.set("id", id);
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/user/get-user-by-id/?${urlSearchParams}`,
-			{
-				method: "GET",
-			},
-		);
-		const { ok } = response;
-		if (ok) {
-			const data = await response.json();
-			const { success } = data;
-			if (success) {
-				const { user } = data;
+type FetchProps = {
+	userId: string;
+};
 
-				return user;
-			}
-		}
-		return null;
-	} catch (_) {
+type PrefetchProps = {
+	userId: string;
+	queryClient: QueryClient;
+};
+
+const queryFn = async ({ userId }: QueryFnProps) => {
+	const urlSearchParams = new URLSearchParams();
+
+	urlSearchParams.set("id", userId);
+
+	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_USER_GET_USER_BY_ID}/?${urlSearchParams}`, { method: "GET" });
+	const result = (await response.json()) as SuccessResponse | ErrorResponse;
+	const { success } = result;
+
+	if (!success) {
 		return null;
 	}
+
+	const {
+		data: { user },
+	} = result;
+
+	return user;
 };
 
-const fetchData = async (userId: string | Types.ObjectId) => {
-	const user = await fetchUserById(userId);
-
-	if (user) {
-		// const [sheltersData, animalsData] = await Promise.all([
-		//     fetchSheltersByUserId(userId),
-		//     fetchAnimalsByUserId(userId),
-		// ]);
-		// if (sheltersData && animalsData) {
-		return user;
-		// }
-	}
-	return null;
-};
-
-export const queryProfile = ({ userId }: Props) => {
+export const query_getProfile = ({ userId }: FetchProps) => {
 	return useQuery({
+		queryKey: ["profile", userId],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
-		queryKey: ["profile", String(userId)],
-		queryFn: () => fetchData(userId),
+		queryFn: () => queryFn({ userId }),
 	});
 };
-export const queryPrefetchProfile = async ({ userId }: Props) => {
-	const queryClient = new QueryClient();
-
+export const prefetchQuery_getProfile = async ({ userId, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
+		queryKey: ["profile", userId],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
-		queryKey: ["profile", userId],
-		queryFn: () => fetchData(userId),
+		queryFn: () => queryFn({ userId }),
 	});
 
 	return queryClient;
 };
 
-export const queryProfileMutation = ({ userId }: Props) => {
+export const queryProfileMutation = ({ userId }: FetchProps) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (userId: Types.ObjectId) => fetchData(userId),
+		mutationFn: (userId: string) => queryFn({ userId }),
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: ["profile", userId] });
 		},

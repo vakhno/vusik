@@ -6,7 +6,7 @@ export type UserType = {
 	role: string;
 	email: string;
 	password?: string;
-	avatar: string | null;
+	avatar?: string;
 	name: string;
 	isSocial: boolean;
 	facebook?: string;

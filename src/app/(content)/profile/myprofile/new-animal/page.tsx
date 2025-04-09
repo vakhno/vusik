@@ -3,26 +3,25 @@
 // features
 import NewAnimal from "@/screens/newAnimal";
 //tanstack
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 // queries
-import { queryPrefetchProfile } from "@/entities/profile/model/query/profileByProfileId";
+import { prefetchQuery_getProfile } from "@/entities/profile/model/query/profileByProfileId";
 // features
 import { queryPrefetchGetProfileShelters } from "@/features/shelter/loadProfileShelters/model/query/fetchProfileShelters";
 // utils
 import { getCookiesId } from "@/shared/utils/cookies";
 
 const page = async () => {
-	const id = getCookiesId();
-	if (id) {
-		// to prefetch user profile
-		const queryClient = await queryPrefetchProfile({ userId: id });
-		// to prefetch shelters on first page with passed searchParams and to avoid showing loading/skeleton on first upload
-		const queryShelters = await queryPrefetchGetProfileShelters({ searchParams: {}, id: id });
+	const userId = getCookiesId();
+
+	if (userId) {
+		const queryClient = new QueryClient();
+
+		await Promise.all([prefetchQuery_getProfile({ userId, queryClient }), queryPrefetchGetProfileShelters({ searchParams: {}, userId, queryClient })]);
+
 		return (
 			<HydrationBoundary state={dehydrate(queryClient)}>
-				<HydrationBoundary state={dehydrate(queryShelters)}>
-					<NewAnimal userId={id} />
-				</HydrationBoundary>
+				<NewAnimal userId={userId} />
 			</HydrationBoundary>
 		);
 	} else {

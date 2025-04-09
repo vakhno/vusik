@@ -2,13 +2,11 @@
 import EditAnimal from "@/screens/editAnimal";
 // tanstack
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-// mongoose
-import { Types } from "mongoose";
 // entities
 import { prefetchQuery_getAnimalById } from "@/entities/animal/model/query/animalById";
 
 type Props = {
-	params: { animalId: Types.ObjectId };
+	params: { animalId: string };
 };
 
 const Page = async ({ params }: Props) => {

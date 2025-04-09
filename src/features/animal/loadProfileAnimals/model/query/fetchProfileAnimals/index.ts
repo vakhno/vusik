@@ -6,26 +6,21 @@ import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSea
 import { SuccessResponse, ErrorResponse } from "@/features/animal/loadProfileAnimals/api/getProfileAnimals";
 // entities
 import { AnimalType } from "@/entities/animal/model/type/animal";
-// mongoose
-import { Types } from "mongoose";
 // types
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 // routes
 import { API_GET_BY_USER_ID_ANIMALS_BY_PAGE } from "@/shared/constants/routes";
 
-const fetchData = async (id: string | Types.ObjectId, page: number, searchParams: SearchParamsType) => {
+const fetchData = async (userId: string, page: number, searchParams: SearchParamsType) => {
 	try {
 		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 
 		urlSearchParams.set("page", String(page));
-		urlSearchParams.set("id", String(id));
+		urlSearchParams.set("id", userId);
 
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_BY_USER_ID_ANIMALS_BY_PAGE}/?${urlSearchParams}`,
-			{
-				method: "GET",
-			},
-		);
+		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_BY_USER_ID_ANIMALS_BY_PAGE}/?${urlSearchParams}`, {
+			method: "GET",
+		});
 
 		const { ok } = response;
 
@@ -47,22 +42,28 @@ const fetchData = async (id: string | Types.ObjectId, page: number, searchParams
 
 type FetchProps = {
 	searchParams: SearchParamsType;
-	id: Types.ObjectId;
+	userId: string;
+};
+
+type PrefetchProps = {
+	userId: string;
+	searchParams: SearchParamsType;
+	queryClient: QueryClient;
 };
 
 type InvalidationProps = {
 	searchParams: SearchParamsType;
 	queryClient: QueryClient;
-	id: Types.ObjectId;
+	userId: string;
 };
 
-export const queryGetProfileAnimals = ({ searchParams, id }: FetchProps) => {
+export const queryGetProfileAnimals = ({ searchParams, userId }: FetchProps) => {
 	return useInfiniteQuery({
-		queryKey: ["profile-animals", searchParams, id],
+		queryKey: ["profile-animals", searchParams, userId],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
 		queryFn: async ({ pageParam = 1 }): Promise<{ animals: AnimalType[]; isHasMore: boolean } | null> => {
-			return fetchData(id, pageParam, searchParams);
+			return fetchData(userId, pageParam, searchParams);
 		},
 		initialPageParam: 1,
 		getNextPageParam: (lastPage, _, lastPageParam, __) => {
@@ -70,15 +71,13 @@ export const queryGetProfileAnimals = ({ searchParams, id }: FetchProps) => {
 		},
 	});
 };
-export const queryPrefetchGetProfileAnimals = async ({ searchParams, id }: FetchProps) => {
-	const queryClient = new QueryClient();
-
+export const queryPrefetchGetProfileAnimals = async ({ searchParams, userId, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchInfiniteQuery({
-		queryKey: ["profile-animals", searchParams, id],
+		queryKey: ["profile-animals", searchParams, userId],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
 		queryFn: async ({ pageParam = 1 }) => {
-			return fetchData(id, pageParam, searchParams);
+			return fetchData(userId, pageParam, searchParams);
 		},
 		initialPageParam: 1,
 	});
@@ -86,6 +85,6 @@ export const queryPrefetchGetProfileAnimals = async ({ searchParams, id }: Fetch
 	return queryClient;
 };
 
-export const queryGetProfileAnimalsInvalidate = ({ queryClient, searchParams, id }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["profile-animals", searchParams, id] });
+export const queryGetProfileAnimalsInvalidate = ({ queryClient, searchParams, userId }: InvalidationProps) => {
+	queryClient.invalidateQueries({ queryKey: ["profile-animals", searchParams, userId] });
 };

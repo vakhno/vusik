@@ -4,10 +4,8 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 // types
 import { AuthUserTokenDataType } from "@/shared/types/token.type";
-// mongoose
-import { Types } from "mongoose";
 
-type getCookiesIdResult = Types.ObjectId | null;
+type getCookiesIdResult = string | null;
 
 export const getCookiesId = (): getCookiesIdResult => {
 	const cookie = cookies();
@@ -20,9 +18,7 @@ export const getCookiesId = (): getCookiesIdResult => {
 			const data = jwt.verify(String(value), process.env.NEXT_PUBLIC_JWT_SECRET || "") as AuthUserTokenDataType;
 			const { id } = data;
 			if (id) {
-				const objectId = new Types.ObjectId(id);
-
-				return objectId;
+				return id;
 			} else {
 				return null;
 			}

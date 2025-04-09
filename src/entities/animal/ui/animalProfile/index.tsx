@@ -16,17 +16,15 @@ import { DEFAULT_ANIMAL_MAIN_IMAGE, DEFAULT_ANIMAL_SECONDARY_IMAGE } from "@/sha
 import GoogleMap, { MarkerType } from "@/shared/shared/GoogleMap";
 import GoogleMapProvider from "@/shared/providers/GoogleMapProvider";
 import generateAgeLabel from "@/shared/utils/generateAgeLabel";
+import getAgeInMonths from "@/shared/utils/getAgeInMonths";
 // features
 import AdoptAnimalModal from "@/features/animal/adoptAnimal/ui/adoptAnimalModal";
-// mongoose
-import { Types } from "mongoose";
-import getAgeInMonths from "@/shared/utils/getAgeInMonths";
 // lucide-react
 import { Dog, PawPrint, Cpu, BookCheck, Syringe, Worm, MoveUpRight, VenusAndMars, House, Ruler, Cross, Bandage } from "lucide-react";
 // next-intl
 import { useTranslations } from "next-intl";
 
-type Props = { animalId: Types.ObjectId };
+type Props = { animalId: string };
 
 const Index = ({ animalId }: Props) => {
 	const t = useTranslations();

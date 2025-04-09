@@ -2,14 +2,12 @@
 
 //tanstack
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-// queries
+// entities
 import { prefetchQuery_getAnimalById } from "@/entities/animal/model/query/animalById";
 import Animal from "@/entities/animal/ui/animalProfile";
-// mongoose
-import { Types } from "mongoose";
 
 type Props = {
-	animalId: Types.ObjectId;
+	animalId: string;
 };
 
 const Index = async ({ animalId }: Props) => {

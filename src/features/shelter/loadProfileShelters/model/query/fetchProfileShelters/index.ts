@@ -5,31 +5,19 @@ import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSea
 // api
 import { SuccessResponse, ErrorResponse } from "@/features/shelter/loadProfileShelters/api/getProfileShelters";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
-import { Types } from "mongoose";
 // types
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 
-const fetchData = async ({
-	id,
-	page,
-	searchParams,
-}: {
-	id: string | Types.ObjectId;
-	searchParams: SearchParamsType;
-	page: number;
-}) => {
+const fetchData = async ({ userId, page, searchParams }: { userId: string; searchParams: SearchParamsType; page: number }) => {
 	try {
 		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
 
 		urlSearchParams.set("page", String(page));
-		urlSearchParams.set("id", String(id));
+		urlSearchParams.set("id", userId);
 
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-by-user-id-shelters-by-page/?${urlSearchParams}`,
-			{
-				method: "GET",
-			},
-		);
+		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-by-user-id-shelters-by-page/?${urlSearchParams}`, {
+			method: "GET",
+		});
 
 		const { ok } = response;
 
@@ -51,22 +39,28 @@ const fetchData = async ({
 
 type FetchProps = {
 	searchParams: SearchParamsType;
-	id: Types.ObjectId;
+	userId: string;
+};
+
+type PrefetchProps = {
+	searchParams: SearchParamsType;
+	userId: string;
+	queryClient: QueryClient;
 };
 
 type InvalidationProps = {
 	searchParams: SearchParamsType;
 	queryClient: QueryClient;
-	id: Types.ObjectId;
+	userId: string;
 };
 
-export const queryGetProfileShelters = ({ searchParams, id }: FetchProps) => {
+export const queryGetProfileShelters = ({ searchParams, userId }: FetchProps) => {
 	return useInfiniteQuery({
-		queryKey: ["profile-shelters", searchParams, id],
+		queryKey: ["profile-shelters", searchParams, userId],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
 		queryFn: async ({ pageParam = 1 }): Promise<{ shelters: ShelterType[]; isHasMore: boolean } | null> => {
-			return fetchData({ id, searchParams, page: pageParam });
+			return fetchData({ userId, searchParams, page: pageParam });
 		},
 		initialPageParam: 1,
 		getNextPageParam: (lastPage, _, lastPageParam, __) => {
@@ -75,15 +69,13 @@ export const queryGetProfileShelters = ({ searchParams, id }: FetchProps) => {
 	});
 };
 
-export const queryPrefetchGetProfileShelters = async ({ searchParams, id }: FetchProps) => {
-	const queryClient = new QueryClient();
-
+export const prefetchQuery_getProfileShelters = async ({ searchParams, userId, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchInfiniteQuery({
-		queryKey: ["profile-shelters", searchParams, id],
+		queryKey: ["profile-shelters", searchParams, userId],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
 		queryFn: async ({ pageParam = 1 }) => {
-			return fetchData({ id, searchParams, page: pageParam });
+			return fetchData({ userId, searchParams, page: pageParam });
 		},
 		initialPageParam: 1,
 	});
@@ -91,6 +83,6 @@ export const queryPrefetchGetProfileShelters = async ({ searchParams, id }: Fetc
 	return queryClient;
 };
 
-export const queryGetProfileSheltersInvalidate = ({ queryClient, searchParams, id }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["profile-shelters", searchParams, id] });
+export const queryGetProfileSheltersInvalidate = ({ queryClient, searchParams, userId }: InvalidationProps) => {
+	queryClient.invalidateQueries({ queryKey: ["profile-shelters", searchParams, userId] });
 };

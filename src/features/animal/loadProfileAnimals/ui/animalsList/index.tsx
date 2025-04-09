@@ -5,22 +5,13 @@ import { queryGetProfileAnimals } from "@/features/animal/loadProfileAnimals/mod
 import AnimalsList from "@/features/animal/loadProfileAnimals/ui/animalsList/list";
 // types
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-// mongoose
-import { Types } from "mongoose";
 // constants
 import { animalsPerPage } from "@/shared/constants/counts";
 
-type Props = { isEditable?: boolean; userId: Types.ObjectId; animalSearchParams: SearchParamsType };
+type Props = { isEditable?: boolean; userId: string; animalSearchParams: SearchParamsType };
 
 const Index = ({ isEditable = false, userId, animalSearchParams }: Props) => {
-	const {
-		fetchNextPage,
-		data: fetchedAnimals,
-		isLoading,
-		isPending,
-		hasNextPage,
-		isFetchingNextPage,
-	} = queryGetProfileAnimals({ searchParams: animalSearchParams, id: userId });
+	const { fetchNextPage, data: fetchedAnimals, isLoading, isPending, hasNextPage, isFetchingNextPage } = queryGetProfileAnimals({ searchParams: animalSearchParams, userId });
 
 	const animals = fetchedAnimals?.pages.flatMap((page) => page?.animals || []) || [];
 
@@ -28,18 +19,7 @@ const Index = ({ isEditable = false, userId, animalSearchParams }: Props) => {
 		fetchNextPage();
 	};
 
-	return (
-		<AnimalsList
-			isEditable={isEditable}
-			animals={animals}
-			isLoading={isLoading}
-			isPending={isPending}
-			isFetchingNextPage={isFetchingNextPage}
-			isHasNextPage={hasNextPage}
-			countPerPage={animalsPerPage}
-			onNewPageUpload={handleNewPageUpload}
-		/>
-	);
+	return <AnimalsList isEditable={isEditable} animals={animals} isLoading={isLoading} isPending={isPending} isFetchingNextPage={isFetchingNextPage} isHasNextPage={hasNextPage} countPerPage={animalsPerPage} onNewPageUpload={handleNewPageUpload} />;
 };
 
 export default Index;

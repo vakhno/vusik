@@ -3,17 +3,19 @@
 // features
 import NewShelter from "@/screens/newShelter";
 //tanstack
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 // queries
-import { queryPrefetchProfile } from "@/entities/profile/model/query/profileByProfileId";
+import { prefetchQuery_getProfile } from "@/entities/profile/model/query/profileByProfileId";
 // utils
 import { getCookiesId } from "@/shared/utils/cookies";
 
 const page = async () => {
-	const id = getCookiesId();
-	if (id) {
-		// to prefetch user profile
-		const queryClient = await queryPrefetchProfile({ userId: id });
+	const userId = getCookiesId();
+
+	if (userId) {
+		const queryClient = new QueryClient();
+
+		await prefetchQuery_getProfile({ userId, queryClient });
 
 		return (
 			<HydrationBoundary state={dehydrate(queryClient)}>

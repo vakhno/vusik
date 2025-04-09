@@ -5,12 +5,10 @@ import { queryGetProfileArticles } from "@/features/article/loadProfileArticles/
 import ArticlesList from "@/features/article/loadProfileArticles/ui/articlesList/list";
 // types
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-// mongoose
-import { Types } from "mongoose";
 // constants
 import { articlesPerPage } from "@/shared/constants/counts";
 
-type Props = { isEditable?: boolean; id: Types.ObjectId; articleSearchParams: SearchParamsType };
+type Props = { isEditable?: boolean; id: string; articleSearchParams: SearchParamsType };
 
 const Index = ({ isEditable = false, id, articleSearchParams }: Props) => {
 	const {
@@ -20,7 +18,7 @@ const Index = ({ isEditable = false, id, articleSearchParams }: Props) => {
 		isPending,
 		hasNextPage,
 		isFetchingNextPage,
-	} = queryGetProfileArticles({ id, searchParams: articleSearchParams });
+	} = queryGetProfileArticles({ userId: id, searchParams: articleSearchParams });
 
 	const articles = fetchedArticles?.pages.flatMap((page) => page?.articles || []) || [];
 

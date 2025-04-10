@@ -8,6 +8,7 @@ import { HydrationBoundary, dehydrate, QueryClient } from "@tanstack/react-query
 import { prefetchQuery_getProfile } from "@/entities/profile/model/query/profileByProfileId";
 // shared
 import { SearchParamsType } from "@/shared/types/searchParams.type";
+import { getCookiesId } from "@/shared/utils/cookies";
 // features
 import { prefetchQuery_getProfileAnimals } from "@/features/animal/loadProfileAnimals/model/query/fetchProfileAnimals";
 import { prefetchQuery_getProfileAnimalsFilter } from "@/features/animal/loadProfileAnimalsFilters/model/query/fetchProfileAnimalsFilters";
@@ -15,12 +16,11 @@ import { prefetchQuery_getProfileShelters } from "@/features/shelter/loadProfile
 import { prefetchQuery_getProfileSheltersFilter } from "@/features/shelter/filterProfileShelters/model/query/fetchProfileSheltersFilters";
 
 type Props = {
-	params: { userId: string };
 	searchParams: SearchParamsType;
 };
 
-const Index = async ({ params, searchParams }: Props) => {
-	const { userId } = params;
+const Index = async ({ searchParams }: Props) => {
+	const userId = getCookiesId();
 
 	if (userId) {
 		const queryClient = new QueryClient();
@@ -29,7 +29,7 @@ const Index = async ({ params, searchParams }: Props) => {
 
 		return (
 			<HydrationBoundary state={dehydrate(queryClient)}>
-				<ProfileScreen userId={userId} searchParams={searchParams} />
+				<ProfileScreen userId={userId} searchParams={searchParams} isEditable />
 			</HydrationBoundary>
 		);
 	} else {

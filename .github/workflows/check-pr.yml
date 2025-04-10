@@ -10,9 +10,11 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v3
               with:
-                  node-versions: 20.x.x
+                  node-versions: 20.x
                   cache: npm
             - run: npm ci
+            - run: npm list --depth=0
+            - run: npx eslint --version
             - run: npm run lint
             - run: npm run lint:types
             - run: npm run test --passWithNoTests

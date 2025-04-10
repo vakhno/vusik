@@ -1,9 +1,7 @@
 // tanstack
 import { useMutation } from "@tanstack/react-query";
 // features
-import { SuccessResult, ErrorResult } from "@/features/animal/adoptAnimal/api/adoptAnimalRequest";
 import { AnimalType, PopulatedAnimalType } from "@/entities/animal/model/type/animal";
-
 // api
 import { SuccessResponse, ErrorResponse } from "@/app/api/ses/send-email/route";
 // shared
@@ -17,8 +15,8 @@ import { TFunction } from "@/shared/types/nextIntl.type";
 import { getLocale, getTranslations } from "next-intl/server";
 
 type mutateProps = {
-	onSuccess?: (data: SuccessResult) => void;
-	onError?: (data: ErrorResult) => void;
+	onSuccess?: (data: SuccessResponse) => void;
+	onError?: (data: ErrorResponse) => void;
 };
 
 type mutateFnProps = {
@@ -44,10 +42,7 @@ const mutationFn = async ({ animal, userName, userEmail }: mutateFnProps) => {
 	formData.append("subject", emailData.subject);
 	formData.append("body", emailData.body);
 
-	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_S3_SES_SEND_EMAIL}`, {
-		method: "POST",
-		body: formData,
-	});
+	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_S3_SES_SEND_EMAIL}`, { method: "POST", body: formData });
 	const data = (await response.json()) as SuccessResponse | ErrorResponse;
 	const { success } = data;
 

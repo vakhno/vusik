@@ -1,22 +1,21 @@
 // entities
-import AnimalModel from "@/entities/animal/model/model";
 import ShelterModel from "@/entities/shelter/model/model";
+import { ShelterType } from "@/entities/shelter/model/type/shelter";
 // next tools
 import { NextResponse } from "next/server";
-// widgets
+// shared
 import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
+import { mongoConnection } from "@/shared/lib/mongodb";
 // features
-import SelectedFiltersType from "@/features/animal/loadProfileAnimalsFilters/model/type/selectedFiltersType";
-import AvailableFiltersType from "@/features/animal/loadProfileAnimalsFilters/model/type/availableFiltersType";
-import ParsedSearchParamsType from "@/features/animal/loadProfileAnimalsFilters/model/type/parsedSearchParamsType";
+import SelectedFiltersType from "@/features/shelter/filterAllShelters/model/type/selectedFiltersType";
+import AvailableFiltersType from "@/features/shelter/filterAllShelters/model/type/availableFiltersType";
+import ParsedSearchParamsType from "@/features/shelter/filterProfileShelters/model/type/parsedSearchParamsType";
 // mongoose
 import { Types } from "mongoose";
 
-async function getAvailableAnimalOptions(filters: ParsedSearchParamsType = {}): Promise<AvailableFiltersType> {
+async function getAvailableShelterOptions(filters: ParsedSearchParamsType = {}): Promise<{ availableOptions: AvailableFiltersType; shelters: ShelterType[] }> {
 	const userId = filters.id ? new Types.ObjectId(filters.id) : null;
-	const allSpecies = await AnimalModel.distinct("species", userId ? { userId } : {});
 	const allStates = await ShelterModel.distinct("state", userId ? { userId } : {});
-	const allAnimals = await AnimalModel.find(userId ? { userId } : {}).select("species breed sex size shelterId");
 	const allShelters = await ShelterModel.find(userId ? { userId } : {}).select("state city name coordinates");
 	const shelterQuery: { state?: { $in: string[] }; city?: { $in: string[] }; userId?: Types.ObjectId } = userId ? { userId } : {};
 
@@ -24,28 +23,9 @@ async function getAvailableAnimalOptions(filters: ParsedSearchParamsType = {}): 
 	if (filters.city?.length) shelterQuery.city = { $in: filters.city };
 
 	const filteredShelters = await ShelterModel.find(shelterQuery).select("state city name coordinates");
-
-	const species = allSpecies;
 	const state = allStates;
-	const breed: Record<string, string[]> = {};
-	const sex: Record<string, string[]> = {};
-	const size: Record<string, string[]> = {};
 	const city: Record<string, string[]> = {};
 	const sheltersList: Record<string, { name: string; coordinates: MarkerCoordinates }> = {};
-
-	allAnimals.forEach((animal) => {
-		const speciesKey = animal.species;
-		const includeSpecies = !filters.species?.length || filters.species.includes(speciesKey);
-
-		if (includeSpecies) {
-			if (!breed[speciesKey]) breed[speciesKey] = [];
-			if (!breed[speciesKey].includes(animal.breed)) breed[speciesKey].push(animal.breed);
-			if (!sex[speciesKey]) sex[speciesKey] = [];
-			if (!sex[speciesKey].includes(animal.sex)) sex[speciesKey].push(animal.sex);
-			if (!size[speciesKey]) size[speciesKey] = [];
-			if (!size[speciesKey].includes(animal.size)) size[speciesKey].push(animal.size);
-		}
-	});
 
 	allShelters.forEach((shelter) => {
 		const stateKey = shelter.state;
@@ -65,25 +45,21 @@ async function getAvailableAnimalOptions(filters: ParsedSearchParamsType = {}): 
 	});
 
 	return {
-		species,
-		state,
-		breed,
-		sex,
-		size,
-		city,
-		sheltersList,
+		availableOptions: {
+			state,
+			city,
+		},
+		shelters: filteredShelters,
 	};
 }
 
 const parseAnimalUrlSearchParams = (urlSearchParams: URLSearchParams): ParsedSearchParamsType => {
 	const query = {} as ParsedSearchParamsType;
 	urlSearchParams.forEach((value, key) => {
-		if (key === "injury" || key === "sterilized") {
-			query[key] = value === "true";
+		if (key === "state" || key === "city") {
+			query[key] = Array.from(new Set(value.split(",")));
 		} else if (key === "id") {
 			query[key] = value;
-		} else if (key === "state" || key === "city" || key === "species" || key === "breed" || key === "sex" || key === "size") {
-			query[key] = Array.from(new Set(value.split(",")));
 		}
 	});
 	return query;
@@ -91,22 +67,12 @@ const parseAnimalUrlSearchParams = (urlSearchParams: URLSearchParams): ParsedSea
 
 function validateAnimalSearchParams(searchParams: SelectedFiltersType, availableOptions: AvailableFiltersType): SelectedFiltersType {
 	const validatedParams = {
-		species: [],
 		state: [],
-		breed: [],
-		sex: [],
-		size: [],
 		city: [],
 	} as SelectedFiltersType;
 
 	for (const key in searchParams) {
-		if (key === "sterilized" || key === "injury") {
-			if (searchParams[key]) {
-				if (searchParams[key] === true) {
-					validatedParams[key] = true;
-				}
-			}
-		} else if (key === "state") {
+		if (key === "state") {
 			if (searchParams[key]) {
 				searchParams[key].forEach((state: string) => {
 					if (availableOptions.state.includes(state)) {
@@ -130,29 +96,6 @@ function validateAnimalSearchParams(searchParams: SelectedFiltersType, available
 					}
 				});
 			}
-		} else if (key === "species") {
-			if (searchParams[key]) {
-				searchParams[key].forEach((species) => {
-					if (Array.isArray(validatedParams[key])) {
-						validatedParams[key].push(species);
-					} else {
-						validatedParams[key] = [species];
-					}
-					Object.keys(searchParams).forEach((speciesOptionKey) => {
-						if (speciesOptionKey === "breed" || speciesOptionKey === "sex" || speciesOptionKey === "size") {
-							searchParams[speciesOptionKey]?.forEach((value) => {
-								if (availableOptions[speciesOptionKey][species].includes(value)) {
-									if (Array.isArray(validatedParams[speciesOptionKey])) {
-										validatedParams[speciesOptionKey].push(value);
-									} else {
-										validatedParams[speciesOptionKey] = [value];
-									}
-								}
-							});
-						}
-					});
-				});
-			}
 		}
 	}
 	return validatedParams;
@@ -163,6 +106,7 @@ export type SuccessResponse = {
 	data: {
 		availableOptions: AvailableFiltersType;
 		selectedOptions: SelectedFiltersType;
+		shelters: ShelterType[];
 	};
 };
 
@@ -176,12 +120,14 @@ export type ErrorResponse = {
 
 export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	try {
+		await mongoConnection();
+		
 		const { searchParams } = new URL(req.url);
 		const parsedSearchParams = parseAnimalUrlSearchParams(searchParams);
-		const availableOptions = await getAvailableAnimalOptions(parsedSearchParams);
+		const { availableOptions, shelters } = await getAvailableShelterOptions(parsedSearchParams);
 		const selectedOptions = validateAnimalSearchParams(parsedSearchParams, availableOptions);
 
-		return NextResponse.json({ success: true, data: { availableOptions, selectedOptions } }, { status: 200 });
+		return NextResponse.json({ success: true, data: { availableOptions, selectedOptions, shelters } }, { status: 200 });
 	} catch (_) {
 		return NextResponse.json({ success: false, error: { message: "", code: 500 } }, { status: 500 });
 	}

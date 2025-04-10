@@ -1,12 +1,12 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
-// api
-import { SuccessResponse, ErrorResponse } from "@/app/api/animal/get-profile-animals-filters/route";
-// shared
+// utils
 import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
+// types
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-import { API_GET_BY_USER_ID_ANIMALS_FILTER_OPTIONS } from "@/shared/constants/routes";
 import { NEXT_PUBLIC_ACTIVE_DOMEN } from "@/shared/constants/env";
+import { API_GET_BY_USER_ID_SHELTERS_FILTER_OPTIONS } from "@/shared/constants/routes";
+import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-profile-shelters-filters/route";
 
 type QueryFnProps = {
 	userId: string;
@@ -35,7 +35,7 @@ const queryFn = async ({ userId, searchParams }: QueryFnProps) => {
 
 	urlSearchParams.set("id", userId);
 
-	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_BY_USER_ID_ANIMALS_FILTER_OPTIONS}/?${urlSearchParams}`, { method: "GET" });
+	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_BY_USER_ID_SHELTERS_FILTER_OPTIONS}/?${urlSearchParams}`, { method: "GET" });
 	const result = (await response.json()) as SuccessResponse | ErrorResponse;
 	const { success } = result;
 
@@ -44,31 +44,32 @@ const queryFn = async ({ userId, searchParams }: QueryFnProps) => {
 	}
 
 	const {
-		data: { availableOptions, selectedOptions },
+		data: { availableOptions, shelters, selectedOptions },
 	} = result;
 
-	return { availableOptions, selectedOptions };
+	return { availableOptions, shelters, selectedOptions };
 };
 
-export const queryGetProfileAnimalsFilter = ({ searchParams, userId }: FetchProps) => {
+export const query_getProfileSheltersFilter = ({ searchParams, userId }: FetchProps) => {
 	return useQuery({
-		queryKey: ["profile-animals-filter", JSON.stringify(searchParams), userId],
-		gcTime: 5 * 60 * 1000,
-		staleTime: 5 * 60 * 1000,
+		queryKey: ["profile-shelters-filter", JSON.stringify(searchParams), userId],
+		staleTime: 1000 * 60 * 5,
+		gcTime: 1000 * 60 * 10,
 		queryFn: async () => queryFn({ userId, searchParams }),
 	});
 };
-export const prefetchQuery_getProfileAnimalsFilter = async ({ searchParams, userId, queryClient }: PrefetchProps) => {
+
+export const prefetchQuery_getProfileSheltersFilter = async ({ searchParams, userId, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
-		queryKey: ["profile-animals-filter", JSON.stringify(searchParams), userId],
-		gcTime: 5 * 60 * 1000,
-		staleTime: 5 * 60 * 1000,
+		queryKey: ["profile-shelters-filter", JSON.stringify(searchParams), userId],
+		staleTime: 1000 * 60 * 5,
+		gcTime: 1000 * 60 * 10,
 		queryFn: async () => queryFn({ userId, searchParams }),
 	});
 
 	return queryClient;
 };
 
-export const queryGetProfileAnimalsFilterInvalidate = ({ queryClient, searchParams, userId }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["profile-animals-filter", searchParams, userId] });
+export const queryGetProfileSheltersFilterInvalidate = ({ queryClient, searchParams, userId }: InvalidationProps) => {
+	queryClient.invalidateQueries({ queryKey: ["profile-shelters-filter", searchParams, userId] });
 };

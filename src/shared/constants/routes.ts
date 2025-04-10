@@ -56,6 +56,8 @@ export const API_GET_ANIMALS_BY_PAGE: string = "/api/animal/get-all-animals-by-p
 export const API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS: string = "/api/animal/get-all-animals-filters";
 // GET USER ANIMALS BY PAGE BY USER ID API ROUTE
 export const API_GET_BY_USER_ID_ANIMALS_BY_PAGE: string = "/api/animal/get-profile-animals-by-page";
+// GET USER ANIMALS FILTER OPTIONS BY USER ID API ROUTE
+export const API_GET_BY_USER_ID_ANIMALS_FILTER_OPTIONS: string = "/api/animal/get-profile-animals-filters";
 
 // ARTICLE API ROUTES
 // ADD NEW ARTICLE API ROUTE
@@ -80,6 +82,10 @@ export const API_PUT_EDIT_SHELTER: string = "/api/shelter/put-edit-shelter";
 export const API_GET_SHELTERS_BY_PAGE: string = "/api/shelter/get-all-shelters-by-page";
 // GET ALL SHELTER FILTER OPTIONS API ROUTE
 export const API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS: string = "/api/shelter/get-all-shelters-filters";
+// GET USER SHELTERS FILTER OPTIONS BY USER ID API ROUTE
+export const API_GET_BY_USER_ID_SHELTERS_FILTER_OPTIONS: string = "/api/shelter/get-profile-shelters-filters";
+// GET USER SHELTERS BY PAGE BY USER ID API ROUTE
+export const API_GET_BY_USER_ID_SHELTERS_BY_PAGE: string = "/api/shelter/get-profile-shelters-by-page";
 
 // STATISTIC API ROUTES
 // GET BIGGEST SHELTER IN EVERY STATE

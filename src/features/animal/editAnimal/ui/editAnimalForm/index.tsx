@@ -32,7 +32,7 @@ const NewAnimal = ({ animalId }: Props) => {
 			});
 		},
 	});
-	const availableOptions = fetchedFilters?.availableOptions || { shelters: [] };
+	const availableOptions = fetchedFilters?.availableOptions?.shelters || { shelters: [] };
 	const selectedOptions = fetchedFilters?.selectedOptions || null;
 
 	const onHandleFormSubmit = async (fields: EditAnimalSchemaType) => {

@@ -45,11 +45,16 @@ async function getAvailableShelterOptions(filters: ParsedSearchParamsType = {}):
 	});
 
 	return {
+<<<<<<< HEAD:src/app/api/shelter/get-profile-shelters-filters/route.ts
 		availableOptions: {
 			state,
 			city,
 		},
 		shelters: filteredShelters,
+=======
+		state,
+		city,
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a:src/features/shelter/loadProfileSheltersFilters/api/getProfileSheltersFilters/index.tsx
 	};
 }
 

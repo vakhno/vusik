@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
@@ -8,7 +12,11 @@ import { useTranslations } from "next-intl";
 // features
 import ProfileAnimalsFilters from "@/features/animal/loadProfileAnimalsFilters/ui/animalsFiltersForm";
 import ProfileAnimalsList from "@/features/animal/loadProfileAnimals/ui/animalsList";
+<<<<<<< HEAD
 import ProfileSheltersFilters from "@/features/shelter/filterProfileShelters/ui/sheltersFiltersForm";
+=======
+import ProfileSheltersFilters from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm";
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 import ProfileSheltersList from "@/features/shelter/loadProfileShelters/ui/sheltersList";
 import ProfileArticlesFilters from "@/features/article/loadProfileArticlesFilters/ui/articlesFiltersForm";
 import ProfileArticlesList from "@/features/article/loadProfileArticles/ui/articlesList";
@@ -48,7 +56,11 @@ const Profile = ({ userId, isEditable, searchParams = {} }: Props) => {
 								{t("page.profile.organizations.new")}
 							</Link>
 						) : null}
+<<<<<<< HEAD
 						<ProfileSheltersFilters userId={userId} searchParams={searchParams} />
+=======
+						<ProfileSheltersFilters id={userId} searchParams={searchParams} />
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 						<ProfileSheltersList isEditable={isEditable} id={userId} shelterSearchParams={searchParams} />
 					</TabsContent>
 					<TabsContent value="pets">

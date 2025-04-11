@@ -13,7 +13,11 @@ import { getCookiesId } from "@/shared/utils/cookies";
 import { prefetchQuery_getProfileAnimals } from "@/features/animal/loadProfileAnimals/model/query/fetchProfileAnimals";
 import { prefetchQuery_getProfileAnimalsFilter } from "@/features/animal/loadProfileAnimalsFilters/model/query/fetchProfileAnimalsFilters";
 import { prefetchQuery_getProfileShelters } from "@/features/shelter/loadProfileShelters/model/query/fetchProfileShelters";
+<<<<<<< HEAD
 import { prefetchQuery_getProfileSheltersFilter } from "@/features/shelter/filterProfileShelters/model/query/fetchProfileSheltersFilters";
+=======
+import { prefetchQuery_getProfileSheltersFilter } from "@/features/shelter/loadProfileSheltersFilters/model/query/fetchProfileSheltersFilters";
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 
 type Props = {
 	searchParams: SearchParamsType;

@@ -82,10 +82,13 @@ export const API_PUT_EDIT_SHELTER: string = "/api/shelter/put-edit-shelter";
 export const API_GET_SHELTERS_BY_PAGE: string = "/api/shelter/get-all-shelters-by-page";
 // GET ALL SHELTER FILTER OPTIONS API ROUTE
 export const API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS: string = "/api/shelter/get-all-shelters-filters";
+<<<<<<< HEAD
 // GET USER SHELTERS FILTER OPTIONS BY USER ID API ROUTE
 export const API_GET_BY_USER_ID_SHELTERS_FILTER_OPTIONS: string = "/api/shelter/get-profile-shelters-filters";
 // GET USER SHELTERS BY PAGE BY USER ID API ROUTE
 export const API_GET_BY_USER_ID_SHELTERS_BY_PAGE: string = "/api/shelter/get-profile-shelters-by-page";
+=======
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 
 // STATISTIC API ROUTES
 // GET BIGGEST SHELTER IN EVERY STATE

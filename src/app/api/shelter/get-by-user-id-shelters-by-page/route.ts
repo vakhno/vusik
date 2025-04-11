@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 // libs
 import { mongoConnection } from "@/shared/lib/mongodb";
 // entities
 import ShelterModel from "@/entities/shelter/model/model";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 // next tools
+=======
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 import { NextResponse } from "next/server";
 // utils
 import { validateToNaturalNumber } from "@/shared/utils/number";

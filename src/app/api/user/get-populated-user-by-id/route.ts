@@ -1,7 +1,6 @@
 import { mongoConnection } from "@/shared/lib/mongodb";
 import UserModel from "@/entities/profile/model/model";
 import convertURLSearchParamsToObject from "@/shared/utils/convertURLSearchParamsToObject";
-import ArticleModel from "@/entities/article/model/model";
 import { NextResponse } from "next/server";
 import { PopulatedUserType } from "@/entities/profile/model/type/profilePopulated";
 import ShelterModel from "@/entities/shelter/model/model";
@@ -26,7 +25,6 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		const user = (await UserModel.findById(id)
 			.populate({ path: "animals", model: AnimalModel })
 			.populate({ path: "shelters", model: ShelterModel })
-			.populate({ path: "articles", model: ArticleModel })
 			.lean()) as PopulatedUserType | null;
 
 		if (user) {

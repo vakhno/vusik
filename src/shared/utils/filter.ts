@@ -1,6 +1,5 @@
 // import { AnimalSearchSchemaType } from "@/features/animal/searchAnimal/model/type";
 import { ShelterSearchSchemaType } from "@/entities/shelter/model/type/shelterSearch";
-import { ArticleSearchSchemaType } from "@/entities/article/model/type/articleSearch";
 
 // export const validateAnimalFilterKeysAndValues = (
 // 	params: Record<string, string[]>,
@@ -66,9 +65,7 @@ import { ArticleSearchSchemaType } from "@/entities/article/model/type/articleSe
 // 	return comparedFilters;
 // };
 
-export const validateShelterFilterKeysAndValues = (
-	params: Record<string, string[]>,
-): Record<keyof ShelterSearchSchemaType, string[]> => {
+export const validateShelterFilterKeysAndValues = (params: Record<string, string[]>): Record<keyof ShelterSearchSchemaType, string[]> => {
 	const updatedFilters: Record<string, string[]> = {};
 	Object.entries(params).forEach(([key, value]) => {
 		switch (key) {
@@ -84,58 +81,9 @@ export const validateShelterFilterKeysAndValues = (
 	return updatedFilters;
 };
 
-export const comparingShelterFilterWithOptions = ({
-	options,
-	values,
-}: Record<"options" | "values", Record<keyof ShelterSearchSchemaType, string[]>>): Record<
-	keyof ShelterSearchSchemaType,
-	string[]
-> => {
+export const comparingShelterFilterWithOptions = ({ options, values }: Record<"options" | "values", Record<keyof ShelterSearchSchemaType, string[]>>): Record<keyof ShelterSearchSchemaType, string[]> => {
 	const comparedFilters = {} as Record<keyof ShelterSearchSchemaType, string[]>;
 	const optionEntries = Object.entries(options) as [keyof ShelterSearchSchemaType, string[]][];
-
-	optionEntries.forEach(([key, _]) => {
-		if (key in values) {
-			values[key]?.forEach((value: string) => {
-				if ((options[key] as string[]).includes(value)) {
-					if (!comparedFilters[key]) {
-						comparedFilters[key] = [];
-					}
-					(comparedFilters[key] as string[]).push(value as string);
-				}
-			});
-		}
-	});
-
-	return comparedFilters;
-};
-
-export const validateArticleFilterKeysAndValues = (
-	params: Record<string, string[]>,
-): Record<keyof ArticleSearchSchemaType, string[]> => {
-	const updatedFilters: Record<string, string[]> = {};
-	Object.entries(params).forEach(([key, value]) => {
-		switch (key) {
-			case "category":
-				{
-					updatedFilters[key] = value;
-				}
-				break;
-		}
-	});
-
-	return updatedFilters;
-};
-
-export const comparingArticleFilterWithOptions = ({
-	options,
-	values,
-}: Record<"options" | "values", Record<keyof ArticleSearchSchemaType, string[]>>): Record<
-	keyof ArticleSearchSchemaType,
-	string[]
-> => {
-	const comparedFilters = {} as Record<keyof ArticleSearchSchemaType, string[]>;
-	const optionEntries = Object.entries(options) as [keyof ArticleSearchSchemaType, string[]][];
 
 	optionEntries.forEach(([key, _]) => {
 		if (key in values) {

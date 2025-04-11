@@ -35,8 +35,6 @@ export const API_USER_PREFIX: string = "/api/user";
 export const API_ANIMAL_PREFIX: string = "/api/animal";
 // SHELTER API PREFIX
 export const API_SHELTER_PREFIX: string = "/api/shelter";
-// ARTICLE API PREFIX
-export const API_ARTICLE_PREFIX: string = "/api/shelter";
 // S3 API PREFIX
 export const API_S3_PREFIX: string = "/api/s3";
 
@@ -58,18 +56,6 @@ export const API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS: string = "/api/animal/get-a
 export const API_GET_BY_USER_ID_ANIMALS_BY_PAGE: string = "/api/animal/get-profile-animals-by-page";
 // GET USER ANIMALS FILTER OPTIONS BY USER ID API ROUTE
 export const API_GET_BY_USER_ID_ANIMALS_FILTER_OPTIONS: string = "/api/animal/get-profile-animals-filters";
-
-// ARTICLE API ROUTES
-// ADD NEW ARTICLE API ROUTE
-export const API_NEW_ARTICLE: string = "/api/article/new-article";
-// GET USER ARTICLE BY USER ID API ROUTE
-export const API_NEW_GET_USER_ARTICLES_BY_ID: string = "/api/article/get-user-articles-by-id";
-// EDIT ARTICLE API ROUTE
-export const API_PUT_EDIT_ARTICLE: string = "/api/article/put-edit-article";
-// GET ARTICLES BY PAGE API ROUTE
-export const API_GET_ARTICLES_BY_PAGE: string = "/api/article/get-articles-by-page";
-// GET ALL ARTICLE FILTER OPTIONS API ROUTE
-export const API_GET_FILTER_OPTIONS_FOR_ALL_ARTICLES: string = "/api/article/get-filter-options-for-all-articles";
 
 // SHELTER API ROUTES
 // ADD NEW SHELTER API ROUTE
@@ -126,12 +112,6 @@ export const API_ROUTES: string[] = [
 	API_GET_ANIMALS_BY_PAGE,
 	API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS,
 	API_GET_BY_USER_ID_ANIMALS_BY_PAGE,
-	// ARTICLE API ROUTES
-	API_NEW_ARTICLE,
-	API_NEW_GET_USER_ARTICLES_BY_ID,
-	API_GET_FILTER_OPTIONS_FOR_ALL_ARTICLES,
-	API_GET_ARTICLES_BY_PAGE,
-	API_PUT_EDIT_ARTICLE,
 	// SHELTER API ROUTES
 	API_NEW_SHELTER,
 	API_NEW_GET_USER_SHELTERS_BY_ID,

@@ -10,8 +10,6 @@ import ProfileAnimalsFilters from "@/features/animal/loadProfileAnimalsFilters/u
 import ProfileAnimalsList from "@/features/animal/loadProfileAnimals/ui/animalsList";
 import ProfileSheltersFilters from "@/features/shelter/filterProfileShelters/ui/sheltersFiltersForm";
 import ProfileSheltersList from "@/features/shelter/loadProfileShelters/ui/sheltersList";
-import ProfileArticlesFilters from "@/features/article/loadProfileArticlesFilters/ui/articlesFiltersForm";
-import ProfileArticlesList from "@/features/article/loadProfileArticles/ui/articlesList";
 import Link from "next/link";
 import { buttonVariants } from "@/shared/ui/button";
 
@@ -38,9 +36,6 @@ const Profile = ({ userId, isEditable, searchParams = {} }: Props) => {
 						<TabsTrigger value="pets" className="w-full">
 							{t("page.profile.animals.tab-trigger")}
 						</TabsTrigger>
-						<TabsTrigger value="articles" className="w-full">
-							{t("page.profile.articles.tab-trigger")}
-						</TabsTrigger>
 					</TabsList>
 					<TabsContent value="shelters">
 						{isEditable ? (
@@ -59,15 +54,6 @@ const Profile = ({ userId, isEditable, searchParams = {} }: Props) => {
 						) : null}
 						<ProfileAnimalsFilters id={userId} searchParams={searchParams} />
 						<ProfileAnimalsList isEditable={isEditable} userId={userId} animalSearchParams={searchParams} />
-					</TabsContent>
-					<TabsContent value="articles">
-						{isEditable ? (
-							<Link href="/profile/myprofile/new-article" className={`${buttonVariants()} my-8 w-full`}>
-								{t("page.profile.articles.new")}
-							</Link>
-						) : null}
-						<ProfileArticlesFilters id={userId} searchParams={searchParams} />
-						<ProfileArticlesList isEditable={isEditable} id={userId} articleSearchParams={searchParams} />
 					</TabsContent>
 				</Tabs>
 			</div>

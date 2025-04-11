@@ -79,8 +79,8 @@
 	"page": {
 		"home": {
 			"main-card": {
-				"title": "Read articles",
-				"button-title": "Read"
+				"title": "To home page",
+				"button-title": "Go to"
 			},
 			"secondary-card-1": {
 				"title": "Find a shelter",
@@ -195,13 +195,6 @@
 			"load-more": "Load more",
 			"no-shelters": "No shelters"
 		},
-		"articles": {
-			"category-autocomplete-multiselect-placeholder": "Select category",
-			"category-autocomplete-multiselect-empty-dropdown-message": "empty",
-			"search": "Search",
-			"load-more": "Load more",
-			"no-articles": "No articles"
-		},
 		"profile": {
 			"edit-profile": "Edit profile",
 			"animals": {
@@ -211,10 +204,6 @@
 			"organizations": {
 				"tab-trigger": "Organizations",
 				"new": "Add new organization"
-			},
-			"articles": {
-				"tab-trigger": "Articles",
-				"new": "Add new article"
 			}
 		}
 	},

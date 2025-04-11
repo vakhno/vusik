@@ -79,8 +79,8 @@
 	"page": {
 		"home": {
 			"main-card": {
-				"title": "Читати статті",
-				"button-title": "Читатті"
+				"title": "Перейти на головну",
+				"button-title": "Перейти"
 			},
 			"secondary-card-1": {
 				"title": "Знайти притулок",
@@ -195,13 +195,6 @@
 			"load-more": "Завантажити більше",
 			"no-shelters": "Немає тваринок"
 		},
-		"articles": {
-			"category-autocomplete-multiselect-placeholder": "Вибрати категорію",
-			"category-autocomplete-multiselect-empty-dropdown-message": "пусто",
-			"search": "Пошук",
-			"load-more": "Завантажити більше",
-			"no-articles": "Немає статтей"
-		},
 		"profile": {
 			"edit-profile": "Редагувати профіль",
 			"animals": {
@@ -211,10 +204,6 @@
 			"organizations": {
 				"tab-trigger": "Організації",
 				"new": "Додати нову організацію"
-			},
-			"articles": {
-				"tab-trigger": "Статті",
-				"new": "Додати нову статтю"
 			}
 		}
 	},

@@ -1,7 +1,11 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // api
+<<<<<<< HEAD
+import { SuccessResponse as SheltersSuccessResponse, ErrorResponse as SheltersErrorResponse } from "@/app/api/shelter/get-shelters-by-user-id/route";
+=======
 import { SuccessResponse as SheltersSuccessResponse, ErrorResponse as SheltersErrorResponse } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 import { SuccessResponse as AnimalSuccessResponse, ErrorResponse as AnimalErrorResponse } from "@/app/api/animal/get-animal-by-id/route";
 // routes
 import { API_GET_ANIMAL_BY_ID } from "@/shared/constants/routes";
@@ -47,7 +51,7 @@ const fetchData = async (animalId: string | Types.ObjectId) => {
 				const { success } = data;
 
 				if (success) {
-					const { shelters } = data;
+					const { data: shelters } = data;
 
 					availableOptions = { shelters };
 				}

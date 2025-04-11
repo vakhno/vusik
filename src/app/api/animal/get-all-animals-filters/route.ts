@@ -22,7 +22,10 @@ async function getAvailableAnimalOptions(filters: SelectedFiltersType = {}): Pro
 	if (filters.city?.length) shelterQuery.city = { $in: filters.city };
 
 	const filteredShelters = Object.keys(shelterQuery).length ? await ShelterModel.find(shelterQuery) : allShelters;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 	const species = allSpecies;
 	const state = allStates;
 	const breed: Record<string, string[]> = {};

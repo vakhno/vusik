@@ -5,16 +5,22 @@ import { NextResponse } from "next/server";
 import { validateShelterFilterKeysAndValues } from "@/shared/utils/filter";
 import convertURLSearchParamsToObject from "@/shared/utils/convertURLSearchParamsToObject";
 
-export type SuccessResult = {
+export type SuccessResponse = {
 	success: true;
-	shelters: ShelterType[];
+	data: {
+		shelters: ShelterType[];
+	};
 };
 
-export type ErrorResult = {
+export type ErrorResponse = {
 	success: false;
+	error: {
+		message: string;
+		code: number;
+	};
 };
 
-export async function GET(req: Request): Promise<NextResponse<SuccessResult | ErrorResult>> {
+export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	try {
 		await mongoConnection();
 		const { searchParams: URLSearchParams } = new URL(req.url);
@@ -29,8 +35,8 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResult | Er
 
 		shelters = await ShelterModel.find({ ...validatedFilterParams, userId: idParam });
 
-		return NextResponse.json({ success: true, shelters: shelters }, { status: 200 });
+		return NextResponse.json({ success: true, data: { shelters: shelters } }, { status: 200 });
 	} catch (_) {
-		return NextResponse.json({ success: false }, { status: 500 });
+		return NextResponse.json({ success: false, error: { message: "", code: 500 } }, { status: 500 });
 	}
 }

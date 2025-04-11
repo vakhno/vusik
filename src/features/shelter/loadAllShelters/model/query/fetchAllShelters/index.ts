@@ -27,9 +27,13 @@ const queryFn = async ({ pageParam, searchParams }: QueryFnProps) => {
 
 	urlSearchParams.set("page", String(pageParam));
 
+<<<<<<< HEAD
+	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_SHELTERS_BY_PAGE}/?${urlSearchParams}`, { method: "GET" });
+=======
 	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_SHELTERS_BY_PAGE}/?${urlSearchParams}`, {
 		method: "GET",
 	});
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 	const result = (await response.json()) as SuccessResponse | ErrorResponse;
 	const { success } = result;
 
@@ -49,8 +53,13 @@ export const infiniteQuery_getAllShelters = ({ searchParams }: FetchProps) => {
 		queryKey: ["all-shelters", JSON.stringify(searchParams)],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
+<<<<<<< HEAD
+		initialPageParam: 1,
+		queryFn: async ({ pageParam }) => queryFn({ pageParam, searchParams }),
+=======
 		queryFn: async ({ pageParam }) => queryFn({ pageParam, searchParams }),
 		initialPageParam: 1,
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 		getNextPageParam: (lastPage, _, lastPageParam, __) => (lastPage ? (lastPage.isHasMore ? lastPageParam + 1 : undefined) : undefined),
 	});
 };
@@ -60,8 +69,12 @@ export const prefetchInfiniteQuery_getAllShelters = async ({ searchParams, query
 		queryKey: ["all-shelters", JSON.stringify(searchParams)],
 		gcTime: 5 * 60 * 1000,
 		staleTime: 5 * 60 * 1000,
+<<<<<<< HEAD
+=======
 		queryFn: async ({ pageParam }) => queryFn({ pageParam, searchParams }),
+>>>>>>> 4747a44684cc8d9def17c0c7b2022938da1ed93a
 		initialPageParam: 1,
+		queryFn: async ({ pageParam }) => queryFn({ pageParam, searchParams }),
 	});
 
 	return queryClient;

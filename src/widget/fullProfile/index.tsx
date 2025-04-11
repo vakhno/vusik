@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
@@ -9,7 +8,7 @@ import { useTranslations } from "next-intl";
 // features
 import ProfileAnimalsFilters from "@/features/animal/loadProfileAnimalsFilters/ui/animalsFiltersForm";
 import ProfileAnimalsList from "@/features/animal/loadProfileAnimals/ui/animalsList";
-import ProfileSheltersFilters from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm";
+import ProfileSheltersFilters from "@/features/shelter/filterProfileShelters/ui/sheltersFiltersForm";
 import ProfileSheltersList from "@/features/shelter/loadProfileShelters/ui/sheltersList";
 import ProfileArticlesFilters from "@/features/article/loadProfileArticlesFilters/ui/articlesFiltersForm";
 import ProfileArticlesList from "@/features/article/loadProfileArticles/ui/articlesList";
@@ -49,7 +48,7 @@ const Profile = ({ userId, isEditable, searchParams = {} }: Props) => {
 								{t("page.profile.organizations.new")}
 							</Link>
 						) : null}
-						<ProfileSheltersFilters id={userId} searchParams={searchParams} />
+						<ProfileSheltersFilters userId={userId} searchParams={searchParams} />
 						<ProfileSheltersList isEditable={isEditable} id={userId} shelterSearchParams={searchParams} />
 					</TabsContent>
 					<TabsContent value="pets">

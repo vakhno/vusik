@@ -62,7 +62,7 @@ export const queryGetProfileSheltersFilter = ({ searchParams, userId }: FetchPro
 	});
 };
 
-export const queryPrefetchGetProfileSheltersFilter = async ({ searchParams, userId, queryClient }: PrefetchProps) => {
+export const prefetchQuery_getProfileSheltersFilter = async ({ searchParams, userId, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
 		queryKey: ["profile-shelters-filter", searchParams, userId],
 		queryFn: async () => {

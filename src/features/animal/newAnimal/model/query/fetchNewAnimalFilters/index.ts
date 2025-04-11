@@ -1,7 +1,7 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
 // api
-import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-shelters-by-user-id/route";
 // mongoose
 import { Types } from "mongoose";
 
@@ -25,7 +25,7 @@ const fetchData = async (id: string | Types.ObjectId) => {
 			const { success } = data;
 
 			if (success) {
-				const { shelters } = data;
+				const { data: shelters } = data;
 
 				return { availableOptions: { shelters } };
 			}

@@ -33,7 +33,7 @@ const FilterSchema = new Schema<FiltersType>({
 		],
 		state: { type: Map, of: Number, default: {} },
 		city: { type: Map, of: Number, default: {} },
-	}
+	},
 	users: {
 		type: Map,
 		of: new Schema({

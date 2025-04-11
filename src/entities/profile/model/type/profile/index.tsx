@@ -15,7 +15,6 @@ export type UserType = {
 	twitter?: string;
 	youtube?: string;
 	shelters: Types.ObjectId[];
-	articles: Types.ObjectId[];
 	animals: Types.ObjectId[];
 	createdAt: Date;
 	updatedAt: Date;

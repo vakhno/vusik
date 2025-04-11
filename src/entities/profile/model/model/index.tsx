@@ -54,13 +54,6 @@ const UserSchema = new Schema<UserType>(
 		youtube: {
 			type: String,
 		},
-		articles: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "Article",
-				default: [],
-			},
-		],
 		shelters: [
 			{
 				type: mongoose.Schema.Types.ObjectId,

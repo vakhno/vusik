@@ -48,16 +48,6 @@ const ServiceSchema = new Schema({
 			default: 10,
 		},
 	},
-	article: {
-		category: {
-			type: [String],
-			default: [],
-		},
-		countPerPage: {
-			type: Number,
-			default: 10,
-		},
-	},
 	profile: {
 		roles: {
 			type: [String],

@@ -44,14 +44,6 @@ const Index = (props: React.ComponentProps<typeof Sidebar>) => {
 								</NavigationMenuLink>
 							</Link>
 						</NavigationMenuItem>
-						<NavigationMenuItem className="flex w-full flex-col gap-4">
-							<Link href={"/articles"} legacyBehavior passHref>
-								<NavigationMenuLink className={`flex w-full items-center justify-between`}>
-									<span>Статті</span>
-									<ArrowRight />
-								</NavigationMenuLink>
-							</Link>
-						</NavigationMenuItem>
 					</NavigationMenuList>
 				</NavigationMenu>
 			</SidebarContent>

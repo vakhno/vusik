@@ -22,14 +22,9 @@ export type FiltersSheltersType = {
 	cities: Record<string, number>;
 };
 
-export type FiltersArticlesType = {
-	categories: Record<string, number>;
-};
-
 export type FiltersUserType = {
 	animals: FiltersAnimalsType;
 	shelters: FiltersSheltersType;
-	articles: FiltersArticlesType;
 };
 
 export type FiltersUsersType = Record<string, FiltersUserType>;
@@ -37,6 +32,5 @@ export type FiltersUsersType = Record<string, FiltersUserType>;
 export type FiltersType = {
 	animals: FiltersAnimalsType;
 	shelters: FiltersSheltersType;
-	articles: FiltersArticlesType;
 	users: FiltersUsersType;
 };

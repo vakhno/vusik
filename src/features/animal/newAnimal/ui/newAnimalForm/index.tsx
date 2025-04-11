@@ -22,7 +22,7 @@ const NewAnimal = ({ userId }: Props) => {
 	const router = useRouter();
 	const { data: fetchedFilters } = queryGetNewAnimalFilter({ id: userId });
 	const { mutateAsync: addNewAnimal } = queryNewAnimal();
-	const availableOptions = fetchedFilters?.availableOptions || { shelters: [] };
+	const availableOptions = fetchedFilters?.availableOptions?.shelters || { shelters: [] };
 
 	const onHandleSubmit = async (fields: NewAnimalSchemaType) => {
 		const result = await addNewAnimal(fields);

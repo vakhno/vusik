@@ -8,32 +8,22 @@ import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-all-shelte
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 
 const fetchData = async (userId: string, searchParams: SearchParamsType) => {
-	try {
-		searchParams.id = String(userId);
+	searchParams.id = String(userId);
 
-		const urlSearchParams = convertObjectToURLSearchParams(searchParams);
+	const urlSearchParams = convertObjectToURLSearchParams(searchParams);
+	const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-profile-animals-filters/?${urlSearchParams}`, { method: "GET" });
+	const result = (await response.json()) as SuccessResponse | ErrorResponse;
+	const { success } = result;
 
-		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-profile-animals-filters/?${urlSearchParams}`, {
-			method: "GET",
-		});
-
-		const { ok } = response;
-
-		if (ok) {
-			const data = await response.json();
-			const { success } = data as SuccessResponse | ErrorResponse;
-
-			if (success) {
-				const { availableOptions, selectedOptions } = data;
-
-				return { availableOptions: availableOptions, selectedOptions: selectedOptions };
-			}
-		}
-
-		return null;
-	} catch (_) {
+	if (!success) {
 		return null;
 	}
+
+	const {
+		data: { availableOptions, shelters, selectedOptions },
+	} = result;
+
+	return { availableOptions, shelters, selectedOptions };
 };
 
 type FetchProps = {
@@ -53,7 +43,7 @@ type InvalidationProps = {
 	userId: string;
 };
 
-export const queryGetProfileSheltersFilter = ({ searchParams, userId }: FetchProps) => {
+export const query_getProfileSheltersFilter = ({ searchParams, userId }: FetchProps) => {
 	return useQuery({
 		queryKey: ["profile-shelters-filter", searchParams, userId],
 		queryFn: async () => {
@@ -62,7 +52,7 @@ export const queryGetProfileSheltersFilter = ({ searchParams, userId }: FetchPro
 	});
 };
 
-export const queryPrefetchGetProfileSheltersFilter = async ({ searchParams, userId, queryClient }: PrefetchProps) => {
+export const prefetchQuery_getProfileSheltersFilter = async ({ searchParams, userId, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
 		queryKey: ["profile-shelters-filter", searchParams, userId],
 		queryFn: async () => {

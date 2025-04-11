@@ -23,9 +23,7 @@ type PrefetchProps = {
 
 const queryFn = async ({ searchParams }: QueryFnProps) => {
 	const urlSearchParams = convertObjectToURLSearchParams(searchParams);
-	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS}/?${urlSearchParams}`, {
-		method: "GET",
-	});
+	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_FILTER_OPTIONS_FOR_ALL_SHELTERS}/?${urlSearchParams}`, { method: "GET" });
 	const result = (await response.json()) as SuccessResponse | ErrorResponse;
 	const { success } = result;
 

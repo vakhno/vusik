@@ -1,34 +1,31 @@
 "use client";
 
-// types
-import { SearchParamsType } from "@/shared/types/searchParams.type";
+// react
+import { useEffect, useState } from "react";
 // features
-import FiltersForm from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm/fullForm";
-import selectedFiltersType from "@/features/shelter/loadProfileSheltersFilters/model/type/selectedFiltersType";
-import availableFiltersType from "@/features/shelter/loadProfileSheltersFilters/model/type/availableFiltersType";
-import { queryGetProfileSheltersFilter } from "@/features/shelter/loadProfileSheltersFilters/model/query/fetchProfileSheltersFilters";
-import { SearchAllAnimalsFiltersFormSchemaType } from "@/features/shelter/loadProfileSheltersFilters/model/type/filtersFormSchemaType";
-// widgets
-import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
-// hooks
-import { useWindowHistoryPush } from "@/shared/hooks/use-window-history-push";
-// utils
+import FiltersFields from "@/features/shelter/loadProfileSheltersFilters/ui/sheltersFiltersForm/fields";
+import selectedFiltersType from "@/features/shelter/filterAllShelters/model/type/selectedFiltersType";
+import availableFiltersType from "@/features/shelter/filterAllShelters/model/type/availableFiltersType";
+import { query_getProfileSheltersFilter } from "@/features/shelter/loadProfileSheltersFilters/model/query/fetchProfileSheltersFilters";
+import SearchAllSheltersFiltersFormSchemaType from "@/features/shelter/filterAllShelters/model/type/filtersFormSchemaType";
+// entities
+import generateShelterMarkers from "@/entities/shelter/model/utils/generateGoogleMapShelterMarkers";
+// shared
+import GoogleMap, { MarkerType } from "@/shared/shared/GoogleMap";
+import GoogleMapProvider from "@/shared/providers/GoogleMapProvider";
+import convertObjectToSearchParams from "@/shared/utils/convertObjectToSearchParams";
 import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSearchParams";
+import { cn } from "@/shared/lib/utils";
+import { SearchParamsType } from "@/shared/types/searchParams.type";
+import { useWindowHistoryPush } from "@/shared/hooks/use-window-history-push";
 
 type Props = {
+	className?: string;
+	userId: string;
 	searchParams: SearchParamsType;
-	id: string;
 };
 
-const generatehelterMarkers = (sheltersList: Record<string, { name: string; coordinates: MarkerCoordinates }>) => {
-	const availableShelterMarkers = Object.values(sheltersList).map((shelter) => shelter.coordinates);
-	return availableShelterMarkers;
-};
-
-const generateVisibleOptions = (
-	availableOptions: Omit<availableFiltersType, "sheltersList">,
-	selectedOptions: selectedFiltersType,
-) => {
+const generateVisibleOptions = (availableOptions: Omit<availableFiltersType, "sheltersList">, selectedOptions: selectedFiltersType) => {
 	const filteredOptions = {
 		state: availableOptions.state,
 		city: {},
@@ -45,37 +42,48 @@ const generateVisibleOptions = (
 	return filteredOptions;
 };
 
-const Index = ({ searchParams, id }: Props) => {
+const Index = ({ className = "", userId, searchParams }: Props) => {
 	const handleWindowHistoryPush = useWindowHistoryPush();
-	const { data: fetchedFilters } = queryGetProfileSheltersFilter({
-		searchParams: searchParams,
-		userId: id,
+	const [filters, setFilters] = useState(searchParams);
+
+	const { data: fetchedData } = query_getProfileSheltersFilter({
+		userId: userId,
+		searchParams: filters,
 	});
-	const availableOptions = (fetchedFilters?.availableOptions &&
-		fetchedFilters?.selectedOptions &&
-		generateVisibleOptions(fetchedFilters?.availableOptions, fetchedFilters?.selectedOptions)) || {
+	const [filtersData, setFiltersData] = useState(fetchedData);
+
+	const availableOptions = (filtersData?.availableOptions && filtersData?.selectedOptions && generateVisibleOptions(filtersData?.availableOptions, filtersData?.selectedOptions)) || {
 		state: [],
 		city: {},
-		sheltersList: {},
 	};
-	const selectedOptions = fetchedFilters?.selectedOptions || {};
-	const shelterMarkers =
-		(fetchedFilters?.availableOptions?.sheltersList &&
-			generatehelterMarkers(fetchedFilters?.availableOptions?.sheltersList)) ||
-		[];
 
-	const filterChange = (data: SearchAllAnimalsFiltersFormSchemaType) => {
+	useEffect(() => {
+		if (fetchedData) {
+			setFiltersData(fetchedData);
+		}
+	}, [fetchedData]);
+
+	const selectedOptions = filtersData?.selectedOptions || {};
+
+	const shelterMarkers: MarkerType[] = filtersData?.shelters ? generateShelterMarkers(Object.values(filtersData.shelters)) : [];
+
+	const filterChange = (data: SearchAllSheltersFiltersFormSchemaType) => {
+		const convertedData = convertObjectToSearchParams(data);
+		setFilters(convertedData);
+	};
+
+	const filterSubmit = (data: SearchAllSheltersFiltersFormSchemaType) => {
 		const urlSearchParams = convertObjectToURLSearchParams(data);
 		handleWindowHistoryPush(urlSearchParams);
 	};
 
 	return (
-		<FiltersForm
-			availableOptions={availableOptions}
-			selectedValues={selectedOptions}
-			shelterMarkers={shelterMarkers}
-			handleFilterChange={filterChange}
-		/>
+		<div className={cn(className)}>
+			<FiltersFields availableOptions={availableOptions} selectedValues={selectedOptions} onFilterChange={filterChange} onFilterSubmit={filterSubmit} />
+			<GoogleMapProvider>
+				<GoogleMap markers={shelterMarkers} />
+			</GoogleMapProvider>
+		</div>
 	);
 };
 

@@ -1,17 +1,19 @@
 // entities
 import ShelterModel from "@/entities/shelter/model/model";
+import { ShelterType } from "@/entities/shelter/model/type/shelter";
 // next tools
 import { NextResponse } from "next/server";
-// widgets
+// shared
 import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
+import { mongoConnection } from "@/shared/lib/mongodb";
 // features
 import SelectedFiltersType from "@/features/shelter/filterAllShelters/model/type/selectedFiltersType";
 import AvailableFiltersType from "@/features/shelter/filterAllShelters/model/type/availableFiltersType";
-import ParsedSearchParamsType from "@/features/shelter/loadProfileSheltersFilters/model/type/parsedSearchParamsType";
+import ParsedSearchParamsType from "@/features/shelter/filterProfileShelters/model/type/parsedSearchParamsType";
 // mongoose
 import { Types } from "mongoose";
 
-async function getAvailableShelterOptions(filters: ParsedSearchParamsType = {}): Promise<AvailableFiltersType> {
+async function getAvailableShelterOptions(filters: ParsedSearchParamsType = {}): Promise<{ availableOptions: AvailableFiltersType; shelters: ShelterType[] }> {
 	const userId = filters.id ? new Types.ObjectId(filters.id) : null;
 	const allStates = await ShelterModel.distinct("state", userId ? { userId } : {});
 	const allShelters = await ShelterModel.find(userId ? { userId } : {}).select("state city name coordinates");
@@ -43,8 +45,11 @@ async function getAvailableShelterOptions(filters: ParsedSearchParamsType = {}):
 	});
 
 	return {
-		state,
-		city,
+		availableOptions: {
+			state,
+			city,
+		},
+		shelters: filteredShelters,
 	};
 }
 
@@ -98,28 +103,32 @@ function validateAnimalSearchParams(searchParams: SelectedFiltersType, available
 
 export type SuccessResponse = {
 	success: true;
-	availableOptions: AvailableFiltersType;
-	selectedOptions: SelectedFiltersType;
+	data: {
+		availableOptions: AvailableFiltersType;
+		selectedOptions: SelectedFiltersType;
+		shelters: ShelterType[];
+	};
 };
 
 export type ErrorResponse = {
 	success: false;
+	error: {
+		message: string;
+		code: number;
+	};
 };
 
-type Props = {
-	searchParams: URLSearchParams;
-};
-
-const Index = async ({ searchParams }: Props): Promise<NextResponse<SuccessResponse | ErrorResponse>> => {
+export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	try {
+		await mongoConnection();
+		
+		const { searchParams } = new URL(req.url);
 		const parsedSearchParams = parseAnimalUrlSearchParams(searchParams);
-		const availableOptions = await getAvailableShelterOptions(parsedSearchParams);
+		const { availableOptions, shelters } = await getAvailableShelterOptions(parsedSearchParams);
 		const selectedOptions = validateAnimalSearchParams(parsedSearchParams, availableOptions);
 
-		return NextResponse.json({ success: true, availableOptions, selectedOptions }, { status: 200 });
+		return NextResponse.json({ success: true, data: { availableOptions, selectedOptions, shelters } }, { status: 200 });
 	} catch (_) {
-		return NextResponse.json({ success: false }, { status: 500 });
+		return NextResponse.json({ success: false, error: { message: "", code: 500 } }, { status: 500 });
 	}
-};
-
-export default Index;
+}

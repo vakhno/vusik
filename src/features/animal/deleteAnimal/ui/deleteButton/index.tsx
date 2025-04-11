@@ -1,24 +1,13 @@
 "use client";
 
 // shared
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from "@/shared/ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shared/ui/alert-dialog";
 // next-intl
 import { useTranslations } from "next-intl";
-// mongoose
-import { Types } from "mongoose";
 
 type Props = {
 	className?: string;
-	animalId: Types.ObjectId;
+	animalId: string;
 };
 
 const Index = ({ className = "" }: Props) => {

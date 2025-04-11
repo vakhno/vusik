@@ -1,10 +1,11 @@
 "use server";
 
 // screen
-import ProfileScreen from "@/screens/myprofile";
+import Profile from "@/screens/profile";
 // next tools
 import { Metadata } from "next";
 // shared
+import { getCookiesId } from "@/shared/utils/cookies";
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 
 export async function generateMetadata(): Promise<Metadata> {

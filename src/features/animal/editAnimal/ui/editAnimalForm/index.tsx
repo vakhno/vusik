@@ -4,7 +4,7 @@
 import { useTranslations } from "next-intl";
 // features
 import EditAnimalFields from "@/features/animal/editAnimal/ui/editAnimalForm/formFields";
-import { queryGetEditAnimalFilter } from "@/features/animal/editAnimal/model/query/fetchEditAnimalFilters";
+import { query_getEditAnimalFilter } from "@/features/animal/editAnimal/model/query/fetchEditAnimalFilters";
 import { queryEditAnimal } from "@/features/animal/editAnimal/model/query/editAnimal";
 import EditAnimalSchemaType from "@/features/animal/editAnimal/model/type/editAnimalSchemaType";
 // next tools
@@ -19,7 +19,9 @@ type Props = {
 const NewAnimal = ({ animalId }: Props) => {
 	const t = useTranslations();
 	const router = useRouter();
-	const { data: fetchedFilters } = queryGetEditAnimalFilter({ id: animalId });
+	const { data: fetchedFilters } = query_getEditAnimalFilter({ animalId });
+	const availableOptions = fetchedFilters?.availableOptions?.shelters || { shelters: [] };
+	const selectedOptions = fetchedFilters?.selectedOptions || null;
 	const { mutateAsync: editAnimal } = queryEditAnimal({
 		onSuccess: (animal) => {
 			const { _id } = animal;
@@ -32,11 +34,9 @@ const NewAnimal = ({ animalId }: Props) => {
 			});
 		},
 	});
-	const availableOptions = fetchedFilters?.availableOptions?.shelters || { shelters: [] };
-	const selectedOptions = fetchedFilters?.selectedOptions || null;
 
 	const onHandleFormSubmit = async (fields: EditAnimalSchemaType) => {
-		const updatedFiedls = { ...fields, id: String(animalId) };
+		const updatedFiedls = { ...fields, animalId };
 
 		editAnimal(updatedFiedls);
 	};

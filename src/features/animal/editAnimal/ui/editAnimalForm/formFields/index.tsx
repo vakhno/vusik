@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from "react";
 // react-hook-form
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ImageUploading from "@/shared/shared/ImageUploading";
-import MultipleImageUploading from "@/shared/shared/MultipleImageUploading/MultipleImageUploading";
+import FormDragAndDropFileUploader from "@/shared/formUi/formDragAndDropFileUploader";
 // UI components
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
@@ -163,12 +162,20 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 		}
 	}, [speciesWatch]);
 
-	const mainPhotoChange = (file: File | undefined) => {
-		form.setValue("mainPhoto", file);
+	const mainPhotoChange = (file: File | File[] | undefined) => {
+		if (Array.isArray(file)) {
+			form.setValue("mainPhoto", file[0]);
+		} else if (file) {
+			form.setValue("mainPhoto", file);
+		}
 	};
 
-	const secondaryPhotosChange = (files: File[]) => {
-		form.setValue("secondaryPhotos", files);
+	const secondaryPhotosChange = (files: File | File[] | undefined) => {
+		if (Array.isArray(files)) {
+			form.setValue("secondaryPhotos", files);
+		} else if (files) {
+			form.setValue("secondaryPhotos", [files]);
+		}
 	};
 
 	const handleSpeciesChange = () => {
@@ -182,14 +189,16 @@ const NewAnimal = ({ availableOptions, selectedOptions, handleSubmit }: Props) =
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onNewAnimalSubmit)} className="h-full w-full space-y-8 px-2">
-				<ImageUploading
+				<FormDragAndDropFileUploader
+					control={form.control}
+					label="Main photo"
+					name="mainPhoto"
 					// defaultPreviewImage={mainPhotoValue}
 					defaultFile={defaultMainImage}
 					onChange={mainPhotoChange}
-					className="m-auto h-96 max-h-full w-80 max-w-full"
 				/>
 
-				<MultipleImageUploading defaultFiles={defaultSecondaryImages} onChange={secondaryPhotosChange} imagesCount={4} />
+				<FormDragAndDropFileUploader control={form.control} label="Secondary photo" name="secondaryPhotos" defaultFile={defaultSecondaryImages} onChange={secondaryPhotosChange} isMultiple />
 
 				<FormInput control={form.control} label="Name" name="name" placeholder="Name" />
 

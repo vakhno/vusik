@@ -5,7 +5,7 @@ import convertObjectToURLSearchParams from "@/shared/utils/convertObjectToURLSea
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 import { API_GET_BY_USER_ID_SHELTERS_BY_PAGE } from "@/shared/constants/routes";
 // api
-import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-by-user-id-shelters-by-page/route";
+import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-profile-shelters-by-page/route";
 
 type QueryFnProps = {
 	userId: string;

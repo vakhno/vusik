@@ -2,12 +2,11 @@
 // react
 import { useEffect, useRef, useState } from "react";
 // schemas
-import NewAnimalSchema from "@/entities/animal/model/schema/newAnimalForm";
-import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
+import NewAnimalSchema from "@/features/animal/newAnimal/model/schema/newAnimalSchema";
+import NewAnimalSchemaType from "@/features/animal/newAnimal/model/type/newAnimalSchemaType";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ImageUploading from "@/shared/shared/ImageUploading";
-import MultipleImageUploading from "@/shared/shared/MultipleImageUploading/MultipleImageUploading";
+import FormDragAndDropFileUploader from "@/shared/formUi/formDragAndDropFileUploader";
 // UI components
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
@@ -106,13 +105,20 @@ const NewAnimal = ({ availableOptions, handleSubmit }: Props) => {
 		}
 	}, [speciesWatch]);
 
-	const mainPhotoChange = (file: File | undefined) => {
-		// as unknown as File - to avoid TS error with assigning 'undefined' value to required File field
-		form.setValue("mainPhoto", file as unknown as File);
+	const mainPhotoChange = (file: File | File[] | undefined) => {
+		if (Array.isArray(file)) {
+			form.setValue("mainPhoto", file[0]);
+		} else if (file) {
+			form.setValue("mainPhoto", file);
+		}
 	};
 
-	const secondaryPhotosChange = (files: File[]) => {
-		form.setValue("secondaryPhotos", files);
+	const secondaryPhotosChange = (files: File | File[] | undefined) => {
+		if (Array.isArray(files)) {
+			form.setValue("secondaryPhotos", files);
+		} else if (files) {
+			form.setValue("secondaryPhotos", [files]);
+		}
 	};
 
 	const handleSpeciesChange = () => {
@@ -125,9 +131,9 @@ const NewAnimal = ({ availableOptions, handleSubmit }: Props) => {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onNewAnimalSubmit)} className="h-full w-full space-y-8 px-2">
-				<ImageUploading onChange={mainPhotoChange} className="m-auto flex h-96 max-h-full w-80 max-w-full" />
+				<FormDragAndDropFileUploader control={form.control} label="Main photo" name="mainPhoto" onChange={mainPhotoChange} />
 
-				<MultipleImageUploading onChange={secondaryPhotosChange} imagesCount={7} />
+				<FormDragAndDropFileUploader control={form.control} label="Secondary photos" name="secondaryPhotos" onChange={secondaryPhotosChange} isMultiple />
 
 				<FormInput control={form.control} label="Name" name="name" placeholder="Name" />
 

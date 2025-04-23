@@ -1,6 +1,6 @@
 import AnimalCard from "@/entities/animal/ui/animalCard";
 import { cn } from "@/shared/lib/utils";
-import { AnimalType } from "@/entities/animal/model/type/animal";
+import { AnimalType, PopulatedAnimalType } from "@/entities/animal/model/type/animal";
 import { useTranslations } from "next-intl";
 import useLikedAnimalsStore from "@/shared/zustand/store/likedAnimals.store";
 import LikeAnimalButton from "@/features/animal/likeAnimal/ui/likeAnimalButton";
@@ -17,16 +17,8 @@ const Index = ({ className, closeModal }: Props) => {
 				{likedAnimals && likedAnimals.size ? (
 					<div className="flex w-full flex-col">
 						<div className="m-auto grid h-full w-full grid-cols-auto-fit-260-1fr gap-4">
-							{Array.from(likedAnimals).map(([id, animal]: [string, AnimalType]) => {
-								return (
-									<AnimalCard
-										onHandleCardClick={() => closeModal(false)}
-										isEditable={false}
-										key={id}
-										animal={animal}
-										JSXLikeButton={LikeAnimalButton}
-									/>
-								);
+							{Array.from(likedAnimals).map(([id, animal]: [string, AnimalType | PopulatedAnimalType]) => {
+								return <AnimalCard onHandleCardClick={() => closeModal(false)} isEditable={false} key={id} animal={animal} JSXLikeButton={LikeAnimalButton} />;
 							})}
 						</div>
 					</div>

@@ -5,18 +5,35 @@ import { SuccessResponse as SheltersSuccessResponse, ErrorResponse as SheltersEr
 import { SuccessResponse as AnimalSuccessResponse, ErrorResponse as AnimalErrorResponse } from "@/app/api/animal/get-animal-by-id/route";
 // routes
 import { API_GET_ANIMAL_BY_ID } from "@/shared/constants/routes";
-// mongoose
-import { Types } from "mongoose";
+import {NEXT_PUBLIC_ACTIVE_DOMEN} from '@/shared/constants/env'
 
-const fetchData = async (animalId: string | Types.ObjectId) => {
+type QueryFnProps = {
+	animalId: string;
+};
+
+type FetchProps = {
+	animalId: string;
+};
+
+type InvalidationProps = {
+	animalId: string;
+	queryClient: QueryClient;
+};
+
+type PrefetchProps = {
+	animalId: string;
+	queryClient: QueryClient;
+};
+
+const queryFn = async ({ animalId }: QueryFnProps) => {
 	try {
 		const animalUrlSearchParams = new URLSearchParams();
 
-		animalUrlSearchParams.set("id", String(animalId));
+		animalUrlSearchParams.set("id", animalId);
 		let selectedOptions = null;
 		let availableOptions = null;
 
-		const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_ANIMAL_BY_ID}/?${animalUrlSearchParams}`, {
+		const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_ANIMAL_BY_ID}/?${animalUrlSearchParams}`, {
 			method: "GET",
 		});
 
@@ -36,7 +53,7 @@ const fetchData = async (animalId: string | Types.ObjectId) => {
 
 			sheltersUrlSearchParams.set("id", String(selectedOptions.userId));
 
-			const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-shelters-by-user-id/?${sheltersUrlSearchParams}`, {
+			const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-shelters-by-user-id/?${sheltersUrlSearchParams}`, {
 				method: "GET",
 			});
 
@@ -59,39 +76,24 @@ const fetchData = async (animalId: string | Types.ObjectId) => {
 	}
 };
 
-type FetchProps = {
-	id: string;
-};
-
-type InvalidationProps = {
-	id: string;
-	queryClient: QueryClient;
-};
-
-export const queryGetEditAnimalFilter = ({ id }: FetchProps) => {
+export const query_getEditAnimalFilter = ({ animalId }: FetchProps) => {
 	return useQuery({
-		queryKey: ["edit-animal-filter", String(id)],
+		queryKey: ["edit-animal-filter", animalId],
 		staleTime: 1000 * 60 * 5,
 		gcTime: 1000 * 60 * 10,
-		queryFn: async () => {
-			return fetchData(id);
-		},
+		queryFn: () => queryFn({ animalId }),
 	});
 };
 
-export const queryPrefetchGetEditAnimalFilter = async ({ id }: FetchProps) => {
-	const queryClient = new QueryClient();
-
+export const prefetchQuery_getEditAnimalFilter = async ({ animalId, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
-		queryKey: ["edit-animal-filter", String(id)],
-		queryFn: async () => {
-			return fetchData(id);
-		},
+		queryKey: ["edit-animal-filter", animalId],
+		queryFn: () => queryFn({ animalId }),
 	});
 
 	return queryClient;
 };
 
-export const queryGetNewAnimalFilterInvalidate = ({ queryClient, id }: InvalidationProps) => {
-	queryClient.invalidateQueries({ queryKey: ["edit-animal-filter", String(id)] });
+export const queryGetNewAnimalFilterInvalidate = ({ queryClient, animalId }: InvalidationProps) => {
+	queryClient.invalidateQueries({ queryKey: ["edit-animal-filter", animalId] });
 };

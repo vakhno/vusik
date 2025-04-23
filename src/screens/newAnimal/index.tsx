@@ -1,7 +1,7 @@
 "use server";
 
 // features
-import NewAnimalForm from "@/features/animal/newAnimal/ui/newAnimalForm/index";
+import NewAnimalForm from "@/features/animal/newAnimal/ui/newAnimalForm";
 //tanstack
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 // queries

@@ -1,12 +1,16 @@
-import { Types } from "mongoose";
+// features
 import EditShelterForm from "@/features/shelter/editShelter/ui/editShelterForm";
 
 type Props = {
-	shelterId: Types.ObjectId;
+	shelterId: string;
 };
 
 const Page = async ({ shelterId }: Props) => {
-	return <EditShelterForm shelterId={shelterId} />;
+	if (shelterId) {
+		return <EditShelterForm shelterId={shelterId} />;
+	} else {
+		return null;
+	}
 };
 
 export default Page;

@@ -6,6 +6,7 @@ export type ShelterType = {
 	_id: Types.ObjectId;
 	userId: UserType;
 	name: string;
+	losung: string;
 	mainPhoto: string;
 	secondaryPhotos: string[];
 	country: string;

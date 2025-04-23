@@ -5,8 +5,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/shared/ui/form";
-import ImageUploading from "@/shared/shared/ImageUploading";
-import MultipleImageUploading from "@/shared/shared/MultipleImageUploading/MultipleImageUploading";
+import FormDragAndDropFileUploader from "@/shared/formUi/formDragAndDropFileUploader";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { Label } from "@/shared/ui/label";
@@ -15,12 +14,7 @@ import GoogleMapProvider from "@/shared/providers/GoogleMapProvider";
 import MapComponent, { MarkerInfo } from "@/shared/shared/GoogleMap";
 import FormInput from "@/shared/formUi/formInput";
 import { defaultMarkerCoordiates } from "@/shared/constants/googleMap";
-import {
-	defaultWorkingDays,
-	defaultBeginTime,
-	defaultEndTime,
-	maxCountOfSpecificWeekends,
-} from "@/shared/constants/workingDays";
+import { defaultWorkingDays, defaultBeginTime, defaultEndTime, maxCountOfSpecificWeekends } from "@/shared/constants/workingDays";
 import { ShelterType } from "@/entities/shelter/model/type/shelter";
 import { Card, CardContent } from "@/shared/ui/card";
 import FormSpecificDay from "@/shared/formUi/formSpecificDay";
@@ -32,58 +26,6 @@ type Props = {
 	handleSuccessDeleteClick?: (value: ShelterType) => void;
 	shelter?: ShelterType;
 	handleSuccessSubmitClick: (value: NewShelterSchemaType) => void;
-	//
-	// mainPhotoValue?: string;
-	// secondaryPhotosValue?: string[];
-	// nameValue?: string;
-	// countryValue?: string;
-	// stateValue?: string;
-	// cityValue?: string;
-	// streetValue?: string;
-	// coordinatesValue?: { lat: number; lng: number };
-	// postalCodeValue?: string;
-	// phoneValue?: string;
-	// workingDaysValue?: {
-	// 	monday: {
-	// 		begin: string;
-	// 		end: string;
-	// 		isWeekend: boolean;
-	// 	};
-	// 	tuesday: {
-	// 		begin: string;
-	// 		end: string;
-	// 		isWeekend: boolean;
-	// 	};
-	// 	wednesday: {
-	// 		begin: string;
-	// 		end: string;
-	// 		isWeekend: boolean;
-	// 	};
-	// 	thursday: {
-	// 		begin: string;
-	// 		end: string;
-	// 		isWeekend: boolean;
-	// 	};
-	// 	friday: {
-	// 		begin: string;
-	// 		end: string;
-	// 		isWeekend: boolean;
-	// 	};
-	// 	saturday: {
-	// 		begin: string;
-	// 		end: string;
-	// 		isWeekend: boolean;
-	// 	};
-	// 	sunday: {
-	// 		begin: string;
-	// 		end: string;
-	// 		isWeekend: boolean;
-	// 	};
-	// };
-	// specificWeekendValue?: {
-	// 	month: string;
-	// 	day: string;
-	// }[];
 };
 
 const mainPhotoUrlToFile = async (url: string): Promise<File | null> => {
@@ -112,13 +54,7 @@ const mainPhotoUrlToFile = async (url: string): Promise<File | null> => {
 	}
 };
 
-const AddNewShelterModal = ({
-	isDeletable = false,
-	deleteButtonTitle,
-	handleSuccessDeleteClick,
-	handleSuccessSubmitClick,
-	shelter,
-}: Props) => {
+const AddNewShelterModal = ({ isDeletable = false, deleteButtonTitle, handleSuccessDeleteClick, handleSuccessSubmitClick, shelter }: Props) => {
 	const t = useTranslations();
 	const newShelterSchema = NewShelterSchema(t);
 	const [isLocationAutoFill, setIsLocationAutoFill] = useState(false);
@@ -156,12 +92,20 @@ const AddNewShelterModal = ({
 		handleSuccessSubmitClick(fields);
 	};
 
-	const mainPhotoChange = (file: File | undefined) => {
-		newShelterForm.setValue("mainPhoto", file);
+	const mainPhotoChange = (file: File | File[] | undefined) => {
+		if (Array.isArray(file)) {
+			newShelterForm.setValue("mainPhoto", file[0]);
+		} else if (file) {
+			newShelterForm.setValue("mainPhoto", file);
+		}
 	};
 
-	const secondaryPhotosChange = (files: File[]) => {
-		newShelterForm.setValue("secondaryPhotos", files);
+	const secondaryPhotosChange = (files: File | File[] | undefined) => {
+		if (Array.isArray(files)) {
+			newShelterForm.setValue("secondaryPhotos", files);
+		} else if (files) {
+			newShelterForm.setValue("secondaryPhotos", [files]);
+		}
 	};
 
 	const handleMarkerDragEnd = (data: MarkerInfo) => {
@@ -169,10 +113,7 @@ const AddNewShelterModal = ({
 			newShelterForm.setValue("country", data.address.country);
 			newShelterForm.setValue("state", data.address.state);
 			newShelterForm.setValue("city", data.address.city);
-			newShelterForm.setValue(
-				"street",
-				`${data.address.street}${data.address.streetNumber ? `, ${data.address.streetNumber}` : ""}`,
-			);
+			newShelterForm.setValue("street", `${data.address.street}${data.address.streetNumber ? `, ${data.address.streetNumber}` : ""}`);
 			newShelterForm.setValue("postalCode", data.postalCode);
 			newShelterForm.setValue("coordinates", data.coordinates);
 		}
@@ -212,9 +153,9 @@ const AddNewShelterModal = ({
 		// 	<div className="flex h-full items-center space-x-2 overflow-auto">
 		<Form {...newShelterForm}>
 			<form onSubmit={newShelterForm.handleSubmit(onNewAnimalSubmit)} className="h-full w-full space-y-8 px-2">
-				<ImageUploading onChange={mainPhotoChange} className="m-auto h-96 max-h-full w-80 max-w-full" />
+				<FormDragAndDropFileUploader control={newShelterForm.control} label="Main photo" name="mainPhoto" onChange={mainPhotoChange} className="m-auto h-96 max-h-full w-80 max-w-full" />
 
-				<MultipleImageUploading onChange={secondaryPhotosChange} imagesCount={4} />
+				<FormDragAndDropFileUploader control={newShelterForm.control} label="Secondary photos" name="secondaryPhotos" onChange={secondaryPhotosChange} isMultiple />
 
 				<FormInput control={newShelterForm.control} label="Name" name="name" placeholder="Name" />
 
@@ -225,34 +166,18 @@ const AddNewShelterModal = ({
 							<Label className="mb-2">Location</Label>
 							<div className="mb-2 grow">
 								<GoogleMapProvider>
-									<MapComponent
-										isMarkerDraggable
-										centerCoordinates={newShelterForm.getValues("coordinates")}
-										markerPositionChange={handleMarkerDragEnd}
-									/>
+									<MapComponent isMarkerDraggable centerCoordinates={newShelterForm.getValues("coordinates")} markerPositionChange={handleMarkerDragEnd} />
 								</GoogleMapProvider>
 							</div>
 							<div className="flex items-center space-x-2">
-								<Checkbox
-									id="locationAutoFilling"
-									checked={isLocationAutoFill}
-									onCheckedChange={() => setIsLocationAutoFill(!isLocationAutoFill)}
-								/>
-								<label
-									htmlFor="locationAutoFilling"
-									className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-								>
+								<Checkbox id="locationAutoFilling" checked={isLocationAutoFill} onCheckedChange={() => setIsLocationAutoFill(!isLocationAutoFill)} />
+								<label htmlFor="locationAutoFilling" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
 									Location auto filling
 								</label>
 							</div>
 						</div>
 
-						<FormInput
-							control={newShelterForm.control}
-							label="Country"
-							name="country"
-							placeholder="Country"
-						/>
+						<FormInput control={newShelterForm.control} label="Country" name="country" placeholder="Country" />
 
 						<FormInput control={newShelterForm.control} label="State" name="state" placeholder="State" />
 
@@ -260,100 +185,25 @@ const AddNewShelterModal = ({
 
 						<FormInput control={newShelterForm.control} label="Street" name="street" placeholder="Street" />
 
-						<FormInput
-							control={newShelterForm.control}
-							label="Postal code"
-							name="postalCode"
-							placeholder="Postal code"
-						/>
+						<FormInput control={newShelterForm.control} label="Postal code" name="postalCode" placeholder="Postal code" />
 					</CardContent>
 				</Card>
 
 				<Card>
 					<CardContent className="p-4">
-						<FormTimePeriod
-							control={newShelterForm.control}
-							checkboxLabel="is weekend"
-							beginName="workingDays.monday.begin"
-							defaultBeginTime={defaultBeginTime}
-							defaultEndTime={defaultEndTime}
-							endName="workingDays.monday.end"
-							isWeekendName="workingDays.monday.isWeekend"
-							label="Monday"
-							disabled={newShelterForm.getValues("workingDays.monday.isWeekend")}
-						/>
+						<FormTimePeriod control={newShelterForm.control} checkboxLabel="is weekend" beginName="workingDays.monday.begin" defaultBeginTime={defaultBeginTime} defaultEndTime={defaultEndTime} endName="workingDays.monday.end" isWeekendName="workingDays.monday.isWeekend" label="Monday" disabled={newShelterForm.getValues("workingDays.monday.isWeekend")} />
 
-						<FormTimePeriod
-							control={newShelterForm.control}
-							checkboxLabel="is weekend"
-							beginName="workingDays.tuesday.begin"
-							defaultBeginTime={defaultBeginTime}
-							defaultEndTime={defaultEndTime}
-							endName="workingDays.tuesday.end"
-							isWeekendName="workingDays.tuesday.isWeekend"
-							label="Tuesday"
-							disabled={newShelterForm.getValues("workingDays.tuesday.isWeekend")}
-						/>
+						<FormTimePeriod control={newShelterForm.control} checkboxLabel="is weekend" beginName="workingDays.tuesday.begin" defaultBeginTime={defaultBeginTime} defaultEndTime={defaultEndTime} endName="workingDays.tuesday.end" isWeekendName="workingDays.tuesday.isWeekend" label="Tuesday" disabled={newShelterForm.getValues("workingDays.tuesday.isWeekend")} />
 
-						<FormTimePeriod
-							control={newShelterForm.control}
-							checkboxLabel="is weekend"
-							beginName="workingDays.wednesday.begin"
-							defaultBeginTime={defaultBeginTime}
-							defaultEndTime={defaultEndTime}
-							endName="workingDays.wednesday.end"
-							isWeekendName="workingDays.wednesday.isWeekend"
-							label="Wednesday"
-							disabled={newShelterForm.getValues("workingDays.wednesday.isWeekend")}
-						/>
+						<FormTimePeriod control={newShelterForm.control} checkboxLabel="is weekend" beginName="workingDays.wednesday.begin" defaultBeginTime={defaultBeginTime} defaultEndTime={defaultEndTime} endName="workingDays.wednesday.end" isWeekendName="workingDays.wednesday.isWeekend" label="Wednesday" disabled={newShelterForm.getValues("workingDays.wednesday.isWeekend")} />
 
-						<FormTimePeriod
-							control={newShelterForm.control}
-							checkboxLabel="is weekend"
-							beginName="workingDays.thursday.begin"
-							defaultBeginTime={defaultBeginTime}
-							defaultEndTime={defaultEndTime}
-							endName="workingDays.thursday.end"
-							isWeekendName="workingDays.thursday.isWeekend"
-							label="Thursday"
-							disabled={newShelterForm.getValues("workingDays.thursday.isWeekend")}
-						/>
+						<FormTimePeriod control={newShelterForm.control} checkboxLabel="is weekend" beginName="workingDays.thursday.begin" defaultBeginTime={defaultBeginTime} defaultEndTime={defaultEndTime} endName="workingDays.thursday.end" isWeekendName="workingDays.thursday.isWeekend" label="Thursday" disabled={newShelterForm.getValues("workingDays.thursday.isWeekend")} />
 
-						<FormTimePeriod
-							control={newShelterForm.control}
-							checkboxLabel="is weekend"
-							beginName="workingDays.friday.begin"
-							defaultBeginTime={defaultBeginTime}
-							defaultEndTime={defaultEndTime}
-							endName="workingDays.friday.end"
-							isWeekendName="workingDays.friday.isWeekend"
-							label="Friday"
-							disabled={newShelterForm.getValues("workingDays.friday.isWeekend")}
-						/>
+						<FormTimePeriod control={newShelterForm.control} checkboxLabel="is weekend" beginName="workingDays.friday.begin" defaultBeginTime={defaultBeginTime} defaultEndTime={defaultEndTime} endName="workingDays.friday.end" isWeekendName="workingDays.friday.isWeekend" label="Friday" disabled={newShelterForm.getValues("workingDays.friday.isWeekend")} />
 
-						<FormTimePeriod
-							control={newShelterForm.control}
-							checkboxLabel="is weekend"
-							beginName="workingDays.saturday.begin"
-							defaultBeginTime={defaultBeginTime}
-							defaultEndTime={defaultEndTime}
-							endName="workingDays.saturday.end"
-							isWeekendName="workingDays.saturday.isWeekend"
-							label="Saturday"
-							disabled={newShelterForm.getValues("workingDays.saturday.isWeekend")}
-						/>
+						<FormTimePeriod control={newShelterForm.control} checkboxLabel="is weekend" beginName="workingDays.saturday.begin" defaultBeginTime={defaultBeginTime} defaultEndTime={defaultEndTime} endName="workingDays.saturday.end" isWeekendName="workingDays.saturday.isWeekend" label="Saturday" disabled={newShelterForm.getValues("workingDays.saturday.isWeekend")} />
 
-						<FormTimePeriod
-							control={newShelterForm.control}
-							checkboxLabel="is weekend"
-							beginName="workingDays.sunday.begin"
-							defaultBeginTime={defaultBeginTime}
-							defaultEndTime={defaultEndTime}
-							endName="workingDays.sunday.end"
-							isWeekendName="workingDays.sunday.isWeekend"
-							label="Sunday"
-							disabled={newShelterForm.getValues("workingDays.sunday.isWeekend")}
-						/>
+						<FormTimePeriod control={newShelterForm.control} checkboxLabel="is weekend" beginName="workingDays.sunday.begin" defaultBeginTime={defaultBeginTime} defaultEndTime={defaultEndTime} endName="workingDays.sunday.end" isWeekendName="workingDays.sunday.isWeekend" label="Sunday" disabled={newShelterForm.getValues("workingDays.sunday.isWeekend")} />
 					</CardContent>
 				</Card>
 
@@ -362,13 +212,7 @@ const AddNewShelterModal = ({
 						{fields && fields.length ? (
 							<>
 								{fields.map((field, index) => (
-									<FormSpecificDay
-										key={field.id}
-										control={newShelterForm.control}
-										dayName={`specificWeekends.${index}.day`}
-										monthName={`specificWeekends.${index}.month`}
-										onHandleRemove={() => remove(index)}
-									/>
+									<FormSpecificDay key={field.id} control={newShelterForm.control} dayName={`specificWeekends.${index}.day`} monthName={`specificWeekends.${index}.month`} onHandleRemove={() => remove(index)} />
 								))}
 							</>
 						) : null}
@@ -385,11 +229,7 @@ const AddNewShelterModal = ({
 						Close
 					</Button> */}
 					{isDeletable ? (
-						<Button
-							type="button"
-							variant="destructive"
-							onClick={() => shelter && handleSuccessDeleteClick && handleSuccessDeleteClick(shelter)}
-						>
+						<Button type="button" variant="destructive" onClick={() => shelter && handleSuccessDeleteClick && handleSuccessDeleteClick(shelter)}>
 							{deleteButtonTitle}
 						</Button>
 					) : null}

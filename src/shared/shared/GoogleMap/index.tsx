@@ -108,15 +108,10 @@ const Index = ({
 	// };
 
 	return (
-		<div className={cn(className, "mb-4 flex h-60 flex-col px-10")}>
+		<div className={cn(className, "flex h-60 flex-col")}>
 			{/* <MapProvider> */}
 			<div className="h-full w-full">
-				<GoogleMap
-					mapContainerStyle={defaultMapContainerStyle}
-					center={centerCoordinates || defaultMapCenter}
-					zoom={defaultMapZoom}
-					options={defaultMapOptions}
-				>
+				<GoogleMap mapContainerStyle={defaultMapContainerStyle} center={centerCoordinates || defaultMapCenter} zoom={defaultMapZoom} options={defaultMapOptions}>
 					{markers.map((marker, index) =>
 						cloneElement(marker, {
 							key: index,

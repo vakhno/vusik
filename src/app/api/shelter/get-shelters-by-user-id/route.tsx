@@ -23,6 +23,7 @@ export type ErrorResponse = {
 export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
 	try {
 		await mongoConnection();
+
 		const { searchParams: URLSearchParams } = new URL(req.url);
 		const searchParams = convertURLSearchParamsToObject(URLSearchParams);
 		const { id, ...filterParams } = searchParams;
@@ -30,10 +31,7 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		// need to validate shelter filters, becaue user can pass non-existing keys, so non-existing keys be removed
 		// but we dont check if values of the keys
 		const validatedFilterParams = validateShelterFilterKeysAndValues(filterParams);
-
-		let shelters = [];
-
-		shelters = await ShelterModel.find({ ...validatedFilterParams, userId: idParam });
+		const shelters = await ShelterModel.find({ ...validatedFilterParams, userId: idParam });
 
 		return NextResponse.json({ success: true, data: { shelters: shelters } }, { status: 200 });
 	} catch (_) {

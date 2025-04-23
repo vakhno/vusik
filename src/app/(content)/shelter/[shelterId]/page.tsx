@@ -5,16 +5,11 @@ import Shelter from "@/features/shelter";
 // next tools
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
-// mongoose
-import { Types } from "mongoose";
 // api
-import {
-	SuccessResponse as ShelterSuccessResponse,
-	ErrorResponse as ShelterErrorResponse,
-} from "@/app/api/shelter/get-shelter-by-id/route";
+import { SuccessResponse as ShelterSuccessResponse, ErrorResponse as ShelterErrorResponse } from "@/app/api/shelter/get-shelter-by-id/route";
 
 type Props = {
-	params: { shelterId: Types.ObjectId };
+	params: { shelterId: string };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -26,12 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 	const shelterUrlSearchParams = new URLSearchParams();
 	shelterUrlSearchParams.set("id", String(shelterId));
-	const shelterResponse = await fetch(
-		`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-shelter-by-id/?${shelterUrlSearchParams}`,
-		{
-			method: "GET",
-		},
-	);
+	const shelterResponse = await fetch(`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-shelter-by-id/?${shelterUrlSearchParams}`, {
+		method: "GET",
+	});
 
 	const { ok: isShelterResponseOk } = shelterResponse;
 
@@ -40,7 +32,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		const { success } = data;
 
 		if (success) {
-			const { shelter: shelterData } = data;
+			const {
+				data: { shelter: shelterData },
+			} = data;
 
 			shelter = shelterData;
 		}

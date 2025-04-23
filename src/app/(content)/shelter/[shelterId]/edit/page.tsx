@@ -1,19 +1,20 @@
 // features
 import EditShelter from "@/screens/editShelter";
 // tanstack
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-// mongoose
-import { queryPrefetchShelter } from "@/entities/shelter/model/query/shelterById";
-import { Types } from "mongoose";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+// entities
+import { prefetchQuery_getShelter } from "@/entities/shelter/model/query/shelterById";
+
 type Props = {
-	params: { shelterId: Types.ObjectId };
+	params: { shelterId: string };
 };
 
 const Page = async ({ params }: Props) => {
 	const { shelterId } = params;
 	if (shelterId) {
+		const queryClient = new QueryClient();
 		// to prefetch animals on first page with passed searchParams and to avoid showing loading/skeleton on first upload
-		const queryAnimal = await queryPrefetchShelter({ shelterId: shelterId });
+		const queryAnimal = await prefetchQuery_getShelter({ shelterId, queryClient });
 		// const queryClient = await queryPrefetchProfile({ userId: id });
 		return (
 			<HydrationBoundary state={dehydrate(queryAnimal)}>

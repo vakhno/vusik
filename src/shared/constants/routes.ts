@@ -56,10 +56,14 @@ export const API_GET_FILTER_OPTIONS_FOR_ALL_ANIMALS: string = "/api/animal/get-a
 export const API_GET_BY_USER_ID_ANIMALS_BY_PAGE: string = "/api/animal/get-profile-animals-by-page";
 // GET USER ANIMALS FILTER OPTIONS BY USER ID API ROUTE
 export const API_GET_BY_USER_ID_ANIMALS_FILTER_OPTIONS: string = "/api/animal/get-profile-animals-filters";
+// GET ANIMALS RELATED TO ANIMAL API ROUTE
+export const API_GET_ANIMALS_RELATED_TO_ANIMAL: string = "/api/animal/get-animals-related-to-animal";
 
 // SHELTER API ROUTES
 // ADD NEW SHELTER API ROUTE
 export const API_NEW_SHELTER: string = "/api/shelter/new-shelter";
+// GET SHELTER BY ID API ROUTE
+export const API_GET_SHELTER_BY_ID: string = "/api/shelter/get-shelter-by-id";
 // GET USER SHELTER BY USER ID API ROUTE
 export const API_NEW_GET_USER_SHELTERS_BY_ID: string = "/api/shelter/get-user-shelters-by-id";
 // EDIT SHELTER API ROUTE

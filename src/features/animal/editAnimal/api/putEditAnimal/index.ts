@@ -1,7 +1,7 @@
 import { mongoConnection } from "@/shared/lib/mongodb";
 import AnimalModel from "@/entities/animal/model/model";
-import NewAnimalSchema from "@/entities/animal/model/schema/newAnimalForm";
-import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
+import NewAnimalSchema from "@/features/animal/newAnimal/model/schema/newAnimalSchema";
+import NewAnimalSchemaType from "@/features/animal/newAnimal/model/type/newAnimalSchemaType";
 import { NextResponse } from "next/server";
 import { animalMainPhotoKeyName, animalSecondaryPhotosKeyName } from "@/shared/constants/s3";
 // import { getLocale, getTranslations } from "next-intl/server";

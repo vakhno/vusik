@@ -1,85 +1,56 @@
 // tanstack
 import { useQuery, QueryClient } from "@tanstack/react-query";
-import { Types } from "mongoose";
+// shared
+import { NEXT_PUBLIC_ACTIVE_DOMEN } from "@/shared/constants/env";
+import { API_GET_SHELTER_BY_ID } from "@/shared/constants/routes";
+// api
+import { SuccessResponse, ErrorResponse } from "@/app/api/shelter/get-shelter-by-id/route";
 
-type Props = {
-	shelterId: Types.ObjectId;
+type QueryFnProps = {
+	shelterId: string;
 };
 
-export const queryShelter = ({ shelterId }: Props) => {
+type FetchProps = {
+	shelterId: string;
+};
+
+type PrefetchProps = {
+	shelterId: string;
+	queryClient: QueryClient;
+};
+
+const queryFn = async ({ shelterId }: QueryFnProps) => {
+	const urlSearchParams = new URLSearchParams();
+
+	urlSearchParams.set("id", shelterId);
+
+	const response = await fetch(`${NEXT_PUBLIC_ACTIVE_DOMEN}${API_GET_SHELTER_BY_ID}/?${urlSearchParams}`, { method: "GET" });
+	const result = (await response.json()) as SuccessResponse | ErrorResponse;
+	const { success } = result;
+
+	if (!success) {
+		return null;
+	}
+
+	const {
+		data: { shelter },
+	} = result;
+
+	return shelter;
+};
+
+export const query_getShelter = ({ shelterId }: FetchProps) => {
 	return useQuery({
 		queryKey: ["shelter", shelterId],
-		queryFn: async () => {
-			try {
-				const urlSearchParams = new URLSearchParams();
-				urlSearchParams.set("id", String(shelterId));
-				const response = await fetch(
-					`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-shelter-by-id/?${urlSearchParams}`,
-					{
-						method: "GET",
-					},
-				);
-				const { ok } = response;
-				if (ok) {
-					const data = await response.json();
-					const { success } = data;
-					if (success) {
-						const { shelter } = data;
-
-						return shelter;
-					}
-				}
-				return null;
-			} catch (_) {
-				return null;
-			}
-		},
+		queryFn: () => queryFn({ shelterId }),
 	});
 };
 
-export const queryPrefetchShelter = async ({ shelterId }: Props) => {
-	const queryClient = new QueryClient();
-
+export const prefetchQuery_getShelter = async ({ shelterId, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
 		queryKey: ["shelter", shelterId],
-		queryFn: async () => {
-			try {
-				const urlSearchParams = new URLSearchParams();
-				urlSearchParams.set("id", String(shelterId));
-				const response = await fetch(
-					`${process.env.NEXT_PUBLIC_ACTIVE_DOMEN}/api/shelter/get-shelter-by-id/?${urlSearchParams}`,
-					{
-						method: "GET",
-					},
-				);
-				const { ok } = response;
-				if (ok) {
-					const data = await response.json();
-					const { success } = data;
-
-					if (success) {
-						const { shelter } = data;
-
-						return shelter;
-					}
-				}
-				return null;
-			} catch (_) {
-				return null;
-			}
-		},
+		queryFn: () => queryFn({ shelterId }),
 	});
 
 	return queryClient;
 };
-
-// export const useQueryProfileMutation = ({ userId }: Props) => {
-// 	const queryClient = useQueryClient();
-
-// 	return useMutation({
-// 		mutationFn: (userId: Types.ObjectId) => getUserById({ userId: userId }),
-// 		onSuccess: async () => {
-// 			await queryClient.invalidateQueries({ queryKey: ["profile", userId] });
-// 		},
-// 	});
-// };

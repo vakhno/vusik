@@ -16,7 +16,7 @@ type Props = {
 const Index = ({ className = "", searchParams }: Props) => {
 	const { fetchNextPage, data: fetchedAnimals, isLoading, isPending, hasNextPage, isFetchingNextPage, isRefetching } = infiniteQuery_getAllAnimals({ searchParams: searchParams });
 	const animals = fetchedAnimals?.pages.flatMap((page) => page?.animals || []) || [];
-	console.log("LOAD");
+
 	const handleNewPageUpload = () => {
 		fetchNextPage();
 	};

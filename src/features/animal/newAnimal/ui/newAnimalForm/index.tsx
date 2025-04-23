@@ -1,7 +1,7 @@
 "use client";
 
 // entities
-import NewAnimalSchemaType from "@/entities/animal/model/type/newAnimalForm";
+import NewAnimalSchemaType from "@/features/animal/newAnimal/model/type/newAnimalSchemaType";
 // next-intl
 import { useTranslations } from "next-intl";
 // features

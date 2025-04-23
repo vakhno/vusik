@@ -6,6 +6,10 @@ import { TFunction } from "@/shared/types/nextIntl.type";
 
 export const NewShelterSchema = (t: TFunction) => {
 	return z.object({
+		logo: z
+			.instanceof(File)
+			.refine((file) => imageFileTypesAsArray.includes(file.type))
+			.optional(),
 		mainPhoto: z
 			.instanceof(File)
 			.refine((file) => imageFileTypesAsArray.includes(file.type))
@@ -14,7 +18,11 @@ export const NewShelterSchema = (t: TFunction) => {
 			.array(z.instanceof(File))
 			.refine((files) => files.every((file) => imageFileTypesAsArray.includes(file.type)))
 			.optional(),
+
 		name: z.string().trim().min(1, { message: "" }).max(40, { message: "" }),
+		story: z.string().trim().min(1, { message: "" }).max(300, { message: "" }),
+		mission: z.string().trim().min(1, { message: "" }).max(300, { message: "" }),
+		email: z.string().email(),
 		country: z.string().min(1),
 		state: z.string().min(1),
 		city: z.string().min(1),

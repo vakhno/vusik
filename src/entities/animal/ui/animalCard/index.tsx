@@ -8,16 +8,16 @@ import { DEFAULT_ANIMAL_MAIN_IMAGE } from "@/shared/constants/public";
 import generateAgeLabel from "@/shared/utils/generateAgeLabel";
 import getAgeInMonths from "@/shared/utils/getAgeInMonths";
 // entities
-import { AnimalType } from "@/entities/animal/model/type/animal";
+import { AnimalType, PopulatedAnimalType } from "@/entities/animal/model/type/animal";
 // next-intl
 import { useTranslations } from "next-intl";
 
 type Props = {
 	isEditable: boolean;
-	animal: AnimalType;
+	animal: AnimalType | PopulatedAnimalType;
 	handleDelete?: () => void;
 	onHandleCardClick?: () => void;
-	JSXLikeButton: React.ComponentType<{ animal: AnimalType }>;
+	JSXLikeButton?: React.ComponentType<{ animal: AnimalType | PopulatedAnimalType; className?: string }>;
 };
 
 const Index = ({ isEditable, animal, onHandleCardClick, JSXLikeButton }: Props) => {
@@ -46,18 +46,16 @@ const Index = ({ isEditable, animal, onHandleCardClick, JSXLikeButton }: Props) 
 							<div>Injured: {`${animal.injury ? "Yes" : "No"}`}</div>
 						</div>
 					</div>
-					<div className="absolute right-1 top-0">
-						<JSXLikeButton animal={animal} />
-					</div>
-					{isEditable ? (
-						<div className="absolute left-1 top-0">
-							<Link href={`/animal/${animal._id}/edit`} className="p-0">
-								<Image width={40} height={40} alt="edit" src="/icons/edit.svg" />
-							</Link>
-						</div>
-					) : null}
+					{JSXLikeButton ? <JSXLikeButton animal={animal} className="absolute right-1 top-1" /> : null}
 				</CardContent>
 			</Link>
+			{isEditable ? (
+				<div className="absolute left-1 top-1">
+					<Link href={`/animal/${animal._id}/edit`} className="p-0">
+						<Image width={40} height={40} alt="edit" src="/icons/edit.svg" />
+					</Link>
+				</div>
+			) : null}
 		</Card>
 	);
 };

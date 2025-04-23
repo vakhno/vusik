@@ -6,11 +6,17 @@ import { NextResponse } from "next/server";
 
 export type SuccessResponse = {
 	success: true;
-	shelter: ShelterType;
+	data: {
+		shelter: ShelterType;
+	};
 };
 
 export type ErrorResponse = {
 	success: false;
+	error: {
+		message: string;
+		code: number;
+	};
 };
 
 export async function GET(req: Request): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
@@ -23,11 +29,11 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		const shelter = await ShelterModel.findById(id);
 
 		if (shelter) {
-			return NextResponse.json({ success: true, shelter: shelter }, { status: 200 });
+			return NextResponse.json({ success: true, data: { shelter } }, { status: 200 });
 		} else {
-			return NextResponse.json({ success: false }, { status: 500 });
+			return NextResponse.json({ success: false, error: { message: "", code: 500 } }, { status: 500 });
 		}
 	} catch (_) {
-		return NextResponse.json({ success: false }, { status: 500 });
+		return NextResponse.json({ success: false, error: { message: "", code: 500 } }, { status: 500 });
 	}
 }

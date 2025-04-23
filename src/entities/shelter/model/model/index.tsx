@@ -9,6 +9,25 @@ const ShelterSchema = new Schema<ShelterType>(
 			type: String,
 			required: true,
 		},
+		losung: {
+			type: String,
+			required: true,
+		},
+		story: {
+			type: String,
+			required: true,
+		},
+		mission: {
+			type: String,
+		},
+		email: {
+			type: String,
+			required: true,
+		},
+		logo: {
+			type: String,
+			default: null,
+		},
 		mainPhoto: {
 			type: String,
 			default: null,

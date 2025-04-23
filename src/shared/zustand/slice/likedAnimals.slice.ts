@@ -1,13 +1,13 @@
 import { createStore } from "zustand";
 import { devtools, persist, StorageValue } from "zustand/middleware";
-import { AnimalType } from "@/entities/animal/model/type/animal";
+import { AnimalType, PopulatedAnimalType } from "@/entities/animal/model/type/animal";
 
 interface LikedAnimalsValues {
-	likedAnimals: Map<string, AnimalType>;
+	likedAnimals: Map<string, AnimalType | PopulatedAnimalType>;
 }
 
 export interface LikedAnimalsState extends LikedAnimalsValues {
-	handleAnimalLike: (value: AnimalType) => void;
+	handleAnimalLike: (value: AnimalType | PopulatedAnimalType) => void;
 }
 
 const customStorage = {
@@ -43,7 +43,7 @@ const LikedAnimalsSlice = () =>
 		persist(
 			devtools((set, get) => ({
 				likedAnimals: new Map(),
-				handleAnimalLike: (likedAnimal: AnimalType) => {
+				handleAnimalLike: (likedAnimal: AnimalType | PopulatedAnimalType) => {
 					const likedAnimals = new Map(get().likedAnimals);
 					const { _id: likedAnimalId } = likedAnimal;
 					const isAnimalAlreadyLiked = likedAnimals.size && likedAnimals.has(String(likedAnimalId));

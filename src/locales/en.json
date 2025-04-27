@@ -301,6 +301,9 @@
 			"removed-title": "Removed",
 			"removed-description": "You removed animal!"
 		},
+		"button": {
+			"aria-label": "Add to liked animals"
+		},
 		"modal": {
 			"title": "Liked animals"
 		}

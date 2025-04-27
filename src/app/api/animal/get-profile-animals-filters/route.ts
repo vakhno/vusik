@@ -1,10 +1,9 @@
 // entities
 import AnimalModel from "@/entities/animal/model/model";
 import ShelterModel from "@/entities/shelter/model/model";
+import { ShelterType } from "@/entities/shelter/model/type/shelter";
 // next tools
 import { NextResponse } from "next/server";
-// widgets
-import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 // features
 import SelectedFiltersType from "@/features/animal/loadProfileAnimalsFilters/model/type/selectedFiltersType";
 import AvailableFiltersType from "@/features/animal/loadProfileAnimalsFilters/model/type/availableFiltersType";
@@ -12,7 +11,7 @@ import ParsedSearchParamsType from "@/features/animal/loadProfileAnimalsFilters/
 // mongoose
 import { Types } from "mongoose";
 
-async function getAvailableAnimalOptions(filters: ParsedSearchParamsType = {}): Promise<AvailableFiltersType> {
+async function getAvailableAnimalOptions(filters: ParsedSearchParamsType = {}): Promise<{ availableOptions: AvailableFiltersType; shelters: ShelterType[] }> {
 	const userId = filters.id ? new Types.ObjectId(filters.id) : null;
 	const allSpecies = await AnimalModel.distinct("species", userId ? { userId } : {});
 	const allStates = await ShelterModel.distinct("state", userId ? { userId } : {});
@@ -24,14 +23,12 @@ async function getAvailableAnimalOptions(filters: ParsedSearchParamsType = {}): 
 	if (filters.city?.length) shelterQuery.city = { $in: filters.city };
 
 	const filteredShelters = await ShelterModel.find(shelterQuery).select("state city name coordinates");
-
 	const species = allSpecies;
 	const state = allStates;
 	const breed: Record<string, string[]> = {};
 	const sex: Record<string, string[]> = {};
 	const size: Record<string, string[]> = {};
 	const city: Record<string, string[]> = {};
-	const sheltersList: Record<string, { name: string; coordinates: MarkerCoordinates }> = {};
 
 	allAnimals.forEach((animal) => {
 		const speciesKey = animal.species;
@@ -57,21 +54,16 @@ async function getAvailableAnimalOptions(filters: ParsedSearchParamsType = {}): 
 		}
 	});
 
-	filteredShelters.forEach((shelter) => {
-		sheltersList[shelter._id.toString()] = {
-			name: shelter.name,
-			coordinates: shelter.coordinates,
-		};
-	});
-
 	return {
-		species,
-		state,
-		breed,
-		sex,
-		size,
-		city,
-		sheltersList,
+		availableOptions: {
+			species,
+			state,
+			breed,
+			sex,
+			size,
+			city,
+		},
+		shelters: filteredShelters,
 	};
 }
 
@@ -163,6 +155,7 @@ export type SuccessResponse = {
 	data: {
 		availableOptions: AvailableFiltersType;
 		selectedOptions: SelectedFiltersType;
+		shelters: ShelterType[];
 	};
 };
 
@@ -178,10 +171,10 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 	try {
 		const { searchParams } = new URL(req.url);
 		const parsedSearchParams = parseAnimalUrlSearchParams(searchParams);
-		const availableOptions = await getAvailableAnimalOptions(parsedSearchParams);
+		const { availableOptions, shelters } = await getAvailableAnimalOptions(parsedSearchParams);
 		const selectedOptions = validateAnimalSearchParams(parsedSearchParams, availableOptions);
 
-		return NextResponse.json({ success: true, data: { availableOptions, selectedOptions } }, { status: 200 });
+		return NextResponse.json({ success: true, data: { availableOptions, selectedOptions, shelters } }, { status: 200 });
 	} catch (_) {
 		return NextResponse.json({ success: false, error: { message: "", code: 500 } }, { status: 500 });
 	}

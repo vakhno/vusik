@@ -1,19 +1,15 @@
 "use client";
+
 import NewShelterForm from "@/features/shelter/editShelter/ui/editShelterForm/formFields";
-// import { API_NEW_ANIMAL } from "@/routes";
-import { Types } from "mongoose";
-import { queryShelter } from "@/entities/shelter/model/query/shelterById";
-// import { AnimalType } from "@/entities/animal/model/type";
+import { query_getShelter } from "@/entities/shelter/model/query/shelterById";
 import { toast } from "sonner";
 import { NewShelterSchemaType } from "@/entities/shelter/model/type/newShelterForm";
 
-// const ACTIVE_DOMEN = process.env.NEXT_PUBLIC_ACTIVE_DOMEN;
-
 type Props = {
-	shelterId: Types.ObjectId;
+	shelterId: string;
 };
 
-const buildFormDataForEditShelter = (fields: NewShelterSchemaType, id: Types.ObjectId): FormData => {
+const buildFormDataForEditShelter = (fields: NewShelterSchemaType, id: string): FormData => {
 	const {
 		mainPhoto,
 		secondaryPhotos,
@@ -62,7 +58,7 @@ const buildFormDataForEditShelter = (fields: NewShelterSchemaType, id: Types.Obj
 };
 
 const Index = ({ shelterId }: Props) => {
-	const { data: shelter } = queryShelter({ shelterId: shelterId });
+	const { data: shelter } = query_getShelter({ shelterId });
 
 	if (shelter) {
 		// const user = useUserStore((state) => state.user);

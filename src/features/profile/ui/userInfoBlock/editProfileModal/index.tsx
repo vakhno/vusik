@@ -6,7 +6,7 @@ import { EditUserSchema } from "@/entities/profile/model/schema/editProfileForm"
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ImageUploading from "@/shared/shared/ImageUploading";
+import FormDragAndDropFileUploader from "@/shared/formUi/formDragAndDropFileUploader";
 // UI components
 import { Button } from "@/shared/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui/dialog";
@@ -32,22 +32,7 @@ type Props = {
 	youtubeValue?: string;
 };
 
-const EditProfileModal = ({
-	modalTitle,
-	isOpen,
-	setIsOpen,
-	handleSuccessSubmitClick,
-	submitButtonTitle,
-	deleteButtonTitle,
-	closeButtonTitle,
-	mainPhotoValue,
-	nameValue,
-	facebookValue,
-	instagramValue,
-	telegramValue,
-	twitterValue,
-	youtubeValue,
-}: Props) => {
+const EditProfileModal = ({ modalTitle, isOpen, setIsOpen, handleSuccessSubmitClick, submitButtonTitle, deleteButtonTitle, closeButtonTitle, mainPhotoValue, nameValue, facebookValue, instagramValue, telegramValue, twitterValue, youtubeValue }: Props) => {
 	const t = useTranslations();
 	const newAnimalSchema = EditUserSchema(t);
 	const [defaultMainImage, setDefaultMainImage] = useState<File | undefined>(undefined);
@@ -106,8 +91,12 @@ const EditProfileModal = ({
 		})();
 	}, []);
 
-	const mainPhotoChange = (file: File | undefined) => {
-		newPetForm.setValue("avatar", file);
+	const mainPhotoChange = (file: File | File[] | undefined) => {
+		if (Array.isArray(file)) {
+			newPetForm.setValue("avatar", file[0]);
+		} else if (file) {
+			newPetForm.setValue("avatar", file);
+		}
 	};
 
 	return (
@@ -118,52 +107,20 @@ const EditProfileModal = ({
 				</DialogHeader>
 				<div className="flex h-full items-center space-x-2 overflow-auto">
 					<Form {...newPetForm}>
-						<form
-							onSubmit={newPetForm.handleSubmit(onNewAnimalSubmit)}
-							className="h-full w-full space-y-8 px-2"
-						>
-							<ImageUploading
-								defaultFile={defaultMainImage}
-								onChange={mainPhotoChange}
-								className="m-auto h-96 max-h-full w-80 max-w-full"
-							/>
+						<form onSubmit={newPetForm.handleSubmit(onNewAnimalSubmit)} className="h-full w-full space-y-8 px-2">
+							<FormDragAndDropFileUploader control={newPetForm.control} label="Avatar" name="avatar" defaultFile={defaultMainImage} onChange={mainPhotoChange} />
 
 							<FormInput control={newPetForm.control} label="Name" name="name" placeholder="Name" />
 
-							<FormInput
-								control={newPetForm.control}
-								label="Facebook"
-								name="facebook"
-								placeholder="Facebook URL"
-							/>
+							<FormInput control={newPetForm.control} label="Facebook" name="facebook" placeholder="Facebook URL" />
 
-							<FormInput
-								control={newPetForm.control}
-								label="Instagram"
-								name="instagram"
-								placeholder="Instagram URL"
-							/>
+							<FormInput control={newPetForm.control} label="Instagram" name="instagram" placeholder="Instagram URL" />
 
-							<FormInput
-								control={newPetForm.control}
-								label="Telegram"
-								name="telegram"
-								placeholder="Telegram URL"
-							/>
+							<FormInput control={newPetForm.control} label="Telegram" name="telegram" placeholder="Telegram URL" />
 
-							<FormInput
-								control={newPetForm.control}
-								label="Twitter"
-								name="twitter"
-								placeholder="Twitter URL"
-							/>
+							<FormInput control={newPetForm.control} label="Twitter" name="twitter" placeholder="Twitter URL" />
 
-							<FormInput
-								control={newPetForm.control}
-								label="Youtube"
-								name="youtube"
-								placeholder="Youtube URL"
-							/>
+							<FormInput control={newPetForm.control} label="Youtube" name="youtube" placeholder="Youtube URL" />
 
 							<div className="flex justify-between">
 								<Button type="button" variant="secondary" onClick={() => setIsOpen(false)}>

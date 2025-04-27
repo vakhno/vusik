@@ -5,6 +5,10 @@ import { AnimalType } from "@/entities/animal/model/type/animal";
 
 const AnimalSchema = new Schema<AnimalType>(
 	{
+		status: {
+			type: String,
+			default: "available",
+		},
 		name: {
 			type: String,
 			required: true,
@@ -68,14 +72,42 @@ const AnimalSchema = new Schema<AnimalType>(
 			type: Boolean,
 			default: false,
 		},
+		isNeedMedicine: {
+			type: Boolean,
+			default: false,
+		},
 		injury: {
 			type: Boolean,
 			default: false,
+		},
+		isPaid: {
+			type: Boolean,
+			default: false,
+		},
+		fee: {
+			type: Number,
+			required: function () {
+				return this.isPaid;
+			},
+		},
+		shortDescription: {
+			type: String,
+			required: true,
+		},
+		aboutMe: {
+			type: String,
+			required: true,
 		},
 		injuryDescription: {
 			type: String,
 			required: function () {
 				return this.injury;
+			},
+		},
+		needMedicineDescription: {
+			type: String,
+			required: function () {
+				return this.isNeedMedicine;
 			},
 		},
 	},

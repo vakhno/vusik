@@ -6,6 +6,7 @@ import { UserType } from "@/entities/profile/model/type/profile";
 
 export type AnimalType = {
 	_id: Types.ObjectId;
+	status: "available" | "adopted" | "archived";
 	name: string;
 	species: string;
 	breed: string;
@@ -22,7 +23,13 @@ export type AnimalType = {
 	dewormed: boolean;
 	passported: boolean;
 	microchiped: boolean;
+	isNeedMedicine: boolean;
 	injury: boolean;
+	isPaid: boolean;
+	fee: number;
+	shortDescription: string;
+	aboutMe: string;
+	needMedicineDescription: string;
 	injuryDescription: string;
 	createdAt: Date;
 	updatedAt: Date;
@@ -30,6 +37,7 @@ export type AnimalType = {
 
 export type PopulatedAnimalType = {
 	_id: Types.ObjectId;
+	status: "available" | "adopted" | "archived";
 	name: string;
 	species: string;
 	breed: string;
@@ -46,7 +54,13 @@ export type PopulatedAnimalType = {
 	dewormed: boolean;
 	passported: boolean;
 	microchiped: boolean;
+	isNeedMedicine: boolean;
 	injury: boolean;
+	isPaid: boolean;
+	fee: number;
+	shortDescription: string;
+	aboutMe: string;
+	needMedicineDescription: string;
 	injuryDescription: string;
 	createdAt: Date;
 	updatedAt: Date;

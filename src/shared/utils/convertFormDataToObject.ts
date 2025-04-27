@@ -89,7 +89,7 @@ const convertFormDataToObject = (formData: FormData): Record<string, unknown> =>
 		return parts;
 	};
 
-	formData.entries().forEach(([key, value]) => {
+	Array.from(formData.entries()).forEach(([key, value]) => {
 		const parsedKey = parseKey(key);
 		setValue(parsedKey, value);
 	});

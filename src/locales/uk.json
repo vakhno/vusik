@@ -275,7 +275,9 @@
 			"removed-title": "Прибрано",
 			"removed-description": "Ви прибрали тваринку!"
 		},
-
+		"button": {
+			"aria-label": "Додати до вподобаних тваринок"
+		},
 		"modal": {
 			"title": "Лайкнуті тваринки"
 		}

@@ -4,6 +4,7 @@ export type ShelterType = {
 	_id: string;
 	userId: ObjectId;
 	name: string;
+	losung: string;
 	mainPhoto: string;
 	secondaryPhotos: string[];
 	country: string;

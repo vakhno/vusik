@@ -1,20 +1,24 @@
+"use client";
+
 // shared
 import { Button } from "@/shared/ui/button";
-import { toast } from "sonner";
-// next tools
-import Image from "next/image";
-// zustand
+import { cn } from "@/shared/lib/utils";
 import useLikedAnimalsStore from "@/shared/zustand/store/likedAnimals.store";
+// sonner
+import { toast } from "sonner";
 // entities
-import { AnimalType } from "@/entities/animal/@x/shelter";
+import { AnimalType, PopulatedAnimalType } from "@/entities/animal/model/type/animal";
 // next-intl
 import { useTranslations } from "next-intl";
+// lucide-react
+import { Heart, HeartCrack } from "lucide-react";
 
 type Props = {
-	animal: AnimalType;
+	className?: string;
+	animal: AnimalType | PopulatedAnimalType;
 };
 
-const index = ({ animal }: Props) => {
+const Index = ({ className = "", animal }: Props) => {
 	const t = useTranslations();
 	const likedAnimals = useLikedAnimalsStore((state) => state.likedAnimals);
 	const handleAnimalLike = useLikedAnimalsStore((state) => state.handleAnimalLike);
@@ -33,15 +37,10 @@ const index = ({ animal }: Props) => {
 	};
 
 	return (
-		<Button className="p-0" variant="link" onClick={onHandleClick}>
-			<Image
-				src={`${likedAnimals.size && likedAnimals.has(String(animal._id)) ? "/icons/love-active.svg" : "/icons/love-non-active.svg"}`}
-				width={40}
-				height={40}
-				alt={`${likedAnimals.size && likedAnimals.has(String(animal._id)) ? "Unlike animal" : "Like animal"}`}
-			/>
+		<Button className={cn("h-14 w-14 flex-shrink-0 rounded-full p-3", className)} variant="secondary" onClick={onHandleClick} aria-label="">
+			{likedAnimals.has(String(animal._id)) ? <Heart className="min-h-full min-w-full" fill="red" stroke="red" /> : <HeartCrack className="min-h-full min-w-full" />}
 		</Button>
 	);
 };
 
-export default index;
+export default Index;

@@ -4,6 +4,11 @@ export type ShelterType = {
 	_id: Types.ObjectId;
 	userId: Types.ObjectId;
 	name: string;
+	losung: string;
+	story: string;
+	mission: string;
+	email: string;
+	logo: string | null;
 	mainPhoto: string | null;
 	secondaryPhotos: string[] | null;
 	country: string;

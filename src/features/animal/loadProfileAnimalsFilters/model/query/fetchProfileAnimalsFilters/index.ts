@@ -44,13 +44,13 @@ const queryFn = async ({ userId, searchParams }: QueryFnProps) => {
 	}
 
 	const {
-		data: { availableOptions, selectedOptions },
+		data: { availableOptions, selectedOptions, shelters },
 	} = result;
 
-	return { availableOptions, selectedOptions };
+	return { availableOptions, selectedOptions, shelters };
 };
 
-export const queryGetProfileAnimalsFilter = ({ searchParams, userId }: FetchProps) => {
+export const query_getProfileAnimalsFilter = ({ searchParams, userId }: FetchProps) => {
 	return useQuery({
 		queryKey: ["profile-animals-filter", JSON.stringify(searchParams), userId],
 		gcTime: 5 * 60 * 1000,

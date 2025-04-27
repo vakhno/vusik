@@ -7,27 +7,13 @@ import { SuccessResponse, ErrorResponse } from "@/app/api/animal/new-animal/rout
 import NewAnimalSchemaType from "@/features/animal/newAnimal/model/type/newAnimalSchemaType";
 import { AnimalType } from "@/entities/animal/model/type/animal";
 
-const mutationFn = async (animal: NewAnimalSchemaType & { id: string }) => {
+const mutationFn = async (animal: NewAnimalSchemaType & { animalId: string }) => {
 	try {
-		const {
-			mainPhoto,
-			secondaryPhotos,
-			name,
-			species,
-			breed,
-			shelterId,
-			size,
-			sex,
-			sterilized,
-			injury,
-			injuryDescription,
-			birthday,
-			id,
-		} = animal;
+		const { mainPhoto, secondaryPhotos, name, species, breed, shelterId, size, sex, sterilized, injury, injuryDescription, birthday, animalId } = animal;
 
 		const formData = new FormData();
 
-		formData.append("id", id);
+		formData.append("id", animalId);
 		formData.append("name", name);
 		formData.append("species", species);
 		formData.append("breed", breed);

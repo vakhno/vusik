@@ -10,19 +10,15 @@ import SelectedAllAnimalsFiltersFormValuesType from "@/features/animal/loadProfi
 import { SearchAllAnimalsFiltersFormSchema } from "@/features/animal/loadProfileAnimalsFilters/model/schema/filtersFormSchema";
 import FilterForm from "@/features/animal/loadProfileAnimalsFilters/ui/animalsFiltersForm/filtersFields";
 import OrderForm from "@/features/animal/loadProfileAnimalsFilters/ui/animalsFiltersForm/sortFields";
-import Map from "@/features/animal/loadProfileAnimalsFilters/ui/animalsFiltersForm/sheltersMap";
 import availableFiltersType from "@/features/animal/loadProfileAnimalsFilters/model/type/availableFiltersType";
 // next-intl
 import { useTranslations } from "next-intl";
 // shared
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shared/ui/accordion";
 import { Form } from "@/shared/ui/form";
-// widgets
-import { MarkerCoordinates } from "@/shared/shared/GoogleMap";
 
 type Props = {
 	className?: string;
-	shelterMarkers?: MarkerCoordinates[];
 	availableOptions: Omit<availableFiltersType, "sheltersList">;
 	selectedValues: SelectedAllAnimalsFiltersFormValuesType;
 	handleFilterChange: (value: SearchAllAnimalsFiltersFormSchemaType) => void;
@@ -69,7 +65,6 @@ const SearchAnimalForm = ({ className = "", availableOptions, selectedValues, ha
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>
-				<Map />
 			</form>
 		</Form>
 	);

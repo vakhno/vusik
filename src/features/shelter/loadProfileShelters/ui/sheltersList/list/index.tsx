@@ -20,16 +20,7 @@ type Props = {
 	onNewPageUpload: () => void;
 };
 
-const Index = ({
-	isEditable = false,
-	isLoading,
-	isPending,
-	isFetchingNextPage,
-	isHasNextPage,
-	shelters,
-	countPerPage,
-	onNewPageUpload,
-}: Props) => {
+const Index = ({ isEditable = false, isLoading, isPending, isFetchingNextPage, isHasNextPage, shelters, countPerPage, onNewPageUpload }: Props) => {
 	const t = useTranslations();
 	const handleNewPageUpload = () => {
 		onNewPageUpload();
@@ -43,13 +34,7 @@ const Index = ({
 						<div className="flex w-full flex-col">
 							<div className="m-auto grid h-full w-full grid-cols-auto-fit-260-1fr gap-4">
 								{shelters.map((shelter: ShelterType) => {
-									return (
-										<ShelterCard
-											isEditable={isEditable}
-											key={shelter._id.toString()}
-											shelter={shelter}
-										/>
-									);
+									return <ShelterCard isEditable={isEditable} key={shelter._id.toString()} shelter={shelter} />;
 								})}
 								{isFetchingNextPage || isPending ? (
 									<>

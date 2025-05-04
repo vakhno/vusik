@@ -116,7 +116,7 @@
 			"sign-up": {
 				"name-input-placeholder": "Ім'я або організація...",
 				"name-input-label": "Ім'я або організація",
-				"name-input-description": "Це ваше публічне ім'я",
+				"name-input-description": "Це ваше приватне ім'я",
 				"email-input-placeholder": "Електронна пошта...",
 				"email-input-label": "Електронна пошта",
 				"password-input-placeholder": "Пароль...",

@@ -22,6 +22,10 @@ export interface ErrorResponse {
 const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 	const data = {} as NewShelterSchemaType;
 
+	if (formData.has("type") && formData.get("type")) {
+		data.type = formData.get("type") as "commercial" | "charity" | "individual";
+	}
+
 	if (formData.has("name") && formData.get("name")) {
 		data.name = formData.get("name") as string;
 	}
@@ -77,11 +81,13 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 		}
 	}
 
-	if (formData.has("specificWeekends[]") && formData.get("specificWeekends[]")) {
-		const specificWeekends = formData.getAll("specificWeekends[]") as string[];
+	if (data.type === "commercial" || data.type === "charity") {
+		if (formData.has("specificWeekends[]") && formData.get("specificWeekends[]")) {
+			const specificWeekends = formData.getAll("specificWeekends[]") as string[];
 
-		if (Array.isArray(specificWeekends) && specificWeekends.length) {
-			data.specificWeekends = specificWeekends.map((specificWeekend) => JSON.parse(specificWeekend));
+			if (Array.isArray(specificWeekends) && specificWeekends.length) {
+				data.specificWeekends = specificWeekends.map((specificWeekend) => JSON.parse(specificWeekend));
+			}
 		}
 	}
 
@@ -93,10 +99,7 @@ const checkIsTokenValid = async (): Promise<false | string> => {
 		const cookie = cookies();
 		const token = cookie.get("token")?.value;
 		if (token) {
-			const jwtData = jwt.verify(
-				String(token),
-				process.env.NEXT_PUBLIC_JWT_SECRET || "",
-			) as AuthUserTokenDataType;
+			const jwtData = jwt.verify(String(token), process.env.NEXT_PUBLIC_JWT_SECRET || "") as AuthUserTokenDataType;
 			const { id } = jwtData;
 			const user = await UserModel.findById(id);
 			if (user) {

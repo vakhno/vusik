@@ -1,7 +1,7 @@
 "use client";
 
 // react
-import { ReactElement, ComponentProps, cloneElement } from "react";
+import { ReactElement, ComponentProps, useState } from "react";
 // shared
 import { cn } from "@/shared/lib/utils";
 import { defaultMarkerCoordiates } from "@/shared/constants/googleMap";
@@ -36,7 +36,7 @@ type Props = {
 	isMarkerDraggable?: boolean;
 	markers?: MarkerType[];
 	centerCoordinates?: MarkerCoordinates;
-	markerPositionChange?: (value: MarkerInfo, index: number) => void;
+	markerPositionChange?: (value: MarkerInfo) => void;
 };
 
 // default styling
@@ -60,88 +60,79 @@ const defaultMapOptions = {
 	mapTypeId: "roadmap",
 };
 
-const Index = ({
-	className = "",
-	markers = [],
-	isMarkerDraggable = false,
-	// markerPositionChange,
-	centerCoordinates,
-}: Props) => {
-	// const geocoder = new google.maps.Geocoder();
+const Index = ({ className = "", isMarkerDraggable = false, markerPositionChange, centerCoordinates }: Props) => {
+	const [markerPosition, setMarkerPosition] = useState<MarkerCoordinates>(centerCoordinates || defaultMapCenter);
 
-	// const handleMarkerDragEnd = async (event: google.maps.MapMouseEvent, index: number) => {
-	// 	const newLat = event?.latLng?.lat();
-	// 	const newLng = event?.latLng?.lng();
+	const handleMapClick = async (e: google.maps.MapMouseEvent) => {
+		if (!e.latLng) return;
 
-	// 	if (newLat == null || newLng == null) return;
+		const newPosition = {
+			lat: e.latLng.lat(),
+			lng: e.latLng.lng(),
+		};
 
-	// 	const newPosition = { lat: newLat, lng: newLng };
-	// 	// const updatedMarkerPositions = [...markerPositions];
-	// 	// updatedMarkerPositions[index] = newPosition;
-	// 	// setMarkerPositions(updatedMarkerPositions);
+		setMarkerPosition(newPosition);
+		await handlePositionChange(newPosition);
+	};
 
-	// 	const newAddress = {
-	// 		country: "",
-	// 		state: "",
-	// 		city: "",
-	// 		street: "",
-	// 		streetNumber: "",
-	// 	} as MarkerAddress;
-	// 	let newPostalCode = "" as MarkerPostalCode;
+	const handleMarkerDragEnd = async (e: google.maps.MapMouseEvent) => {
+		if (!e.latLng) return;
 
-	// 	// Fetching address using the Geocoding API
-	// 	await geocoder.geocode({ location: newPosition }, (results, status) => {
-	// 		if (status === "OK" && results) {
-	// 			results[0].address_components.forEach((address) => {
-	// 				if (address.types.includes("country")) newAddress.country = address.long_name;
-	// 				if (address.types.includes("locality")) newAddress.city = address.long_name;
-	// 				if (address.types.includes("route")) newAddress.street = address.long_name;
-	// 				if (address.types.includes("street_number")) newAddress.streetNumber = address.long_name;
-	// 				if (address.types.includes("administrative_area_level_1")) newAddress.state = address.long_name;
-	// 				if (address.types.includes("postal_code")) newPostalCode = address.long_name;
-	// 			});
-	// 		}
-	// 	});
+		const newPosition = {
+			lat: e.latLng.lat(),
+			lng: e.latLng.lng(),
+		};
 
-	// 	markerPositionChange &&
-	// 		markerPositionChange({ coordinates: newPosition, address: newAddress, postalCode: newPostalCode }, index);
-	// };
+		setMarkerPosition(newPosition);
+		await handlePositionChange(newPosition);
+	};
+
+	const handlePositionChange = async (position: MarkerCoordinates) => {
+		if (!markerPositionChange) return;
+
+		const geocoder = new google.maps.Geocoder();
+
+		try {
+			const results = await geocoder.geocode({ location: position });
+
+			if (results.results && results.results[0]) {
+				const addressComponents = results.results[0].address_components;
+				const newAddress = {
+					country: "",
+					state: "",
+					city: "",
+					street: "",
+					streetNumber: "",
+				};
+				let postalCode = "";
+
+				addressComponents.forEach((component) => {
+					if (component.types.includes("country")) newAddress.country = component.long_name;
+					if (component.types.includes("locality")) newAddress.city = component.long_name;
+					if (component.types.includes("route")) newAddress.street = component.long_name;
+					if (component.types.includes("street_number")) newAddress.streetNumber = component.long_name;
+					if (component.types.includes("administrative_area_level_1")) newAddress.state = component.long_name;
+					if (component.types.includes("postal_code")) postalCode = component.long_name;
+				});
+
+				markerPositionChange({
+					coordinates: position,
+					address: newAddress,
+					postalCode,
+				});
+			}
+		} catch (error) {
+			console.error("Geocoding error:", error);
+		}
+	};
 
 	return (
-		<div className={cn(className, "flex h-60 flex-col")}>
-			{/* <MapProvider> */}
+		<div className={cn(className)}>
 			<div className="h-full w-full">
-				<GoogleMap mapContainerStyle={defaultMapContainerStyle} center={centerCoordinates || defaultMapCenter} zoom={defaultMapZoom} options={defaultMapOptions}>
-					{markers.map((marker, index) =>
-						cloneElement(marker, {
-							key: index,
-							draggable: isMarkerDraggable,
-							// onDragEnd: (event: google.maps.MapMouseEvent) => handleMarkerDragEnd(event, index),
-						}),
-					)}
-					{/* {markerPositions.map((position, index) => (
-					<Marker
-						key={index}
-						position={position}
-						draggable={isMarkerDraggable}
-						onDragEnd={(event) => handleMarkerDragEnd(event, index)}
-						onMouseOver={() => setHoveredMarkerIndex(index)} // Show InfoWindow on hover
-						onMouseOut={() => setHoveredMarkerIndex(null)} // Hide InfoWindow on mouse out
-					>
-						{hoveredMarkerIndex === index && (
-							<InfoWindow position={position}>
-								<div>
-									<p>Coordinates:</p>
-									<p>Lat: {position.lat}</p>
-									<p>Lng: {position.lng}</p>
-								</div>
-							</InfoWindow>
-						)}
-					</Marker>
-				))} */}
+				<GoogleMap mapContainerStyle={defaultMapContainerStyle} center={markerPosition} zoom={defaultMapZoom} options={defaultMapOptions} onClick={handleMapClick}>
+					<Marker position={markerPosition} draggable={isMarkerDraggable} onDragEnd={handleMarkerDragEnd} />
 				</GoogleMap>
 			</div>
-			{/* </MapProvider> */}
 		</div>
 	);
 };

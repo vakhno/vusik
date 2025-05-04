@@ -5,20 +5,7 @@ import { toast } from "sonner";
 import { API_NEW_SHELTER } from "@/shared/constants/routes";
 
 const buildFormDataForNewShelter = (fields: NewShelterSchemaType): FormData => {
-	const {
-		mainPhoto,
-		secondaryPhotos,
-		name,
-		country,
-		state,
-		city,
-		street,
-		phone,
-		postalCode,
-		coordinates,
-		workingDays,
-		specificWeekends,
-	} = fields;
+	const { type, mainPhoto, secondaryPhotos, name, country, state, city, street, phone, postalCode, coordinates, workingDays } = fields;
 
 	const formData = new FormData();
 
@@ -41,13 +28,15 @@ const buildFormDataForNewShelter = (fields: NewShelterSchemaType): FormData => {
 			formData.append("secondaryPhotos[]", secondaryPhoto);
 		});
 	}
+	if (type === "commercial" || type === "charity") {
+		const { specificWeekends } = fields;
 
-	if (specificWeekends && specificWeekends.length) {
-		specificWeekends.forEach((specificWeekend) => {
-			formData.append("specificWeekends[]", JSON.stringify(specificWeekend));
-		});
+		if (specificWeekends && specificWeekends.length) {
+			specificWeekends.forEach((specificWeekend) => {
+				formData.append("specificWeekends[]", JSON.stringify(specificWeekend));
+			});
+		}
 	}
-
 	return formData;
 };
 

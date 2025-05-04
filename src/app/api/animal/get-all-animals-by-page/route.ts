@@ -6,7 +6,7 @@ import UserModel from "@/entities/profile/model/model";
 // next tools
 import { NextResponse } from "next/server";
 // shared
-import { animalsPerPage } from "@/shared/constants/counts";
+import { ANIMALS_PER_PAGE } from "@/shared/constants/counts";
 import { mongoConnection } from "@/shared/lib/mongodb";
 import convertURLSearchParamsToObject from "@/shared/utils/convertURLSearchParamsToObject";
 // mongoose
@@ -61,8 +61,8 @@ const buildAnimalsQuery = async (filterParams: AnimalFiltersByPageType) => {
 
 const generateAnimals = async (page: number, animalQuery: AnimalQueryType) => {
 	const animals = await AnimalModel.find(animalQuery)
-		.skip((page - 1) * animalsPerPage)
-		.limit(animalsPerPage)
+		.skip((page - 1) * ANIMALS_PER_PAGE)
+		.limit(ANIMALS_PER_PAGE)
 		.populate({ path: "userId", model: UserModel })
 		.populate({ path: "shelterId", model: ShelterModel });
 	return animals;
@@ -94,7 +94,7 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		const animalQuery = await buildAnimalsQuery(parsedParams);
 		const animals = await generateAnimals(Number(page), animalQuery);
 		const totalAnimals = await AnimalModel.countDocuments(animalQuery);
-		const isHasMore = Number(page) * animalsPerPage < totalAnimals;
+		const isHasMore = Number(page) * ANIMALS_PER_PAGE < totalAnimals;
 
 		return NextResponse.json({ success: true, data: { animals, isHasMore } }, { status: 200 });
 	} catch (_) {

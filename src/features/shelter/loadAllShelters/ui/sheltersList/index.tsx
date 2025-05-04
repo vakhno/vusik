@@ -5,7 +5,7 @@ import { infiniteQuery_getAllShelters } from "@/features/shelter/loadAllShelters
 import List from "@/features/shelter/loadAllShelters/ui/sheltersList/list";
 // shared
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-import { sheltersPerPage } from "@/shared/constants/counts";
+import { SHELTERS_PER_PAGE } from "@/shared/constants/counts";
 import { cn } from "@/shared/lib/utils";
 
 type Props = { className?: string; searchParams: SearchParamsType };
@@ -21,7 +21,7 @@ const Index = ({ className = "", searchParams }: Props) => {
 
 	return (
 		<div className={cn(className)}>
-			<List shelters={shelters} isLoading={isLoading || isRefetching} isPending={isPending} isFetchingNextPage={isFetchingNextPage} isHasNextPage={hasNextPage} countPerPage={sheltersPerPage} onNewPageUpload={handleNewPageUpload} />
+			<List shelters={shelters} isLoading={isLoading || isRefetching} isPending={isPending} isFetchingNextPage={isFetchingNextPage} isHasNextPage={hasNextPage} countPerPage={SHELTERS_PER_PAGE} onNewPageUpload={handleNewPageUpload} />
 		</div>
 	);
 };

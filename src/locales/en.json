@@ -116,7 +116,7 @@
 			"sign-up": {
 				"name-input-placeholder": "Name...",
 				"name-input-label": "Name",
-				"name-input-description": "This is your public name",
+				"name-input-description": "This is your private name",
 				"email-input-placeholder": "Email...",
 				"email-input-label": "Email",
 				"password-input-placeholder": "Password...",

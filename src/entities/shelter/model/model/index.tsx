@@ -5,6 +5,14 @@ import { ShelterType } from "@/entities/shelter/model/type/shelter";
 
 const ShelterSchema = new Schema<ShelterType>(
 	{
+		type: {
+			type: String,
+			required: true,
+		},
+		isCharitable: {
+			type: Boolean,
+			required: true,
+		},
 		name: {
 			type: String,
 			required: true,
@@ -32,10 +40,12 @@ const ShelterSchema = new Schema<ShelterType>(
 			type: String,
 			default: null,
 		},
-		secondaryPhotos: {
-			type: [String],
-			default: null,
-		},
+		secondaryPhotos: [
+			{
+				type: String,
+				default: [],
+			},
+		],
 		country: {
 			type: String,
 			required: true,

@@ -4,8 +4,6 @@ import { useState } from "react";
 import useLikedAnimalsStore from "@/shared/zustand/store/likedAnimals.store";
 // UI components
 import { Button } from "@/shared/ui/button";
-// next tools
-import Image from "next/image";
 // shared
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui/dialog";
 // features
@@ -13,6 +11,8 @@ import LikedAnimalList from "@/features/likedAnimalList";
 // utils
 import { cn } from "@/shared/lib/utils";
 import { useTranslations } from "next-intl";
+// lucide-react
+import { Heart, HeartCrack } from "lucide-react";
 
 type Props = { className?: string };
 
@@ -38,11 +38,15 @@ const Index = ({ className }: Props) => {
 				</DialogContent>
 			</Dialog>
 
-			<Button className={cn(className, "relative p-0")} variant="link" onClick={onHandleClick}>
-				<span className="absolute right-0 top-0 rounded-full bg-orange-200 px-2 text-xs">
-					{likedAnimals.size}
-				</span>
-				<Image src="/icons/love-active.svg" width={40} height={40} alt="List of liked animals" />
+			<Button className={cn(className, "relative h-full w-full p-0")} variant="link" onClick={onHandleClick}>
+				{likedAnimals.size > 0 ? (
+					<>
+						<Heart fill="red" stroke="red" className="min-h-8 min-w-8" />
+						<span className="text-xs">{likedAnimals.size}</span>
+					</>
+				) : (
+					<HeartCrack className="min-h-8 min-w-8" />
+				)}
 			</Button>
 		</>
 	);

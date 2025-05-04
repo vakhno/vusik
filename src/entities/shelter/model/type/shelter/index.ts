@@ -3,6 +3,8 @@ import { Types } from "mongoose";
 export type ShelterType = {
 	_id: Types.ObjectId;
 	userId: Types.ObjectId;
+	type: "commercial" | "charity" | "individual";
+	isCharitable: boolean;
 	name: string;
 	losung: string;
 	story: string;
@@ -10,7 +12,7 @@ export type ShelterType = {
 	email: string;
 	logo: string | null;
 	mainPhoto: string | null;
-	secondaryPhotos: string[] | null;
+	secondaryPhotos: string[];
 	country: string;
 	state: string;
 	city: string;

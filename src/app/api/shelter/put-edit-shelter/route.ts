@@ -20,6 +20,11 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 	if (formData.has("id") && formData.get("id")) {
 		data.id = formData.get("id") as string;
 	}
+
+	if (formData.has("type") && formData.get("type")) {
+		data.type = formData.get("type") as "commercial" | "charity" | "individual";
+	}
+
 	if (formData.has("name") && formData.get("name")) {
 		data.name = formData.get("name") as string;
 	}
@@ -75,11 +80,13 @@ const getFormDataValue = (formData: FormData): NewShelterSchemaType => {
 		}
 	}
 
-	if (formData.has("specificWeekends[]") && formData.get("specificWeekends[]")) {
-		const specificWeekends = formData.getAll("specificWeekends[]") as string[];
+	if (data.type === "commercial" || data.type === "charity") {
+		if (formData.has("specificWeekends[]") && formData.get("specificWeekends[]")) {
+			const specificWeekends = formData.getAll("specificWeekends[]") as string[];
 
-		if (Array.isArray(specificWeekends) && specificWeekends.length) {
-			data.specificWeekends = specificWeekends.map((specificWeekend) => JSON.parse(specificWeekend));
+			if (Array.isArray(specificWeekends) && specificWeekends.length) {
+				data.specificWeekends = specificWeekends.map((specificWeekend) => JSON.parse(specificWeekend));
+			}
 		}
 	}
 
@@ -252,7 +259,7 @@ export async function PUT(req: Request): Promise<NextResponse<SuccessResponse | 
 						updatedAnimal.secondaryPhotos = result;
 					}
 				} else {
-					updatedAnimal.secondaryPhotos = null;
+					updatedAnimal.secondaryPhotos = [];
 				}
 			}
 

@@ -5,7 +5,7 @@ import { infiniteQuery_getAllAnimals } from "@/features/animal/loadAllAnimals/mo
 import List from "@/features/animal/loadAllAnimals/ui/animalsList/list";
 // shared
 import { SearchParamsType } from "@/shared/types/searchParams.type";
-import { animalsPerPage } from "@/shared/constants/counts";
+import { ANIMALS_PER_PAGE } from "@/shared/constants/counts";
 import { cn } from "@/shared/lib/utils";
 
 type Props = {
@@ -23,7 +23,7 @@ const Index = ({ className = "", searchParams }: Props) => {
 
 	return (
 		<div className={cn(className)}>
-			<List animals={animals} isLoading={isLoading || isRefetching} isPending={isPending} isFetchingNextPage={isFetchingNextPage} isHasNextPage={hasNextPage} countPerPage={animalsPerPage} onNewPageUpload={handleNewPageUpload} />
+			<List animals={animals} isLoading={isLoading || isRefetching} isPending={isPending} isFetchingNextPage={isFetchingNextPage} isHasNextPage={hasNextPage} countPerPage={ANIMALS_PER_PAGE} onNewPageUpload={handleNewPageUpload} />
 		</div>
 	);
 };

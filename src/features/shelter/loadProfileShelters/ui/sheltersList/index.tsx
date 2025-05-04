@@ -6,19 +6,12 @@ import SheltersList from "@/features/shelter/loadProfileShelters/ui/sheltersList
 // types
 import { SearchParamsType } from "@/shared/types/searchParams.type";
 // constants
-import { sheltersPerPage } from "@/shared/constants/counts";
+import { SHELTERS_PER_PAGE } from "@/shared/constants/counts";
 
 type Props = { isEditable?: boolean; id: string; shelterSearchParams: SearchParamsType };
 
 const Index = ({ isEditable = false, id, shelterSearchParams }: Props) => {
-	const {
-		fetchNextPage,
-		data: fetchedShelters,
-		isLoading,
-		isPending,
-		hasNextPage,
-		isFetchingNextPage,
-	} = queryGetProfileShelters({ userId: id, searchParams: shelterSearchParams });
+	const { fetchNextPage, data: fetchedShelters, isLoading, isPending, hasNextPage, isFetchingNextPage } = queryGetProfileShelters({ userId: id, searchParams: shelterSearchParams });
 
 	const shelters = fetchedShelters?.pages.flatMap((page) => page?.shelters || []) || [];
 
@@ -26,18 +19,7 @@ const Index = ({ isEditable = false, id, shelterSearchParams }: Props) => {
 		fetchNextPage();
 	};
 
-	return (
-		<SheltersList
-			isEditable={isEditable}
-			shelters={shelters}
-			isLoading={isLoading}
-			isPending={isPending}
-			isFetchingNextPage={isFetchingNextPage}
-			isHasNextPage={hasNextPage}
-			countPerPage={sheltersPerPage}
-			onNewPageUpload={handleNewPageUpload}
-		/>
-	);
+	return <SheltersList isEditable={isEditable} shelters={shelters} isLoading={isLoading} isPending={isPending} isFetchingNextPage={isFetchingNextPage} isHasNextPage={hasNextPage} countPerPage={SHELTERS_PER_PAGE} onNewPageUpload={handleNewPageUpload} />;
 };
 
 export default Index;

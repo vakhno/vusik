@@ -1,6 +1,6 @@
 // shared
 import { mongoConnection } from "@/shared/lib/mongodb";
-import { sheltersPerPage } from "@/shared/constants/counts";
+import { SHELTERS_PER_PAGE } from "@/shared/constants/counts";
 import convertURLSearchParamsToObject from "@/shared/utils/convertURLSearchParamsToObject";
 // entities
 import ShelterModel from "@/entities/shelter/model/model";
@@ -33,10 +33,10 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		const { page = 1, ...filterParams } = parsedParams;
 		const validatedFilters = filterParams;
 		const shelters = await ShelterModel.find(filterParams)
-			.skip((Number(page) - 1) * sheltersPerPage)
-			.limit(sheltersPerPage);
+			.skip((Number(page) - 1) * SHELTERS_PER_PAGE)
+			.limit(SHELTERS_PER_PAGE);
 		const totalShelters = await ShelterModel.countDocuments(validatedFilters);
-		const isHasMore = Number(page) * sheltersPerPage < totalShelters;
+		const isHasMore = Number(page) * SHELTERS_PER_PAGE < totalShelters;
 
 		return NextResponse.json({ success: true, data: { shelters, isHasMore } }, { status: 200 });
 	} catch (_) {

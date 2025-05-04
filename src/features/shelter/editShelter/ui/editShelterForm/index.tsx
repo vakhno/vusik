@@ -10,20 +10,7 @@ type Props = {
 };
 
 const buildFormDataForEditShelter = (fields: NewShelterSchemaType, id: string): FormData => {
-	const {
-		mainPhoto,
-		secondaryPhotos,
-		name,
-		country,
-		state,
-		city,
-		street,
-		phone,
-		postalCode,
-		coordinates,
-		workingDays,
-		specificWeekends,
-	} = fields;
+	const { type, mainPhoto, secondaryPhotos, name, country, state, city, street, phone, postalCode, coordinates, workingDays } = fields;
 
 	const formData = new FormData();
 
@@ -48,10 +35,14 @@ const buildFormDataForEditShelter = (fields: NewShelterSchemaType, id: string): 
 		});
 	}
 
-	if (specificWeekends && specificWeekends.length) {
-		specificWeekends.forEach((specificWeekend) => {
-			formData.append("specificWeekends[]", JSON.stringify(specificWeekend));
-		});
+	if (type === "commercial" || type === "charity") {
+		const { specificWeekends } = fields;
+
+		if (specificWeekends && specificWeekends.length) {
+			specificWeekends.forEach((specificWeekend) => {
+				formData.append("specificWeekends[]", JSON.stringify(specificWeekend));
+			});
+		}
 	}
 
 	return formData;

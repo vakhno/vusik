@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 // utils
 import { validateToNaturalNumber } from "@/shared/utils/number";
 // constants
-import { sheltersPerPage } from "@/shared/constants/counts";
+import { SHELTERS_PER_PAGE } from "@/shared/constants/counts";
 
 type parsedShelterSearchParamsType = {
 	state?: string[];
@@ -62,10 +62,10 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		let isHasMore = false;
 
 		shelters = await ShelterModel.find({ ...validatedFilters, userId: id })
-			.skip((page - 1) * sheltersPerPage)
-			.limit(sheltersPerPage);
+			.skip((page - 1) * SHELTERS_PER_PAGE)
+			.limit(SHELTERS_PER_PAGE);
 		const totalShelters = await ShelterModel.countDocuments({ ...validatedFilters, userId: id });
-		isHasMore = page * sheltersPerPage < totalShelters;
+		isHasMore = page * SHELTERS_PER_PAGE < totalShelters;
 
 		return NextResponse.json({ success: true, data: { shelters, isHasMore } }, { status: 200 });
 	} catch (_) {

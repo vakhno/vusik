@@ -10,7 +10,7 @@ import { NextResponse } from "next/server";
 // utils
 import { validateToNaturalNumber } from "@/shared/utils/number";
 // constants
-import { animalsPerPage } from "@/shared/constants/counts";
+import { ANIMALS_PER_PAGE } from "@/shared/constants/counts";
 // mongoose
 import { Types } from "mongoose";
 
@@ -102,13 +102,13 @@ export async function GET(req: Request): Promise<NextResponse<SuccessResponse | 
 		if (validatedFilters.sex) animalQuery.sex = { $in: validatedFilters.sex };
 
 		const animals = await AnimalModel.find({ ...animalQuery, userId: id })
-			.skip((page - 1) * animalsPerPage)
-			.limit(animalsPerPage)
+			.skip((page - 1) * ANIMALS_PER_PAGE)
+			.limit(ANIMALS_PER_PAGE)
 			.populate({ path: "userId", model: UserModel })
 			.populate({ path: "shelterId", model: ShelterModel });
 
 		const totalAnimals = await AnimalModel.countDocuments({ ...animalQuery, userId: id });
-		const isHasMore = page * animalsPerPage < totalAnimals;
+		const isHasMore = page * ANIMALS_PER_PAGE < totalAnimals;
 
 		return NextResponse.json({ success: true, data: { animals, isHasMore } }, { status: 200 });
 	} catch (_) {

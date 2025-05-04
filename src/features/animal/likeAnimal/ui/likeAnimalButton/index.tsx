@@ -37,7 +37,7 @@ const Index = ({ className = "", animal }: Props) => {
 	};
 
 	return (
-		<Button className={cn("h-14 w-14 flex-shrink-0 rounded-full p-3", className)} variant="secondary" onClick={onHandleClick} aria-label="">
+		<Button className={cn("h-14 w-14 flex-shrink-0 rounded-md p-3", className)} variant="secondary" onClick={onHandleClick} aria-label="">
 			{likedAnimals.has(String(animal._id)) ? <Heart className="min-h-full min-w-full" fill="red" stroke="red" /> : <HeartCrack className="min-h-full min-w-full" />}
 		</Button>
 	);

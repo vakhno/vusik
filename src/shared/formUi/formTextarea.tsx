@@ -1,10 +1,10 @@
 import React from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormDescription } from "@/shared/ui/form";
-import { Input } from "@/shared/ui/input";
+import { Textarea } from "@/shared/ui/textarea";
 import { Control, FieldValues, Path } from "react-hook-form";
 
-interface Props<T extends FieldValues> extends React.InputHTMLAttributes<HTMLInputElement> {
-	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+interface Props<T extends FieldValues> extends React.InputHTMLAttributes<HTMLTextAreaElement> {
+	onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	control: Control<T>;
 	label?: string;
 	description?: string | React.ReactNode;
@@ -21,7 +21,7 @@ const FormInput = <T extends FieldValues>({ onChange, control, label, name, desc
 					<FormLabel>{label}</FormLabel>
 					{description ? <FormDescription>{description}</FormDescription> : null}
 					<FormControl>
-						<Input
+						<Textarea
 							{...field}
 							{...props}
 							onChange={(event) => {

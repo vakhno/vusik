@@ -78,17 +78,77 @@
 	},
 	"page": {
 		"home": {
-			"main-card": {
-				"title": "To home page",
-				"button-title": "Go to"
+			"hero-section": {
+				"title": "Find, Love, and Adopt Your New Best Friend",
+				"description": "Thousands of pets are waiting for a second chance. Start your journey of unconditional love today with our trusted animal shelters.",
+				"animal-button-title": "Adopt an animal",
+				"shelter-button-title": "Join as shelter"
 			},
-			"secondary-card-1": {
-				"title": "Find a shelter",
-				"button-title": "Find"
+			"how-it-works": {
+				"title": "How It Works",
+				"animal-trigger-title": "Adopt an animal",
+				"animal-tab-search-title": "Search",
+				"animal-tab-search-description": "Browse our database of available pets from trusted shelters.",
+				"animal-tab-meet-title": "Meet",
+				"animal-tab-meet-description": "Schedule a visit to meet your potential new family member.",
+				"animal-tab-adopt-title": "Adopt",
+				"animal-tab-adopt-description": "Complete the adoption process and welcome them home.",
+				"animal-tab-button-title": "Search an animal",
+				"shelter-trigger-title": "Join as shelter",
+				"shelter-tab-register-title": "Sign up",
+				"shelter-tab-register-description": "Sign up your shelter with our simple verification process.",
+				"shelter-tab-list-title": "List Pets",
+				"shelter-tab-list-description": "Add photos and information about your available animals.",
+				"shelter-tab-connect-title": "Connect",
+				"shelter-tab-connect-description": "Get matched with potential adopters in your area.",
+				"shelter-tab-button-title": "Sign up"
 			},
-			"secondary-card-2": {
-				"title": "Adopt an animal",
-				"button-title": "Adopt"
+			"statistics": {
+				"success-adoptions-title": "50,000+",
+				"success-adoptions-description": "Successful Adoptions",
+				"partners-title": "500+",
+				"partners-description": "Partner Shelters",
+				"available-title": "10,000+",
+				"available-description": "Available Pets"
+			},
+			"benefits": {
+				"title": "Benefits of Pet Adoption",
+				"safe-title": "Save a Life",
+				"safe-description": "Every year, millions of adoptable pets are euthanized due to shelter overcrowding. By adopting, you are not just finding a new companion; you are saving a life and creating space for another animal in need.",
+				"love-title": "Unconditional Love",
+				"love-description": "Adopted pets often show remarkable gratitude and loyalty. Many adopters report that their rescue pets seem to understand they have been given a second chance, creating a special bond of trust and affection.",
+				"companion-title": "Ready-to-Love Companions",
+				"companion-description": "Most shelter pets come vaccinated, spayed/neutered, and often with basic training. Many are already house-trained adults, skipping the challenging puppy or kitten phases while still offering years of companionship.",
+				"impact-title": "Community Impact",
+				"impact-description": "Adopting supports organizations working to improve animal welfare in your community. Your adoption fees help fund rescue operations, medical care, and education programs that benefit all animals."
+			},
+			"advantages": {
+				"title": "Why Choose Our Platform",
+				"partners-title": "Trusted Partners",
+				"partners-description": "We partner exclusively with verified shelters and rescue organizations committed to animal welfare.",
+				"mission-title": "Mission Driven",
+				"mission-description": "Our mission is to reduce euthanasia rates and find loving homes for every adoptable animal.",
+				"community-title": "Community Focused",
+				"community-description": "Join a passionate community of animal lovers sharing advice, stories, and support."
+			},
+			"questions": {
+				"title": "Frequently Asked Questions",
+				"how-to-adopt-title": "How do I adopt an animal?",
+				"how-to-adopt-description": "Simply browse the available animals, schedule a visit with the shelter, and complete the adoption paperwork provided by the shelter. Our platform makes it easy to search by location, species, age, and other criteria to find your perfect match.",
+				"fee-title": "Is there an adoption fee?",
+				"fee-description": "Adoption fees vary depending on the shelter and help cover vaccinations, spay/neuter surgeries, and basic care for the animals. These fees ensure animals receive proper veterinary care before joining your family and support the shelters continued rescue efforts.",
+				"list-my-shelter-title": "How can I list my shelter?",
+				"list-my-shelter-description": "Click the List Your Shelter button and complete the simple registration form. Once approved, you can start posting available animals. Our verification process helps maintain trust and quality standards across our platform.",
+				"animal-breeds-title": "What animals are available for adoption?",
+				"animal-breeds-description": "Our platform features dogs, cats, rabbits, birds, small mammals, reptiles, and occasionally farm animals. The availability varies based on the current shelter populations in your area.",
+				"preparing-title": "How do I prepare for my new pet?",
+				"preparing-description": "We offer comprehensive guides for new pet parents on our resources page. These include checklists for supplies, tips for introducing pets to your home, training resources, and more. Our shelter partners can also provide specific advice for your new family member."
+			},
+			"difference": {
+				"title": "Ready to Make a Difference?",
+				"description": "Whether you’re looking to adopt a pet or help pets find homes by adding your shelter, start today and change lives forever.",
+				"animal-button-title": "Adopt an animal",
+				"shelter-button-title": "Add a shelter"
 			}
 		},
 		"auth": {

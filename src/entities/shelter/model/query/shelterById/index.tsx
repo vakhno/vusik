@@ -39,14 +39,14 @@ const queryFn = async ({ shelterId }: QueryFnProps) => {
 	return shelter;
 };
 
-export const query_getShelter = ({ shelterId }: FetchProps) => {
+export const query_getShelterById = ({ shelterId }: FetchProps) => {
 	return useQuery({
 		queryKey: ["shelter", shelterId],
 		queryFn: () => queryFn({ shelterId }),
 	});
 };
 
-export const prefetchQuery_getShelter = async ({ shelterId, queryClient }: PrefetchProps) => {
+export const prefetchQuery_getShelterById = async ({ shelterId, queryClient }: PrefetchProps) => {
 	await queryClient.prefetchQuery({
 		queryKey: ["shelter", shelterId],
 		queryFn: () => queryFn({ shelterId }),

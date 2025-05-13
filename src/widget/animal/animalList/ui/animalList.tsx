@@ -20,7 +20,7 @@ const index = ({ isLoading, animals, isEditable, isFetching }: Props) => {
 				<div className="flex justify-center">
 					{animals && animals.length ? (
 						<div className="flex w-full flex-col">
-							<div className="m-auto grid h-full w-full grid-cols-auto-fit-260-1fr gap-4">
+							<div className="m-auto grid h-full w-full grid-cols-auto-fit-320-1fr gap-4">
 								{animals.map((animal: AnimalType) => {
 									return (
 										<AnimalCard

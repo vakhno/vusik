@@ -248,11 +248,9 @@ const AddNewShelterModal = ({ isDeletable = false, deleteButtonTitle, handleSucc
 						<div className="flex h-auto flex-col space-y-2">
 							<FormLabel>{shelterType === "individual" ? "Your Location" : "Organization Location"}</FormLabel>
 							<FormDescription>Click anywhere on the map to place a marker, or drag the existing marker to set your location</FormDescription>
-							<div className="h-[400px] w-full">
-								<GoogleMapProvider>
-									<MapComponent className="h-full w-full" isMarkerDraggable={true} centerCoordinates={newShelterForm.getValues("coordinates")} markerPositionChange={handleMarkerDragEnd} />
-								</GoogleMapProvider>
-							</div>
+							<GoogleMapProvider>
+								<MapComponent className="h-[400px] w-full" isMarkerDraggable={true} centerCoordinates={newShelterForm.getValues("coordinates")} markerPositionChange={handleMarkerDragEnd} />
+							</GoogleMapProvider>
 							{currentAddress && <span className="text-sm font-bold text-muted-foreground">{currentAddress}</span>}
 						</div>
 

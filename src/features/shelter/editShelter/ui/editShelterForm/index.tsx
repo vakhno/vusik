@@ -1,7 +1,7 @@
 "use client";
 
 import NewShelterForm from "@/features/shelter/editShelter/ui/editShelterForm/formFields";
-import { query_getShelter } from "@/entities/shelter/model/query/shelterById";
+import { query_getShelterById } from "@/entities/shelter/model/query/shelterById";
 import { toast } from "sonner";
 import { NewShelterSchemaType } from "@/entities/shelter/model/type/newShelterForm";
 
@@ -49,7 +49,7 @@ const buildFormDataForEditShelter = (fields: NewShelterSchemaType, id: string): 
 };
 
 const Index = ({ shelterId }: Props) => {
-	const { data: shelter } = query_getShelter({ shelterId });
+	const { data: shelter } = query_getShelterById({ shelterId });
 
 	if (shelter) {
 		// const user = useUserStore((state) => state.user);

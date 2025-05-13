@@ -22,7 +22,7 @@ import { cn } from "@/shared/lib/utils";
 // features
 import AdoptAnimalModal from "@/features/animal/adoptAnimal/ui/adoptAnimalModal";
 // lucide-react
-import { Dog, Tag, PawPrint, Cpu, BookCheck, Syringe, Worm, MoveUpRight, VenusAndMars, Mail, House, Ruler, Cross, Bandage, Pin, Phone, Clock } from "lucide-react";
+import { Dog, Tag, PawPrint, Cpu, BookCheck, Syringe, Worm, MoveUpRight, VenusAndMars, House, Ruler, Cross, Bandage, Pin, Phone } from "lucide-react";
 // next-intl
 import { useTranslations } from "next-intl";
 
@@ -223,16 +223,9 @@ const Index = ({ animalId, JSXLikeButton }: Props) => {
 										</span>
 										<div>
 											<dt className="text-base font-medium text-muted-foreground">Adress</dt>
-											<dd className="text-lg font-semibold">{animal.species}</dd>
-										</div>
-									</div>
-									<div className="mb-2 flex gap-3">
-										<span className={cn("h-12 w-12 flex-shrink-0 rounded-md bg-secondary p-3")}>
-											<Clock className={cn("min-h-full min-w-full")} aria-hidden="true" />
-										</span>
-										<div>
-											<dt className="text-base font-medium text-muted-foreground">Schedule</dt>
-											<dd className="text-lg font-semibold">{animal.species}</dd>
+											<dd className="text-lg font-semibold">
+												{animal.shelterId.state}, {animal.shelterId.city}
+											</dd>
 										</div>
 									</div>
 									<div className="mb-2 flex gap-3">
@@ -242,15 +235,6 @@ const Index = ({ animalId, JSXLikeButton }: Props) => {
 										<div>
 											<dt className="text-base font-medium text-muted-foreground">Phone</dt>
 											<dd className="text-lg font-semibold">{animal.shelterId.phone}</dd>
-										</div>
-									</div>
-									<div className="mb-2 flex gap-3">
-										<span className={cn("h-12 w-12 flex-shrink-0 rounded-md bg-secondary p-3")}>
-											<Mail className={cn("min-h-full min-w-full")} aria-hidden="true" />
-										</span>
-										<div>
-											<dt className="text-base font-medium text-muted-foreground">Mail</dt>
-											<dd className="text-lg font-semibold">{animal.size}</dd>
 										</div>
 									</div>
 								</div>

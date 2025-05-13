@@ -7,7 +7,7 @@ type Props = {
 
 const index = ({ countOfSkeletons }: Props) => {
 	return (
-		<div className="m-auto grid h-full w-full grid-cols-auto-fit-260-1fr gap-4">
+		<div className="grid-cols-auto-fit-460-1fr m-auto grid h-full w-full gap-4">
 			{Array.from({ length: countOfSkeletons }, (_, index) => (
 				<AnimalCardSkeleton key={index} />
 			))}

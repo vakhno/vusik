@@ -60,7 +60,7 @@ const defaultMapOptions = {
 	mapTypeId: "roadmap",
 };
 
-const Index = ({ className = "", isMarkerDraggable = false, markerPositionChange, centerCoordinates }: Props) => {
+const Index = ({ className = "", isMarkerDraggable = false, markerPositionChange, centerCoordinates, markers = [] }: Props) => {
 	const [markerPosition, setMarkerPosition] = useState<MarkerCoordinates>(centerCoordinates || defaultMapCenter);
 
 	const handleMapClick = async (e: google.maps.MapMouseEvent) => {
@@ -130,7 +130,8 @@ const Index = ({ className = "", isMarkerDraggable = false, markerPositionChange
 		<div className={cn(className)}>
 			<div className="h-full w-full">
 				<GoogleMap mapContainerStyle={defaultMapContainerStyle} center={markerPosition} zoom={defaultMapZoom} options={defaultMapOptions} onClick={handleMapClick}>
-					<Marker position={markerPosition} draggable={isMarkerDraggable} onDragEnd={handleMarkerDragEnd} />
+					{isMarkerDraggable && <Marker position={markerPosition} draggable={isMarkerDraggable} onDragEnd={handleMarkerDragEnd} />}
+					{markers}
 				</GoogleMap>
 			</div>
 		</div>

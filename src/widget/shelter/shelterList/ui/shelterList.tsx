@@ -18,7 +18,7 @@ const index = ({ isLoading, shelters, isEditable, isFetching }: Props) => {
 				<div className="flex justify-center">
 					{shelters && shelters.length ? (
 						<div className="flex w-full flex-col">
-							<div className="m-auto grid h-full w-full grid-cols-auto-fit-260-1fr gap-4">
+							<div className="m-auto grid h-full w-full grid-cols-auto-fit-460-1fr gap-4">
 								{shelters.map((shelter: ShelterType) => {
 									return (
 										<ShelterCard

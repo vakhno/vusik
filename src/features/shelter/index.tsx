@@ -1,12 +1,12 @@
 "use client";
 
-import { query_getShelter } from "@/entities/shelter/model/query/shelterById";
+import { query_getShelterById } from "@/entities/shelter/model/query/shelterById";
 import Image from "next/image";
 
 type Props = { shelterId: string };
 
 const Index = ({ shelterId }: Props) => {
-	const { data } = query_getShelter({ shelterId });
+	const { data } = query_getShelterById({ shelterId });
 
 	if (data) {
 		return (

@@ -42,7 +42,6 @@ const Index = ({ className }: Props) => {
 				{likedAnimals.size > 0 ? (
 					<>
 						<Heart fill="red" stroke="red" className="min-h-8 min-w-8" />
-						<span className="text-xs">{likedAnimals.size}</span>
 					</>
 				) : (
 					<HeartCrack className="min-h-8 min-w-8" />

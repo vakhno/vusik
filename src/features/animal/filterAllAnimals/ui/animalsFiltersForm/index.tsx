@@ -99,12 +99,12 @@ const Index = ({ className = "", searchParams }: Props) => {
 		const urlSearchParams = convertObjectToURLSearchParams(data);
 		handleWindowHistoryPush(urlSearchParams);
 	};
-
+console.log('shelterMarkers', shelterMarkers)
 	return (
 		<div className={cn(className)}>
 			<FiltersFields availableOptions={availableOptions} selectedValues={selectedOptions} onFilterChange={filterChange} onFilterSubmit={filterSubmit} />
 			<GoogleMapProvider>
-				<GoogleMap markers={shelterMarkers} />
+				<GoogleMap className="h-[400px] w-full" markers={shelterMarkers} />
 			</GoogleMapProvider>
 		</div>
 	);

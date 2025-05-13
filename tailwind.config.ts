@@ -16,7 +16,8 @@ const config = {
 		extend: {
 			gridTemplateColumns: {
 				"auto-fit": "repeat(auto-fit)",
-				"auto-fit-260-1fr": "repeat(auto-fill, minmax(480px, 1fr))",
+				"auto-fit-320-1fr": "repeat(auto-fill, minmax(320px, 1fr))",
+				"auto-fit-460-1fr": "repeat(auto-fill, minmax(460px, 1fr))",
 			},
 			fontFamily: {
 				roboto: ["var(--font-roboto)", ...fontFamily.sans],

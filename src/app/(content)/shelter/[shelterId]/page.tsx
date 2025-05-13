@@ -1,7 +1,7 @@
 "use server";
 
 // features
-import Shelter from "@/features/shelter";
+import Shelter from "@/screens/shelter";
 // next tools
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";

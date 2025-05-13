@@ -39,7 +39,7 @@ const Index = ({
 				<div className="flex justify-center">
 					{shelters && shelters.length ? (
 						<div className="flex w-full flex-col">
-							<div className="m-auto grid h-full w-full grid-cols-auto-fit-260-1fr gap-4">
+							<div className="m-auto grid h-full w-full grid-cols-auto-fit-460-1fr gap-4">
 								{shelters.map((shelter: ShelterType) => {
 									return (
 										<ShelterCard
@@ -69,7 +69,7 @@ const Index = ({
 					)}
 				</div>
 			) : (
-				<div className="m-auto grid h-full w-full grid-cols-auto-fit-260-1fr gap-4">
+				<div className="m-auto grid h-full w-full grid-cols-auto-fit-460-1fr gap-4">
 					{Array.from({ length: countPerPage }, (_, index) => (
 						<ShelterCardSkeleton key={index} />
 					))}
